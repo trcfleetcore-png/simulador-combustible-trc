@@ -515,7 +515,7 @@
             </div>
             <div class="flex justify-between py-1 border-b border-white/5">
               <span class="text-slate-400">Reserva de seguridad intocable:</span>
-              <strong class="text-amber-400 font-mono font-bold">40 Litros</strong>
+              <strong class="text-amber-400 font-mono font-bold">20 Litros</strong>
             </div>
             <div class="flex justify-between py-1">
               <span class="text-slate-400">Combustible al llegar a base:</span>
@@ -548,9 +548,9 @@
           <!-- CONTENEDOR DEL ESTANQUE -->
           <div class="relative w-full h-14 bg-slate-950 border border-slate-800 rounded-xl overflow-hidden p-1 flex items-center shadow-inner">
             
-            <!-- ZONA DE RESERVA (40 L) -->
-            <div id="marcaReserva" class="absolute top-0 bottom-0 left-0 bg-rose-500/20 border-r-2 border-rose-500 z-10 flex items-center" style="width: 5.33%;">
-              <span id="marcaReservaText" class="absolute bottom-1 left-1.5 text-[9px] text-rose-400 font-mono font-bold">40L</span>
+            <!-- ZONA DE RESERVA (20 L) -->
+            <div id="marcaReserva" class="absolute top-0 bottom-0 left-0 bg-rose-500/20 border-r-2 border-rose-500 z-10 flex items-center" style="width: 2.67%;">
+              <span id="marcaReservaText" class="absolute bottom-1 left-1.5 text-[9px] text-rose-400 font-mono font-bold">20L</span>
             </div>
 
             <!-- MARCADOR DE LLEGADA PROYECTADA A BASE -->
@@ -566,7 +566,7 @@
 
           <div class="flex justify-between text-[11px] text-slate-500 font-mono">
             <span>0 L (Vacío)</span>
-            <span class="text-rose-400 font-semibold">▲ Reserva 40L</span>
+            <span class="text-rose-400 font-semibold">▲ Reserva 20L</span>
             <span id="gaugeMaxText" class="font-semibold text-slate-400">750 L (Lleno)</span>
           </div>
         </div>
@@ -757,7 +757,7 @@
   <!-- LÓGICA JAVASCRIPT ROBUSTA -->
   <script>
     const STORAGE_KEY_BITACORA = 'TRC_COMBUSTIBLE_BITACORA_V2';
-    const RESERVA_LITROS = 40; // Margen de seguridad estricto TRC (40 L)
+    const RESERVA_LITROS = 20; // Margen de seguridad estricto TRC (20 L)
     
     let capacidadActual = 750;
     let modoTrayecto = 'ida'; // 'ida' o 'retorno'
@@ -1313,7 +1313,7 @@
         marcadorLlegada.classList.add('hidden');
       }
 
-      // 1. CASO VERDE: LLEGA CON MÁS DE 40 LITROS DE RESERVA
+      // 1. CASO VERDE: LLEGA CON MÁS DE 20 LITROS DE RESERVA
       if (litrosLlegadaProyectados >= RESERVA_LITROS) {
         const litrosSobranSobreReserva = litrosLlegadaProyectados - RESERVA_LITROS;
         const kmSobrantes = litrosSobranSobreReserva * rendimiento;
@@ -1322,7 +1322,7 @@
         badgeEstado.className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5';
         badgeEstado.innerHTML = '<span>✅</span> Retorno Seguro — No Requiere Carga';
         tituloResultado.textContent = 'Combustible Suficiente para Retornar';
-        descripcionResultado.textContent = 'El tracto dispone de ' + Math.round(autonomiaTotalKm) + ' km de autonomía y solo necesita ' + kmBase + ' km. Ingresará a la base con ' + litrosLlegadaProyectados.toFixed(1) + ' L, protegiendo con holgura los 40 L de reserva.';
+        descripcionResultado.textContent = 'El tracto dispone de ' + Math.round(autonomiaTotalKm) + ' km de autonomía y solo necesita ' + kmBase + ' km. Ingresará a la base con ' + litrosLlegadaProyectados.toFixed(1) + ' L, protegiendo con holgura los 20 L de reserva.';
 
         valorSugerenciaLitros.textContent = '0 LITROS';
         valorSugerenciaLitros.className = 'text-3xl sm:text-4xl font-black font-mono tracking-tight text-emerald-400';
@@ -1331,19 +1331,19 @@
         resLitrosLlegada.textContent = litrosLlegadaProyectados.toFixed(1) + ' L';
         resLitrosLlegada.className = 'text-emerald-400 font-mono font-bold';
       }
-      // 2. CASO AMARILLO: LLEGA A BASE PERO INVADIENDO LA RESERVA DE 40 LITROS
+      // 2. CASO AMARILLO: LLEGA A BASE PERO INVADIENDO LA RESERVA DE 20 LITROS
       else if (litrosLlegadaProyectados >= 0 && litrosLlegadaProyectados < RESERVA_LITROS) {
         const deficitReserva = RESERVA_LITROS - litrosLlegadaProyectados;
 
         cardResultado.className = 'border border-amber-500/50 bg-gradient-to-br from-amber-950/60 to-slate-900/90 rounded-2xl p-5 shadow-2xl shadow-amber-950/40 space-y-4';
         badgeEstado.className = 'bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5';
-        badgeEstado.innerHTML = '<span>⚠️</span> Alerta: En Zona de Reserva (40 L)';
+        badgeEstado.innerHTML = '<span>⚠️</span> Alerta: En Zona de Reserva (20 L)';
         tituloResultado.textContent = 'Llega con lo Justo — Riesgo de Fondo';
-        descripcionResultado.textContent = 'El tracto alcanza a pisar la base, pero ingresaría con solo ' + litrosLlegadaProyectados.toFixed(1) + ' L en estanque, invadiendo el margen de seguridad de 40 L. Se sugiere recarga preventiva.';
+        descripcionResultado.textContent = 'El tracto alcanza a pisar la base, pero ingresaría con solo ' + litrosLlegadaProyectados.toFixed(1) + ' L en estanque, invadiendo el margen de seguridad de 20 L. Se sugiere recarga preventiva.';
 
         valorSugerenciaLitros.textContent = Math.ceil(deficitReserva) + ' L (Preventivo)';
         valorSugerenciaLitros.className = 'text-3xl sm:text-4xl font-black font-mono tracking-tight text-amber-400';
-        detalleSugerencia.textContent = 'Carga sugerida para ingresar con los 40 Litros de reserva intactos';
+        detalleSugerencia.textContent = 'Carga sugerida para ingresar con los 20 Litros de reserva intactos';
 
         resLitrosLlegada.textContent = litrosLlegadaProyectados.toFixed(1) + ' L (En Reserva)';
         resLitrosLlegada.className = 'text-amber-400 font-mono font-bold';
@@ -1370,7 +1370,7 @@
 
         valorSugerenciaLitros.textContent = litrosAutorizar + ' LITROS';
         valorSugerenciaLitros.className = 'text-3xl sm:text-4xl font-black font-mono tracking-tight text-rose-400';
-        detalleSugerencia.textContent = 'Carga sugerida en ruta para retornar y mantener los 40 L de reserva';
+        detalleSugerencia.textContent = 'Carga sugerida en ruta para retornar y mantener los 20 L de reserva';
 
         resLitrosLlegada.textContent = '0.0 L (Se agota ' + kmFaltan + ' km antes)';
         resLitrosLlegada.className = 'text-rose-400 font-mono font-bold';
