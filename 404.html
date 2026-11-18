@@ -110,7 +110,7 @@
       <div class="flex items-center justify-between sm:justify-end gap-2 px-2">
         <span class="text-[11px] text-slate-400 bg-slate-950/80 border border-slate-800 px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5">
           <span class="text-sky-400">⚡</span>
-          <span>Estándar Diésel + SCR (IRU / ISO 22241)</span>
+          <span>Calibrado por Modelo Scania (PGR · NTG · SUPER)</span>
         </span>
       </div>
     </div>
@@ -136,7 +136,7 @@
       </div>
     </div>
 
-    <!-- BANNER DINÁMICO POLÍTICA SCR / ESTÁNDAR INTERNACIONAL IRU - ISO 22241 -->
+    <!-- BANNER DINÁMICO POLÍTICA SCR / CALIBRACIÓN OFICIAL SCANIA + IRU / ISO 22241 -->
     <div id="bannerPoliticaAdblue" class="hidden bg-gradient-to-r from-[#081b3a] via-slate-900/95 to-[#081b3a] border border-sky-500/40 rounded-2xl p-3 sm:px-4 sm:py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-lg">
       <div class="flex items-center gap-3.5">
         <div class="w-12 h-11 rounded-xl border border-sky-500/40 bg-sky-500/15 flex items-center justify-center text-2xl shrink-0 shadow-inner">
@@ -144,11 +144,11 @@
         </div>
         <div class="space-y-0.5">
           <div class="flex flex-wrap items-center gap-2">
-            <strong class="text-sky-300 font-bold uppercase tracking-wide text-[11px] sm:text-xs">Fórmula Estándar SCR (IRU / ISO 22241) — Flota TRC:</strong>
-            <span id="pillScrUnidad" class="text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold">Estándar TRC 70 L · Euro 6 (6.0%)</span>
+            <strong class="text-sky-300 font-bold uppercase tracking-wide text-[11px] sm:text-xs">Control SCR AdBlue TRC — Calibración Oficial Scania:</strong>
+            <span id="pillScrUnidad" class="text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold">Estándar TRC 70 L · 6.0% SCR</span>
           </div>
-          <p class="text-slate-300 text-[11px] sm:text-xs leading-snug">
-            Estanque base <strong class="text-white font-mono">70 L</strong> · Reserva Anti-Derate <strong class="bg-sky-400 text-slate-950 px-1.5 py-0.5 rounded font-mono font-black">10 L</strong> · Carga <strong class="text-sky-300 font-mono">1.15</strong> · NOx/Ruta <strong class="text-sky-300 font-mono">1.05</strong>
+          <p id="bannerFormulaResumenAdblue" class="text-slate-300 text-[11px] sm:text-xs leading-snug">
+            Estanque <strong class="text-white font-mono">70 L</strong> · Reserva Anti-Derate <strong class="bg-sky-400 text-slate-950 px-1.5 py-0.5 rounded font-mono font-black">10 L</strong> · Carga <strong class="text-sky-300 font-mono">1.15</strong> · NOx/Ruta <strong class="text-sky-300 font-mono">1.05</strong>
           </p>
         </div>
       </div>
@@ -406,17 +406,17 @@
             </div>
             </div>
 
-            <!-- CONFIGURACIÓN ESTANQUE Y PARÁMETROS SCR (ADBLUE) -->
+            <!-- CONFIGURACIÓN ESTANQUE Y PARÁMETROS SCR (ADBLUE - FASE 1 CALIBRACIÓN SCANIA) -->
             <div id="panelConfigAdblue" class="hidden space-y-3.5 pt-1">
               <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                <!-- CAPACIDAD ADBLUE -->
+                <!-- CAPACIDAD ADBLUE REAL POR GENERACIÓN -->
                 <div class="sm:col-span-7">
-                  <label class="block text-xs text-slate-400 mb-1.5 font-medium">Capacidad Estanque AdBlue (L)</label>
+                  <label class="block text-xs text-slate-400 mb-1.5 font-medium whitespace-nowrap">Estanque AdBlue (L)</label>
                   <div class="flex items-center gap-1.5">
-                    <button type="button" onclick="setCapacidadAdblue(70)" id="btnAdblue70" class="flex-1 py-2 px-1 text-xs font-bold rounded-xl bg-sky-500 text-slate-950 transition-all shadow-sm cursor-pointer whitespace-nowrap">70 L</button>
-                    <button type="button" onclick="setCapacidadAdblue(50)" id="btnAdblue50" class="flex-1 py-2 px-1 text-xs font-semibold rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer whitespace-nowrap">50 L</button>
-                    <button type="button" onclick="setCapacidadAdblue(80)" id="btnAdblue80" class="flex-1 py-2 px-1 text-xs font-semibold rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer whitespace-nowrap">80 L</button>
-                    <button type="button" onclick="setCapacidadAdblue(105)" id="btnAdblue105" class="flex-1 py-2 px-1 text-xs font-semibold rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer whitespace-nowrap">105 L</button>
+                    <button type="button" onclick="setCapacidadAdblue(76)" id="btnAdblue76" class="flex-1 py-2 px-1 text-xs font-semibold rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer whitespace-nowrap" title="Scania SUPER (76 L)">76 L</button>
+                    <button type="button" onclick="setCapacidadAdblue(80)" id="btnAdblue80" class="flex-1 py-2 px-1 text-xs font-semibold rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer whitespace-nowrap" title="Scania NTG (80 L)">80 L</button>
+                    <button type="button" onclick="setCapacidadAdblue(75)" id="btnAdblue75" class="flex-1 py-2 px-1 text-xs font-semibold rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer whitespace-nowrap" title="Scania PGR (75 L)">75 L</button>
+                    <button type="button" onclick="setCapacidadAdblue(70)" id="btnAdblue70" class="flex-1 py-2 px-1 text-xs font-bold rounded-xl bg-sky-500 text-slate-950 transition-all shadow-sm cursor-pointer whitespace-nowrap" title="Estándar Genérico TRC (70 L)">70 L</button>
                     <div class="w-16 flex items-center bg-slate-900 border border-slate-700 rounded-xl px-2 py-1.5 focus-within:border-sky-500 shrink-0">
                       <input type="number" id="inputCapacidadAdblue" value="70" min="15" max="200" class="w-full bg-transparent text-center text-white font-mono focus:outline-none font-bold text-xs">
                       <span class="text-[10px] text-slate-500 font-bold ml-0.5">L</span>
@@ -431,37 +431,41 @@
                     <span id="labelCDieselLive" class="text-[10px] font-mono text-sky-400 font-semibold whitespace-nowrap">0.286 L/km</span>
                   </div>
                   <div class="flex items-center bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500 transition-all">
-                    <input type="number" id="inputRendimientoAdblue" value="3.5" step="0.05" min="1.0" max="8.0" class="w-full bg-transparent text-white font-mono font-bold focus:outline-none text-sm">
+                    <input type="number" id="inputRendimientoAdblue" value="3.5" step="0.01" min="1.0" max="8.0" class="w-full bg-transparent text-white font-mono font-bold focus:outline-none text-sm">
                     <span class="text-xs text-sky-400 font-mono font-bold bg-slate-800 px-2 py-0.5 rounded-md shrink-0 select-none">km/L</span>
                   </div>
                 </div>
               </div>
 
-              <!-- PARÁMETROS FÓRMULA INTERNACIONAL SCR (IRU / ISO 22241) -->
+              <!-- PARÁMETROS FÓRMULA SCR + PRESETS POR GENERACIÓN SCANIA -->
               <div class="bg-slate-950/75 border border-sky-500/25 rounded-xl p-3.5 space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                   <span class="text-[11px] font-bold uppercase tracking-wider text-sky-300 flex items-center gap-1.5">
-                    <span>⚙️</span> Parámetros Fórmula SCR (IRU / ISO 22241)
+                    <span>⚙️</span> Parámetros SCR por Generación / Ruta
                   </span>
-                  <button type="button" onclick="restaurarEstandarTrcAdblue()" class="text-[10px] bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-md font-semibold transition-colors cursor-pointer">
-                    ↺ Estándar TRC (6% · 1.15 · 1.05)
-                  </button>
+                  <div class="flex flex-wrap items-center gap-1">
+                    <button type="button" onclick="aplicarPresetGeneracionAdblue('PGR')" id="btnPresetPgr" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold transition-colors cursor-pointer whitespace-nowrap" title="PGR: Est. 75L · 4.5% · 2.91 km/L · Factores 1.00">PGR 4.5%</button>
+                    <button type="button" onclick="aplicarPresetGeneracionAdblue('NTG')" id="btnPresetNtg" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold transition-colors cursor-pointer whitespace-nowrap" title="NTG: Est. 80L · 7.5% · 3.09 km/L · Factores 1.00">NTG 7.5%</button>
+                    <button type="button" onclick="aplicarPresetGeneracionAdblue('SUPER')" id="btnPresetSuper" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold transition-colors cursor-pointer whitespace-nowrap" title="SUPER: Est. 76L · 12.5% · 3.61 km/L · Factores 1.00">SUPER 12.5%</button>
+                    <button type="button" onclick="restaurarEstandarTrcAdblue()" id="btnPresetGenerico" class="text-[10px] bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-md font-semibold transition-colors cursor-pointer whitespace-nowrap" title="Estándar genérico 70L · 6.0% · 1.15 · 1.05">↺ Genérico</button>
+                  </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   <!-- R_base -->
                   <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 space-y-2">
                     <div class="flex items-center justify-between gap-1">
-                      <span class="text-[11px] text-slate-400 font-semibold whitespace-nowrap">Tasa Base</span>
+                      <span class="text-[11px] text-slate-400 font-semibold whitespace-nowrap">Tasa % SCR</span>
                       <div class="flex items-center bg-slate-950 border border-slate-700 rounded-lg px-2 py-0.5 w-16 focus-within:border-sky-500">
-                        <input type="number" id="inputRBaseAdblue" value="6.0" step="0.5" min="1" max="15" class="w-full bg-transparent text-right text-sky-300 font-mono font-bold text-xs focus:outline-none">
+                        <input type="number" id="inputRBaseAdblue" value="6.0" step="0.1" min="0.5" max="20" class="w-full bg-transparent text-right text-sky-300 font-mono font-bold text-xs focus:outline-none">
                         <span class="text-[10px] text-slate-500 ml-0.5 font-bold">%</span>
                       </div>
                     </div>
                     <div class="flex gap-1">
-                      <button type="button" onclick="setRBaseAdblue(4.5)" id="btnRBase45" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Euro 5 SCR">4.5%</button>
-                      <button type="button" onclick="setRBaseAdblue(6.0)" id="btnRBase60" class="flex-1 py-1 text-[10px] rounded-md bg-sky-500 text-slate-950 font-bold cursor-pointer whitespace-nowrap" title="Euro 6 / Estándar TRC">6.0%</button>
-                      <button type="button" onclick="setRBaseAdblue(7.0)" id="btnRBase70" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Twin SCR Exigente">7.0%</button>
+                      <button type="button" onclick="setRBaseAdblue(4.5)" id="btnRBase45" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Scania PGR (4%-5%)">4.5%</button>
+                      <button type="button" onclick="setRBaseAdblue(7.5)" id="btnRBase75" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Scania NTG (7%-8%)">7.5%</button>
+                      <button type="button" onclick="setRBaseAdblue(12.5)" id="btnRBase125" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Scania SUPER (12%-13%)">12.5%</button>
+                      <button type="button" onclick="setRBaseAdblue(6.0)" id="btnRBase60" class="flex-1 py-1 text-[10px] rounded-md bg-sky-500 text-slate-950 font-bold cursor-pointer whitespace-nowrap" title="Estándar genérico 6%">6%</button>
                     </div>
                   </div>
 
@@ -473,8 +477,8 @@
                     </div>
                     <div class="flex gap-1">
                       <button type="button" onclick="setFCargaAdblue(0.90)" id="btnFCarga090" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Vacío < 20 t">0.90</button>
-                      <button type="button" onclick="setFCargaAdblue(1.00)" id="btnFCarga100" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Normal 20-40 t">1.00</button>
-                      <button type="button" onclick="setFCargaAdblue(1.15)" id="btnFCarga115" class="flex-1 py-1 text-[10px] rounded-md bg-sky-500 text-slate-950 font-bold cursor-pointer whitespace-nowrap" title="Estándar TRC > 40 t">1.15</button>
+                      <button type="button" onclick="setFCargaAdblue(1.00)" id="btnFCarga100" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Base calibrada Scania / Normal">1.00</button>
+                      <button type="button" onclick="setFCargaAdblue(1.15)" id="btnFCarga115" class="flex-1 py-1 text-[10px] rounded-md bg-sky-500 text-slate-950 font-bold cursor-pointer whitespace-nowrap" title="Margen Extra TRC > 40 t">1.15</button>
                       <button type="button" onclick="setFCargaAdblue(1.25)" id="btnFCarga125" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Máxima exigencia">1.25</button>
                     </div>
                   </div>
@@ -486,8 +490,8 @@
                       <input type="number" id="inputFNoxAdblue" value="1.05" step="0.01" min="0.9" max="1.3" class="w-14 bg-slate-950 border border-slate-700 rounded-lg px-1.5 py-0.5 text-center text-sky-300 font-mono font-bold text-xs focus:outline-none focus:border-sky-500">
                     </div>
                     <div class="flex gap-1">
-                      <button type="button" onclick="setFNoxAdblue(1.00)" id="btnFNox100" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Plano">1.00</button>
-                      <button type="button" onclick="setFNoxAdblue(1.05)" id="btnFNox105" class="flex-1 py-1 text-[10px] rounded-md bg-sky-500 text-slate-950 font-bold cursor-pointer whitespace-nowrap" title="Promedio TRC">1.05</button>
+                      <button type="button" onclick="setFNoxAdblue(1.00)" id="btnFNox100" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Base calibrada / Plano">1.00</button>
+                      <button type="button" onclick="setFNoxAdblue(1.05)" id="btnFNox105" class="flex-1 py-1 text-[10px] rounded-md bg-sky-500 text-slate-950 font-bold cursor-pointer whitespace-nowrap" title="Promedio TRC / Cuestas">1.05</button>
                       <button type="button" onclick="setFNoxAdblue(1.10)" id="btnFNox110" class="flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap" title="Cordillera / Frío">1.10</button>
                     </div>
                   </div>
@@ -760,7 +764,7 @@
               <span id="badgeEstadoAdblue" class="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 shadow-sm whitespace-nowrap">
                 <span>●</span> Calculando SCR...
               </span>
-              <span class="text-[11px] font-mono text-sky-300/80 whitespace-nowrap">TRC-SCR · ISO 22241</span>
+              <span id="subtituloScrEstado" class="text-[11px] font-mono text-sky-300/80 whitespace-nowrap">TRC-SCR · SCANIA</span>
             </div>
 
             <div>
@@ -933,7 +937,7 @@
           <thead>
             <tr class="text-slate-400 border-b border-slate-800 pb-2 font-mono text-[11px] uppercase">
               <th class="py-2.5 px-2">Hora</th>
-              <th class="py-2.5 px-2">Unidad</th>
+              <th class="py-2.5 px-2">Unidad / Gen.</th>
               <th class="py-2.5 px-2">Chofer</th>
               <th class="py-2.5 px-2 text-right">Tablero</th>
               <th class="py-2.5 px-2 text-right">Tasa SCR</th>
@@ -1357,11 +1361,20 @@
           : resaltarCoincidencia(u.patente, qSinGuion);
         const choferHtml = resaltarCoincidencia(u.chofer, query);
 
+        const scrPerf = typeof obtenerPerfilScrUnidad === "function" ? obtenerPerfilScrUnidad(u) : null;
+        const esAdblueMode = typeof modoSimuladorActivo !== "undefined" && modoSimuladorActivo === "adblue";
+        const badgeGenHtml = scrPerf && scrPerf.calibradoScania
+          ? '<span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-sky-500/15 text-sky-300 border border-sky-500/30">' + scrPerf.gen + "</span>"
+          : "";
+        const capBadgeHtml = esAdblueMode && scrPerf
+          ? '<span class="font-mono font-bold text-[11px] px-2 py-1 rounded-lg bg-sky-950/70 border border-sky-500/35 text-sky-300">' + scrPerf.capAdblue + " L · " + scrPerf.rBase + "%</span>"
+          : '<span class="font-mono font-bold text-xs px-2 py-1 rounded-lg bg-slate-900 border border-slate-700 text-cyan-300">' + u.capacidad + " L</span>";
         return '<div onclick="seleccionarUnidadTracto(\'' + u.patente + '\')" data-idx="' + idx + '" class="px-3.5 py-2.5 cursor-pointer transition-colors flex items-center justify-between gap-2 ' + bgClass + '">' +
           '<div class="min-w-0 flex-1">' +
             '<div class="flex items-center gap-2">' +
               '<span class="font-mono font-black text-xs text-cyan-400 bg-slate-950 border border-slate-700 px-2 py-0.5 rounded-md shrink-0">' + patHtml + "</span>" +
               '<span class="text-xs font-bold truncate ' + (tieneChofer ? "text-white" : "text-slate-500 italic") + '">👤 ' + choferHtml + "</span>" +
+              badgeGenHtml +
             "</div>" +
             '<div class="text-[11px] text-slate-400 mt-0.5 flex items-center gap-2">' +
               "<span>" + u.marca + " " + u.modelo + " (" + u.ano + ")</span>" +
@@ -1370,7 +1383,7 @@
             "</div>" +
           "</div>" +
           '<div class="text-right shrink-0">' +
-            '<span class="font-mono font-bold text-xs px-2 py-1 rounded-lg bg-slate-900 border border-slate-700 text-cyan-300">' + u.capacidad + " L</span>" +
+            capBadgeHtml +
           "</div>" +
         "</div>";
       }).join("");
@@ -1430,9 +1443,10 @@
         pillMod.textContent = "Selecciona un tracto o ingresa patente arriba";
         pillMod.className = "text-slate-400 font-medium truncate";
       }
+      restaurarEstandarTrcAdblue();
       const pillScr = document.getElementById("pillScrUnidad");
       if (pillScr) {
-        pillScr.textContent = "Estándar TRC 70 L · Euro 6 (6.0%)";
+        pillScr.textContent = "Estándar TRC 70 L · 6.0% SCR";
         pillScr.className = "text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold";
       }
       if (pillCc) {
@@ -2146,12 +2160,87 @@
     recalcular();
 
     // =========================================================================
-    // MÓDULO SIMULADOR ADBLUE / UREA (ESTÁNDAR INTERNACIONAL IRU / ISO 22241)
+    // MÓDULO SIMULADOR ADBLUE / UREA — FASE 1: CALIBRACIÓN OFICIAL SCANIA TRC
     // =========================================================================
     const STORAGE_KEY_ADBLUE = 'TRC_ADBLUE_BITACORA_V1';
     const ADBLUE_RESERVA_LITROS = 10; // Reserva fija anti-derate TRC
     let modoSimuladorActivo = 'diesel'; // 'diesel' | 'adblue'
+    let generacionScrActiva = 'GENERICO';
     let bitacoraAdblue = [];
+
+    const PERFILES_GENERACION_SCANIA = {
+      SUPER: { gen: 'SUPER', capAdblue: 76, rBase: 12.5, rendDiesel: 3.61, fCarga: 1.00, fNox: 1.00, calibradoScania: true, rangoStr: '12%-13%' },
+      NTG:   { gen: 'NTG',   capAdblue: 80, rBase: 7.5,  rendDiesel: 3.09, fCarga: 1.00, fNox: 1.00, calibradoScania: true, rangoStr: '7%-8%' },
+      PGR:   { gen: 'PGR',   capAdblue: 75, rBase: 4.5,  rendDiesel: 2.91, fCarga: 1.00, fNox: 1.00, calibradoScania: true, rangoStr: '4%-5%' }
+    };
+
+    function obtenerPerfilScrUnidad(u) {
+      if (!u) {
+        return { gen: 'ESTÁNDAR TRC', capAdblue: 70, rBase: 6.0, rendDiesel: 3.5, fCarga: 1.15, fNox: 1.05, calibradoScania: false, aviso: '' };
+      }
+      const marca = (u.marca || '').toUpperCase();
+      const modelo = (u.modelo || '').toUpperCase().replace(/\s+/g, ' ').trim();
+      const ano = parseInt(u.ano, 10) || 2020;
+
+      if (marca.includes('SCANIA')) {
+        // 1. SCANIA SUPER (2025-2026: VHTC-77, TBHC-*, VYSP-*)
+        if (ano >= 2025) {
+          return { ...PERFILES_GENERACION_SCANIA.SUPER, aviso: '' };
+        }
+        // 2. SCANIA NTG (2019-2024: R500, S500, G450, G410, G320)
+        if (ano >= 2019 && /(R\s*500|S\s*500|G\s*450|G\s*410|G\s*320)/.test(modelo)) {
+          let rend = 3.09;
+          if (/G\s*450/.test(modelo)) rend = 3.24;
+          else if (/S\s*500/.test(modelo)) rend = 2.97;
+          else if (/G\s*410/.test(modelo)) rend = 3.27;
+          else if (/G\s*320/.test(modelo)) rend = 3.12;
+          return { ...PERFILES_GENERACION_SCANIA.NTG, rendDiesel: rend, aviso: '' };
+        }
+        // 3. SCANIA PGR (2013-2019: R480, R440, P310)
+        if (ano >= 2013 && /(R\s*480|R\s*440|P\s*310)/.test(modelo)) {
+          let rend = 2.91;
+          if (/R\s*480/.test(modelo)) rend = 2.99;
+          else if (/R\s*440/.test(modelo)) rend = 2.76;
+          else if (/P\s*310/.test(modelo)) rend = 2.91;
+          return { ...PERFILES_GENERACION_SCANIA.PGR, rendDiesel: rend, aviso: '' };
+        }
+        // 4. SCANIA Antiguos (2003-2012)
+        return {
+          gen: 'PGR/ANTIGUO',
+          capAdblue: 70,
+          rBase: 4.5,
+          rendDiesel: 2.40,
+          fCarga: 1.00,
+          fNox: 1.00,
+          calibradoScania: false,
+          aviso: 'Verificar si unidad ' + ano + ' opera con SCR/AdBlue'
+        };
+      }
+
+      if (marca.includes('FAW')) {
+        return {
+          gen: 'FAW EURO VI',
+          capAdblue: 70,
+          rBase: 6.0,
+          rendDiesel: 2.55,
+          fCarga: 1.15,
+          fNox: 1.05,
+          calibradoScania: false,
+          aviso: 'Sin ficha SCR fabricante — Estándar Euro VI editable'
+        };
+      }
+
+      return {
+        gen: marca || 'OTRA MARCA',
+        capAdblue: 70,
+        rBase: 5.0,
+        rendDiesel: ano <= 2012 ? 2.45 : 3.00,
+        fCarga: 1.15,
+        fNox: 1.05,
+        calibradoScania: false,
+        aviso: 'Sin tabla Scania — Parámetro estándar editable'
+      };
+    }
 
     const inputCapacidadAdblue = document.getElementById('inputCapacidadAdblue');
     const inputRendimientoAdblue = document.getElementById('inputRendimientoAdblue');
@@ -2219,16 +2308,27 @@
       const inactivo = 'flex-1 py-1 text-[10px] rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold cursor-pointer whitespace-nowrap';
       idsValores.forEach(([id, val]) => {
         const el = document.getElementById(id);
-        if (el) el.className = Math.abs(valorActual - val) < 0.005 ? activo : inactivo;
+        if (el) el.className = Math.abs(valorActual - val) < 0.01 ? activo : inactivo;
       });
     }
 
     function actualizarBotonesCapacidadAdblue(litros) {
       const activo = 'flex-1 py-2 px-1 text-xs font-bold rounded-xl bg-sky-500 text-slate-950 transition-all shadow-sm cursor-pointer whitespace-nowrap';
       const inactivo = 'flex-1 py-2 px-1 text-xs font-semibold rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer whitespace-nowrap';
-      [70, 50, 80, 105].forEach(cap => {
+      [76, 80, 75, 70].forEach(cap => {
         const b = document.getElementById('btnAdblue' + cap);
-        if (b) b.className = litros === cap ? activo : inactivo;
+        if (b) b.className = Math.abs(litros - cap) < 0.1 ? activo : inactivo;
+      });
+    }
+
+    function actualizarPresetsGeneracionHighlight(clave) {
+      generacionScrActiva = clave;
+      const activo = 'text-[10px] bg-sky-500 text-slate-950 border border-sky-400 px-2 py-0.5 rounded-md font-extrabold transition-colors cursor-pointer whitespace-nowrap';
+      const inactivo = 'text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold transition-colors cursor-pointer whitespace-nowrap';
+      const mapa = { PGR: 'btnPresetPgr', NTG: 'btnPresetNtg', SUPER: 'btnPresetSuper', GENERICO: 'btnPresetGenerico' };
+      Object.entries(mapa).forEach(([k, id]) => {
+        const el = document.getElementById(id);
+        if (el) el.className = k === clave ? activo : inactivo;
       });
     }
 
@@ -2240,7 +2340,7 @@
 
     function setRBaseAdblue(val) {
       inputRBaseAdblue.value = val;
-      actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase60', 6.0], ['btnRBase70', 7.0]], val);
+      actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], val);
       recalcularAdblue();
     }
 
@@ -2256,33 +2356,75 @@
       recalcularAdblue();
     }
 
+    function aplicarPresetGeneracionAdblue(genKey) {
+      const perf = PERFILES_GENERACION_SCANIA[genKey];
+      if (!perf) return restaurarEstandarTrcAdblue();
+      actualizarPresetsGeneracionHighlight(genKey);
+      inputCapacidadAdblue.value = perf.capAdblue;
+      actualizarBotonesCapacidadAdblue(perf.capAdblue);
+      inputRendimientoAdblue.value = perf.rendDiesel;
+      inputRBaseAdblue.value = perf.rBase;
+      actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], perf.rBase);
+      inputFCargaAdblue.value = perf.fCarga.toFixed(2);
+      actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], perf.fCarga);
+      inputFNoxAdblue.value = perf.fNox.toFixed(2);
+      actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], perf.fNox);
+
+      const pillScr = document.getElementById('pillScrUnidad');
+      if (pillScr) {
+        pillScr.textContent = 'Preset Scania ' + perf.gen + ' · ' + perf.capAdblue + ' L · ' + perf.rBase + '% SCR';
+        pillScr.className = 'text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
+      }
+      recalcularAdblue();
+    }
+
     function restaurarEstandarTrcAdblue() {
-      setCapacidadAdblue(70);
+      actualizarPresetsGeneracionHighlight('GENERICO');
+      inputCapacidadAdblue.value = 70;
+      actualizarBotonesCapacidadAdblue(70);
       inputRendimientoAdblue.value = 3.5;
-      setRBaseAdblue(6.0);
-      setFCargaAdblue(1.15);
-      setFNoxAdblue(1.05);
+      inputRBaseAdblue.value = 6.0;
+      actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], 6.0);
+      inputFCargaAdblue.value = '1.15';
+      actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], 1.15);
+      inputFNoxAdblue.value = '1.05';
+      actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], 1.05);
+      const pillScr = document.getElementById('pillScrUnidad');
+      if (pillScr) {
+        pillScr.textContent = 'Estándar TRC 70 L · 6.0% SCR';
+        pillScr.className = 'text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
+      }
+      recalcularAdblue();
     }
 
     function aplicarPerfilAdblueUnidad(unidad) {
+      const perf = obtenerPerfilScrUnidad(unidad);
       const pillScr = document.getElementById('pillScrUnidad');
-      const ano = parseInt(unidad.ano, 10) || 2020;
-      if (ano >= 2022) {
-        setRBaseAdblue(6.0);
-        if (pillScr) {
-          pillScr.textContent = unidad.marca + ' ' + ano + ' · Euro 6 SCR (6.0%) · 70 L';
-          pillScr.className = 'text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
-        }
-      } else if (ano >= 2013) {
-        setRBaseAdblue(4.5);
-        if (pillScr) {
-          pillScr.textContent = unidad.marca + ' ' + ano + ' · Euro 5 SCR (4.5%) · 70 L';
-          pillScr.className = 'text-[10px] bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
-        }
+
+      inputCapacidadAdblue.value = perf.capAdblue;
+      actualizarBotonesCapacidadAdblue(perf.capAdblue);
+      inputRendimientoAdblue.value = perf.rendDiesel;
+      inputRBaseAdblue.value = perf.rBase;
+      actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], perf.rBase);
+      inputFCargaAdblue.value = perf.fCarga.toFixed(2);
+      actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], perf.fCarga);
+      inputFNoxAdblue.value = perf.fNox.toFixed(2);
+      actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], perf.fNox);
+
+      if (perf.gen === 'SUPER' || perf.gen === 'NTG' || perf.gen === 'PGR') {
+        actualizarPresetsGeneracionHighlight(perf.gen);
       } else {
-        setRBaseAdblue(4.0);
-        if (pillScr) {
-          pillScr.textContent = unidad.marca + ' ' + ano + ' · Verificar si usa SCR/AdBlue';
+        actualizarPresetsGeneracionHighlight('GENERICO');
+      }
+
+      if (pillScr) {
+        if (perf.calibradoScania) {
+          pillScr.textContent = 'Scania ' + perf.gen + ' (' + unidad.modelo + ') · ' + perf.capAdblue + ' L · ' + perf.rBase + '% SCR';
+          pillScr.className = perf.gen === 'SUPER'
+            ? 'text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-400/40 px-2 py-0.5 rounded-full font-mono font-bold'
+            : 'text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
+        } else {
+          pillScr.textContent = perf.gen + ' · ' + (perf.aviso || (perf.capAdblue + ' L · ' + perf.rBase + '%'));
           pillScr.className = 'text-[10px] bg-amber-500/15 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
         }
       }
@@ -2299,7 +2441,7 @@
     [inputCapacidadAdblue, inputRendimientoAdblue, inputRBaseAdblue, inputFCargaAdblue, inputFNoxAdblue, inputPorcentajeAdblue].forEach(el => {
       if (el) el.addEventListener('input', () => {
         actualizarBotonesCapacidadAdblue(parseFloat(inputCapacidadAdblue.value) || 0);
-        actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase60', 6.0], ['btnRBase70', 7.0]], parseFloat(inputRBaseAdblue.value) || 0);
+        actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], parseFloat(inputRBaseAdblue.value) || 0);
         actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], parseFloat(inputFCargaAdblue.value) || 0);
         actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], parseFloat(inputFNoxAdblue.value) || 0);
         recalcularAdblue();
@@ -2314,8 +2456,8 @@
       const capacidad = Math.max(15, parseFloat(inputCapacidadAdblue.value) || 70);
       const rendDiesel = Math.max(0.5, parseFloat(inputRendimientoAdblue.value) || 3.5);
       const rBasePct = Math.max(0.5, parseFloat(inputRBaseAdblue.value) || 6.0);
-      const fCarga = Math.max(0.5, parseFloat(inputFCargaAdblue.value) || 1.15);
-      const fNox = Math.max(0.5, parseFloat(inputFNoxAdblue.value) || 1.05);
+      const fCarga = Math.max(0.5, parseFloat(inputFCargaAdblue.value) || 1.00);
+      const fNox = Math.max(0.5, parseFloat(inputFNoxAdblue.value) || 1.00);
       const kmBase = parseFloat(inputKmBase.value) || 0;
 
       // Fórmula Internacional: Autonomía = V_actual / [ C_diesel * (R_base * F_carga * F_nox) ]
@@ -2333,8 +2475,23 @@
       document.getElementById('labelCDieselLive').textContent = cDiesel.toFixed(3) + ' L/km';
       const pillCap = document.getElementById('pillCapacidad');
       if (pillCap && modoSimuladorActivo === 'adblue') {
-        pillCap.textContent = 'AdBlue ' + capacidad + ' L';
+        pillCap.textContent = 'AdBlue ' + capacidad + ' L (' + rBasePct.toFixed(1) + '%)';
         pillCap.className = 'bg-sky-950/60 border border-sky-500/30 text-sky-300 px-2 py-0.5 rounded-md font-mono font-bold';
+      }
+
+      const bannerResumen = document.getElementById('bannerFormulaResumenAdblue');
+      if (bannerResumen) {
+        bannerResumen.innerHTML =
+          'Estanque <strong class="text-white font-mono">' + capacidad + ' L</strong> · ' +
+          'Reserva Anti-Derate <strong class="bg-sky-400 text-slate-950 px-1.5 py-0.5 rounded font-mono font-black">10 L</strong> · ' +
+          'Base <strong class="text-sky-300 font-mono">' + rBasePct.toFixed(1) + '%</strong> · ' +
+          'Carga <strong class="text-sky-300 font-mono">' + fCarga.toFixed(2) + '</strong> · ' +
+          'NOx <strong class="text-sky-300 font-mono">' + fNox.toFixed(2) + '</strong>';
+      }
+
+      const subScr = document.getElementById('subtituloScrEstado');
+      if (subScr) {
+        subScr.textContent = 'TRC-SCR · ' + generacionScrActiva;
       }
 
       document.getElementById('formulaBreakdownAdblue').innerHTML =
@@ -2401,7 +2558,7 @@
         badgeEst.className = 'bg-sky-500/20 text-sky-300 border border-sky-500/35 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap';
         badgeEst.innerHTML = '<span>ℹ️</span> Autonomía SCR Libre';
         titRes.textContent = 'Autonomía Segura: ' + Math.round(autonomiaSeguraKm).toLocaleString('es-CL') + ' km';
-        descRes.textContent = 'Con ' + pct + '% (' + litrosActuales.toFixed(1) + ' L), el camión recorre ' + Math.round(autonomiaSeguraKm).toLocaleString('es-CL') + ' km antes de tocar la reserva anti-derate de 10 L (tasa efectiva ' + (tasaEfectiva * 100).toFixed(2) + '% sobre diésel).';
+        descRes.textContent = 'Con ' + pct + '% (' + litrosActuales.toFixed(1) + ' L de ' + capacidad + ' L), el camión recorre ' + Math.round(autonomiaSeguraKm).toLocaleString('es-CL') + ' km antes de tocar la reserva anti-derate de 10 L (tasa efectiva ' + (tasaEfectiva * 100).toFixed(2) + '% sobre ' + rendDiesel + ' km/L).';
         valSug.textContent = Math.round(autonomiaSeguraKm).toLocaleString('es-CL') + ' KM';
         valSug.className = 'text-3xl sm:text-4xl font-black font-mono tracking-tight text-sky-400';
         detSug.textContent = 'Alcance seguro protegiendo los 10 L anti-derate';
@@ -2492,29 +2649,30 @@
       const litrosAct = ((cap * pct) / 100).toFixed(1);
       const rendDiesel = parseFloat(inputRendimientoAdblue.value) || 3.5;
       const rBase = parseFloat(inputRBaseAdblue.value) || 6.0;
-      const fCarga = parseFloat(inputFCargaAdblue.value) || 1.15;
-      const fNox = parseFloat(inputFNoxAdblue.value) || 1.05;
+      const fCarga = parseFloat(inputFCargaAdblue.value) || 1.00;
+      const fNox = parseFloat(inputFNoxAdblue.value) || 1.00;
       const tasaEff = ((rBase / 100) * fCarga * fNox * 100).toFixed(2);
       const destinoTxt = obtenerNombreDestinoActual();
       const estado = document.getElementById('badgeEstadoAdblue').textContent.trim();
       const sugerencia = document.getElementById('valorSugerenciaAdblue').textContent.trim();
       const bidones = document.getElementById('bidonesSugerenciaAdblue').textContent.trim();
+      const genTag = generacionScrActiva !== 'GENERICO' ? ' · Gen. ' + generacionScrActiva : '';
 
       guardarEnBitacoraAdblue('WHATSAPP', true);
 
       const texto =
 '💧 *TRC - CONTROL DE ADBLUE / UREA (SCR)*\n' +
 '━━━━━━━━━━━━━━━━━━━━━━━━\n' +
-'• *Unidad:* ' + u.patente + ' (' + (u.marca || 'SCANIA') + ' ' + (u.modelo || '') + ' | Est. ' + cap + ' L)\n' +
+'• *Unidad:* ' + u.patente + ' (' + (u.marca || 'SCANIA') + ' ' + (u.modelo || '') + genTag + ' | Est. ' + cap + ' L)\n' +
 '• *Chofer:* ' + u.chofer + '\n' +
 '• *Nivel AdBlue Tablero:* ' + pct + '% (' + litrosAct + ' L)\n' +
-'• *Parámetros SCR:* Diésel ' + rendDiesel + ' km/L | Tasa Efectiva ' + tasaEff + '% (R:' + rBase + '% · C:' + fCarga + ' · NOx:' + fNox + ')\n' +
+'• *Parámetros SCR:* Diésel ' + rendDiesel + ' km/L | Tasa Efectiva ' + tasaEff + '% (Base:' + rBase + '% · C:' + fCarga + ' · NOx:' + fNox + ')\n' +
 '• *Trayecto / Destino:* ' + destinoTxt + '\n' +
 '━━━━━━━━━━━━━━━━━━━━━━━━\n' +
 '📊 *DIAGNÓSTICO:* ' + estado + '\n' +
 '🎯 *SUGERENCIA:* *' + sugerencia + '*' + (bidones ? ' (' + bidones + ')' : '') + '\n' +
 '━━━━━━━━━━━━━━━━━━━━━━━━\n' +
-'_Simulador AdBlue SCR TRC (Estándar IRU / ISO 22241)_';
+'_Simulador AdBlue SCR TRC (Calibración Oficial Scania)_';
 
       navigator.clipboard.writeText(texto).then(() => {
         alert('✅ ¡Reporte AdBlue copiado para WhatsApp y guardado en la Bitácora del Turno!');
@@ -2538,8 +2696,8 @@
       const cap = parseFloat(inputCapacidadAdblue.value) || 70;
       const rendDiesel = parseFloat(inputRendimientoAdblue.value) || 3.5;
       const rBase = parseFloat(inputRBaseAdblue.value) || 6.0;
-      const fCarga = parseFloat(inputFCargaAdblue.value) || 1.15;
-      const fNox = parseFloat(inputFNoxAdblue.value) || 1.05;
+      const fCarga = parseFloat(inputFCargaAdblue.value) || 1.00;
+      const fNox = parseFloat(inputFNoxAdblue.value) || 1.00;
       const tasaEff = ((rBase / 100) * fCarga * fNox * 100).toFixed(2) + '%';
 
       const registro = {
@@ -2547,6 +2705,7 @@
         fecha: now.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' }),
         hora: now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }),
         patente: u.patente,
+        gen: generacionScrActiva,
         chofer: u.chofer,
         pctNum,
         cap,
@@ -2597,9 +2756,10 @@
 
       tabla.innerHTML = bitacoraAdblue.map((item, idx) => {
         const cls = obtenerClaseBadgeBitacora(item.badgeText);
+        const genTxt = item.gen ? ' · ' + item.gen : '';
         return '<tr class="hover:bg-slate-800/40 transition-colors">' +
           '<td class="py-2.5 px-2 font-mono text-[11px] text-slate-400">' + item.hora + '</td>' +
-          '<td class="py-2.5 px-2 font-mono font-bold text-white">' + item.patente + ' <span class="text-[10px] text-slate-500 font-normal">(' + item.cap + 'L)</span></td>' +
+          '<td class="py-2.5 px-2 font-mono font-bold text-white">' + item.patente + ' <span class="text-[10px] text-sky-400 font-normal">(' + item.cap + 'L' + genTxt + ')</span></td>' +
           '<td class="py-2.5 px-2 text-slate-300">' + item.chofer + '</td>' +
           '<td class="py-2.5 px-2 text-right font-mono font-bold text-sky-400">' + item.pctNum + '% <span class="text-[10px] text-slate-400 font-normal">(' + item.litros + ')</span></td>' +
           '<td class="py-2.5 px-2 text-right font-mono text-[11px] text-slate-300">' + item.tasaEff + '</td>' +
@@ -2622,6 +2782,7 @@
       setFCargaAdblue(item.fCarga);
       setFNoxAdblue(item.fNox);
       inputPorcentajeAdblue.value = item.pctNum;
+      if (item.gen && PERFILES_GENERACION_SCANIA[item.gen]) actualizarPresetsGeneracionHighlight(item.gen);
       if (item.modoTrayecto) setModoTrayecto(item.modoTrayecto);
       if (item.destinoValue && selectDestino) selectDestino.value = item.destinoValue;
       inputKmBase.value = item.kmNum > 0 ? item.kmNum : '';
@@ -2642,9 +2803,9 @@
         alert('No hay registros AdBlue para exportar.');
         return;
       }
-      let csv = '\uFEFFFecha;Hora;Patente;Chofer;Nivel %;Estanque (L);Litros Actuales;Rend Diesel (km/L);R_base %;F_carga;F_nox;Tasa Efectiva;Ruta;Diagnostico;Sugerencia\n';
+      let csv = '\uFEFFFecha;Hora;Patente;Generacion;Chofer;Nivel %;Estanque (L);Litros Actuales;Rend Diesel (km/L);R_base %;F_carga;F_nox;Tasa Efectiva;Ruta;Diagnostico;Sugerencia\n';
       bitacoraAdblue.forEach(r => {
-        csv += [r.fecha, r.hora, r.patente, r.chofer, r.pctNum + '%', r.cap, r.litros, r.rendDiesel, r.rBase + '%', r.fCarga, r.fNox, r.tasaEff, r.kmBase, r.badgeText, r.sugerencia]
+        csv += [r.fecha, r.hora, r.patente, r.gen || '', r.chofer, r.pctNum + '%', r.cap, r.litros, r.rendDiesel, r.rBase + '%', r.fCarga, r.fNox, r.tasaEff, r.kmBase, r.badgeText, r.sugerencia]
           .map(v => '"' + String(v).replace(/"/g, '""') + '"').join(';') + '\n';
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
