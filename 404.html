@@ -94,20 +94,24 @@
       </div>
     </header>
 
-    <!-- SELECTOR DE MODO INTEGRADO (DIÉSEL + ADBLUE / UREA SCR) -->
-    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shadow-xl">
-      <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800/90 w-full sm:w-auto">
-        <button type="button" id="tabBtnDiesel" onclick="cambiarModoSimulador('diesel')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs font-extrabold transition-all flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 shadow-lg shadow-cyan-950/60">
+    <!-- SELECTOR DE MODO INTEGRADO (DIÉSEL | ADBLUE SCR | CHEQUEO CONJUNTO) -->
+    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-2 flex flex-col lg:flex-row lg:items-center justify-between gap-2.5 shadow-xl">
+      <div class="grid grid-cols-3 sm:flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800/90 w-full lg:w-auto">
+        <button type="button" id="tabBtnDiesel" onclick="cambiarModoSimulador('diesel')" class="px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 shadow-lg shadow-cyan-950/60 whitespace-nowrap">
           <span>⛽</span>
-          <span>Simulador Diésel</span>
+          <span>Diésel</span>
         </button>
-        <button type="button" id="tabBtnAdblue" onclick="cambiarModoSimulador('adblue')" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-slate-900">
+        <button type="button" id="tabBtnAdblue" onclick="cambiarModoSimulador('adblue')" class="px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white hover:bg-slate-900 whitespace-nowrap">
           <span>💧</span>
-          <span>Simulador AdBlue / Urea (SCR)</span>
-          <span class="text-[9px] bg-sky-500/20 text-sky-300 border border-sky-500/30 px-1.5 py-0.5 rounded uppercase tracking-wider">SCR</span>
+          <span>AdBlue SCR</span>
+        </button>
+        <button type="button" id="tabBtnConjunto" onclick="cambiarModoSimulador('conjunto')" class="px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white hover:bg-slate-900 whitespace-nowrap">
+          <span>🔄</span>
+          <span>Chequeo Conjunto</span>
+          <span class="hidden sm:inline text-[9px] bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 px-1.5 py-0.5 rounded uppercase tracking-wider">2 en 1</span>
         </button>
       </div>
-      <div class="flex items-center justify-between sm:justify-end gap-2 px-2">
+      <div class="flex items-center justify-between lg:justify-end gap-2 px-2">
         <span class="text-[11px] text-slate-400 bg-slate-950/80 border border-slate-800 px-2.5 py-1 rounded-lg font-mono flex items-center gap-1.5">
           <span class="text-sky-400">⚡</span>
           <span>Calibrado por Modelo Scania (PGR · NTG · SUPER)</span>
@@ -155,6 +159,28 @@
       <div id="badgeStatusAdblue" class="flex items-center gap-2 self-start sm:self-auto shrink-0 bg-sky-500/15 border border-sky-500/35 text-sky-300 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold">
         <span class="w-2 h-2 rounded-full bg-sky-400"></span>
         <span>Tasa Efectiva: 7.25% (~48.3 km/L)</span>
+      </div>
+    </div>
+
+    <!-- BANNER DINÁMICO CHEQUEO CONJUNTO (DIÉSEL + ADBLUE SCR) -->
+    <div id="bannerPoliticaConjunto" class="hidden bg-gradient-to-r from-[#0e1738] via-slate-900/95 to-[#091c2f] border border-indigo-500/40 rounded-2xl p-3 sm:px-4 sm:py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-lg">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-11 rounded-xl border border-indigo-500/40 bg-indigo-500/15 flex items-center justify-center text-xl shrink-0 shadow-inner">
+          🔄
+        </div>
+        <div class="space-y-0.5">
+          <div class="flex flex-wrap items-center gap-2">
+            <strong class="text-indigo-300 font-bold uppercase tracking-wide text-[11px] sm:text-xs">Chequeo Conjunto TRC — Diésel + AdBlue en una Pantalla:</strong>
+            <span id="pillConjuntoUnidad" class="text-[10px] bg-indigo-500/15 text-indigo-300 border border-indigo-400/30 px-2 py-0.5 rounded-full font-mono font-semibold">Estándar TRC · 750 L / 70 L</span>
+          </div>
+          <p id="bannerResumenConjunto" class="text-slate-300 text-[11px] sm:text-xs leading-snug">
+            Reservas intocables: <strong class="text-amber-300 font-mono">20 L Diésel</strong> · <strong class="text-sky-300 font-mono">10 L AdBlue (Anti-Derate)</strong>
+          </p>
+        </div>
+      </div>
+      <div id="badgeStatusConjunto" class="flex items-center gap-2 self-start sm:self-auto shrink-0 bg-indigo-500/15 border border-indigo-400/35 text-indigo-300 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold">
+        <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+        <span>Evaluación Dual Activa</span>
       </div>
     </div>
 
@@ -504,6 +530,73 @@
                 </div>
               </div>
             </div>
+
+            <!-- CONFIGURACIÓN CONJUNTA (DIÉSEL + ADBLUE EN PARALELO) -->
+            <div id="panelConfigConjunto" class="hidden space-y-3 pt-1">
+              <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950/75 border border-indigo-500/25 rounded-xl px-3 py-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
+                  <span>⚙️</span> Calibración Rápida Ambos Estanques
+                </span>
+                <div class="flex flex-wrap items-center gap-1">
+                  <button type="button" onclick="aplicarPresetGeneracionAdblue('PGR')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold cursor-pointer whitespace-nowrap">PGR 75L · 4.5%</button>
+                  <button type="button" onclick="aplicarPresetGeneracionAdblue('NTG')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold cursor-pointer whitespace-nowrap">NTG 80L · 7.5%</button>
+                  <button type="button" onclick="aplicarPresetGeneracionAdblue('SUPER')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-md font-semibold cursor-pointer whitespace-nowrap">SUPER 76L · 12.5%</button>
+                  <button type="button" onclick="restaurarEstandarTrcAdblue()" class="text-[10px] bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-md font-semibold cursor-pointer whitespace-nowrap">↺ Genérico</button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- BLOQUE DIÉSEL -->
+                <div class="bg-slate-950/70 border border-cyan-500/25 rounded-xl p-3 space-y-2.5">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400 whitespace-nowrap">⛽ Diésel</span>
+                    <span class="text-[10px] font-mono text-amber-400 font-semibold whitespace-nowrap">Res: 20 L</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-[10px] text-slate-400 mb-1">Capacidad (L)</label>
+                      <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 focus-within:border-cyan-500">
+                        <input type="number" id="inputConjuntoCapDiesel" value="750" min="100" max="1500" class="w-full bg-transparent text-white font-mono font-bold text-xs focus:outline-none">
+                        <span class="text-[10px] text-cyan-400 font-bold ml-1">L</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="block text-[10px] text-slate-400 mb-1">Rendimiento</label>
+                      <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 focus-within:border-cyan-500">
+                        <input type="number" id="inputConjuntoRendDiesel" value="3.5" step="0.01" min="0.8" max="8.0" class="w-full bg-transparent text-white font-mono font-bold text-xs focus:outline-none">
+                        <span class="text-[10px] text-cyan-400 font-bold ml-1">km/L</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- BLOQUE ADBLUE SCR -->
+                <div class="bg-slate-950/70 border border-sky-500/25 rounded-xl p-3 space-y-2.5">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-sky-400 whitespace-nowrap">💧 AdBlue SCR</span>
+                    <span class="text-[10px] font-mono text-sky-300 font-semibold whitespace-nowrap">Res: 10 L</span>
+                  </div>
+                  <div class="grid grid-cols-4 gap-1.5">
+                    <div>
+                      <label class="block text-[10px] text-slate-400 mb-1 whitespace-nowrap">Cap. (L)</label>
+                      <input type="number" id="inputConjuntoCapAdblue" value="70" min="15" max="200" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-1.5 py-1.5 text-center text-white font-mono font-bold text-xs focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div>
+                      <label class="block text-[10px] text-slate-400 mb-1 whitespace-nowrap">Tasa %</label>
+                      <input type="number" id="inputConjuntoRBase" value="6.0" step="0.1" min="0.5" max="20" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-1.5 py-1.5 text-center text-sky-300 font-mono font-bold text-xs focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div>
+                      <label class="block text-[10px] text-slate-400 mb-1 whitespace-nowrap">Carga</label>
+                      <input type="number" id="inputConjuntoFCarga" value="1.15" step="0.05" min="0.7" max="1.5" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-1.5 py-1.5 text-center text-sky-300 font-mono font-bold text-xs focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div>
+                      <label class="block text-[10px] text-slate-400 mb-1 whitespace-nowrap">NOx</label>
+                      <input type="number" id="inputConjuntoFNox" value="1.05" step="0.01" min="0.9" max="1.3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-1.5 py-1.5 text-center text-sky-300 font-mono font-bold text-xs focus:outline-none focus:border-sky-500">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -579,6 +672,51 @@
                 <span id="kmAutonomiaBrutaAdblueSub" class="block text-[11px] text-slate-400 font-mono mt-0.5">Bruta hasta 0 L: 1.184 km</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- 2C. NIVELES INFORMADOS CONJUNTOS (% DIÉSEL + % ADBLUE EN PARALELO) -->
+        <div id="cardNivelConjunto" class="hidden bg-[#0f172a] border border-indigo-500/35 rounded-2xl p-5 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-2">
+              <span class="w-4 h-4 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-[10px] font-mono">2</span>
+              Niveles en Tablero (Diésel + AdBlue)
+            </span>
+            <span class="text-xs text-slate-400">Ingreso directo (%)</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <!-- INPUT % DIÉSEL CONJUNTO -->
+            <div class="bg-slate-950/70 border border-cyan-500/30 rounded-2xl p-3.5 space-y-2.5">
+              <label class="block text-xs text-cyan-300 font-bold">⛽ % Diésel en Tablero</label>
+              <div class="flex items-center bg-slate-950 border-2 border-slate-700 hover:border-cyan-600/60 rounded-xl px-4 py-2 focus-within:border-cyan-500 transition-all shadow-inner">
+                <input type="number" id="inputConjuntoPctDiesel" value="35" min="0" max="100" placeholder="35" class="w-full bg-transparent text-3xl font-black text-cyan-400 font-mono placeholder:text-slate-700 focus:outline-none">
+                <span class="text-2xl font-black text-cyan-500 select-none ml-2">%</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-mono pt-0.5">
+                <span id="conjuntoDieselLitrosLive" class="text-white font-bold">262.5 L</span>
+                <span id="conjuntoDieselAutonLive" class="text-cyan-400 font-bold">919 km bruta</span>
+              </div>
+            </div>
+
+            <!-- INPUT % ADBLUE CONJUNTO -->
+            <div class="bg-slate-950/70 border border-sky-500/30 rounded-2xl p-3.5 space-y-2.5">
+              <label class="block text-xs text-sky-300 font-bold">💧 % AdBlue en Tablero</label>
+              <div class="flex items-center bg-slate-950 border-2 border-slate-700 hover:border-sky-600/60 rounded-xl px-4 py-2 focus-within:border-sky-500 transition-all shadow-inner">
+                <input type="number" id="inputConjuntoPctAdblue" value="35" min="0" max="100" placeholder="35" class="w-full bg-transparent text-3xl font-black text-sky-400 font-mono placeholder:text-slate-700 focus:outline-none">
+                <span class="text-2xl font-black text-sky-500 select-none ml-2">%</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-mono pt-0.5">
+                <span id="conjuntoAdblueLitrosLive" class="text-white font-bold">24.5 L</span>
+                <span id="conjuntoAdblueAutonLive" class="text-sky-400 font-bold">700 km segura</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- INDICADOR DE FACTOR LIMITANTE EN RUTA -->
+          <div id="alertaLimitanteConjunto" class="bg-slate-950/90 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs flex items-center gap-2.5">
+            <span class="text-base shrink-0">⚖️</span>
+            <span id="textoLimitanteConjunto" class="text-slate-300">Comparando autonomía útil de ambos estanques...</span>
           </div>
         </div>
 
@@ -854,6 +992,121 @@
           </div>
         </div>
 
+        <!-- COLUMNA DERECHA CHEQUEO CONJUNTO (DIÉSEL + ADBLUE) -->
+        <div id="colDerechaConjunto" class="hidden space-y-5">
+          <!-- CARD DE DIAGNÓSTICO GLOBAL CONJUNTO -->
+          <div id="cardResultadoConjunto" class="border rounded-2xl p-5 shadow-2xl transition-all duration-300 space-y-4 relative overflow-hidden">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <span id="badgeEstadoConjunto" class="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 shadow-sm whitespace-nowrap">
+                <span>●</span> Evaluando Flota...
+              </span>
+              <span id="subtituloConjuntoEstado" class="text-[11px] font-mono text-indigo-300/80 whitespace-nowrap">TRC-CONJUNTO · 2 EN 1</span>
+            </div>
+
+            <div>
+              <h2 id="tituloResultadoConjunto" class="text-lg font-extrabold text-white leading-snug">Chequeo Conjunto Diésel + AdBlue</h2>
+              <p id="descripcionResultadoConjunto" class="text-xs text-slate-300 mt-1 leading-relaxed"></p>
+            </div>
+
+            <!-- CAJAS DE AUTORIZACIÓN PARALELAS -->
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="bg-black/45 border border-cyan-500/25 rounded-2xl p-3 text-center space-y-1 shadow-inner">
+                <span id="lblSugConjuntoDiesel" class="text-[10px] text-cyan-300 font-bold uppercase tracking-wider block">⛽ Autorizar Diésel</span>
+                <div id="valSugConjuntoDiesel" class="text-xl sm:text-2xl font-black font-mono tracking-tight text-white">--</div>
+                <span id="detSugConjuntoDiesel" class="text-[10px] text-slate-300 block font-mono">--</span>
+              </div>
+              <div class="bg-black/45 border border-sky-500/25 rounded-2xl p-3 text-center space-y-1 shadow-inner">
+                <span id="lblSugConjuntoAdblue" class="text-[10px] text-sky-300 font-bold uppercase tracking-wider block">💧 Autorizar AdBlue</span>
+                <div id="valSugConjuntoAdblue" class="text-xl sm:text-2xl font-black font-mono tracking-tight text-white">--</div>
+                <span id="detSugConjuntoAdblue" class="text-[10px] text-slate-300 block font-mono">--</span>
+              </div>
+            </div>
+
+            <!-- TABLA COMPARATIVA DIÉSEL VS ADBLUE -->
+            <div class="border-t border-white/10 pt-3">
+              <table class="w-full text-[11px]">
+                <thead>
+                  <tr class="text-slate-400 border-b border-white/10 font-mono">
+                    <th class="py-1.5 text-left font-medium">Balance Ruta</th>
+                    <th class="py-1.5 text-right text-cyan-300 font-bold">⛽ Diésel</th>
+                    <th class="py-1.5 text-right text-sky-300 font-bold">💧 AdBlue</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5 font-mono">
+                  <tr>
+                    <td class="py-1.5 text-slate-400 font-sans">Autonomía Útil</td>
+                    <td id="tblConjAutonDiesel" class="py-1.5 text-right text-white font-bold">-- km</td>
+                    <td id="tblConjAutonAdblue" class="py-1.5 text-right text-white font-bold">-- km</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 text-slate-400 font-sans">Consumo Ruta</td>
+                    <td id="tblConjReqDiesel" class="py-1.5 text-right text-slate-200">-- L</td>
+                    <td id="tblConjReqAdblue" class="py-1.5 text-right text-slate-200">-- L</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 text-slate-400 font-sans">Reserva Intocable</td>
+                    <td class="py-1.5 text-right text-amber-400 font-bold">20 L</td>
+                    <td class="py-1.5 text-right text-sky-400 font-bold">10 L</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 text-slate-400 font-sans">Proyectado Base</td>
+                    <td id="tblConjLlegDiesel" class="py-1.5 text-right font-bold">-- L</td>
+                    <td id="tblConjLlegAdblue" class="py-1.5 text-right font-bold">-- L</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- BOTONES DE ACCIÓN CONJUNTO -->
+            <div class="space-y-2 pt-1">
+              <button type="button" onclick="copiarReporteWhatsAppConjunto()" class="w-full py-2.5 px-4 bg-gradient-to-r from-emerald-600 to-sky-600 hover:from-emerald-500 hover:to-sky-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg cursor-pointer">
+                <span>📲</span>
+                <span>Copiar Reporte Conjunto (Diésel + AdBlue)</span>
+              </button>
+              <button type="button" id="btnGuardarBitacoraConjunto" onclick="guardarEnBitacoraConjunto()" class="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <span id="textoBtnBitacoraConjunto">📋 Guardar en Bitácora Conjunta</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- DOBLE MEDIDOR VISUAL (DIÉSEL + ADBLUE APILADOS) -->
+          <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3.5">
+            <span class="font-bold uppercase tracking-wider text-xs text-slate-300 flex items-center gap-1.5">
+              <span>📊</span> Comparativa Visual de Estanques
+            </span>
+
+            <!-- BARRA DIÉSEL -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px] font-mono">
+                <span class="text-cyan-400 font-bold">⛽ Diésel</span>
+                <span id="gaugeConjuntoDieselText" class="text-slate-400">262.5 / 750 L</span>
+              </div>
+              <div class="relative w-full h-9 bg-slate-950 border border-slate-800 rounded-lg overflow-hidden p-0.5 flex items-center">
+                <div id="marcaReservaConjuntoDiesel" class="absolute top-0 bottom-0 left-0 bg-rose-500/20 border-r-2 border-rose-500 z-10" style="width: 2.67%;"></div>
+                <div id="marcadorLlegadaConjuntoDiesel" class="absolute top-0 bottom-0 border-r-2 border-dashed border-amber-400 z-20 hidden" style="left: 0%;"></div>
+                <div id="barraConjuntoDiesel" class="h-full rounded-md transition-all duration-300 flex items-center justify-end pr-2" style="width: 35%;">
+                  <span id="barraConjuntoDieselPct" class="text-[11px] font-black font-mono text-slate-950">35%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- BARRA ADBLUE -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px] font-mono">
+                <span class="text-sky-400 font-bold">💧 AdBlue (SCR)</span>
+                <span id="gaugeConjuntoAdblueText" class="text-slate-400">24.5 / 70 L</span>
+              </div>
+              <div class="relative w-full h-9 bg-slate-950 border border-slate-800 rounded-lg overflow-hidden p-0.5 flex items-center">
+                <div id="marcaReservaConjuntoAdblue" class="absolute top-0 bottom-0 left-0 bg-rose-500/20 border-r-2 border-rose-500 z-10" style="width: 14.28%;"></div>
+                <div id="marcadorLlegadaConjuntoAdblue" class="absolute top-0 bottom-0 border-r-2 border-dashed border-amber-400 z-20 hidden" style="left: 0%;"></div>
+                <div id="barraConjuntoAdblue" class="h-full rounded-md transition-all duration-300 flex items-center justify-end pr-2" style="width: 35%;">
+                  <span id="barraConjuntoAdbluePct" class="text-[11px] font-black font-mono text-slate-950">35%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -950,6 +1203,44 @@
           <tbody id="tablaBitacoraAdblue" class="divide-y divide-slate-800/60 text-slate-300">
             <tr>
               <td colspan="9" class="text-center py-6 text-slate-500 italic">No hay consultas AdBlue registradas en este turno.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BITÁCORA DEL TURNO CHEQUEO CONJUNTO (LOCAL + CSV) -->
+    <div id="seccionBitacoraConjunto" class="hidden bg-[#0f172a] border border-indigo-500/25 rounded-2xl p-5 shadow-xl space-y-3">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-300">Bitácora de Chequeos Conjuntos (Diésel + AdBlue)</span>
+          <span id="contadorBitacoraConjunto" class="text-[11px] bg-slate-800 text-indigo-300 border border-slate-700 px-2.5 py-0.5 rounded-full font-mono font-semibold">0 registros</span>
+          <span class="text-[10px] bg-indigo-500/10 text-indigo-300 border border-indigo-400/30 px-2.5 py-0.5 rounded-full font-mono">Respaldo Local + CSV</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="exportarBitacoraConjuntoCsv()" class="text-[11px] bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-400/30 px-2.5 py-1 rounded-lg font-semibold transition-colors cursor-pointer">📥 Exportar CSV Conjunto</button>
+          <button type="button" onclick="limpiarBitacoraConjunto()" class="text-[11px] text-slate-400 hover:text-rose-400 px-2 py-1 transition-colors cursor-pointer">Limpiar historial</button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="text-slate-400 border-b border-slate-800 pb-2 font-mono text-[11px] uppercase">
+              <th class="py-2.5 px-2">Hora</th>
+              <th class="py-2.5 px-2">Unidad / Gen.</th>
+              <th class="py-2.5 px-2">Chofer</th>
+              <th class="py-2.5 px-2 text-right">⛽ Tablero</th>
+              <th class="py-2.5 px-2 text-right">💧 Tablero</th>
+              <th class="py-2.5 px-2">Destino / Ruta</th>
+              <th class="py-2.5 px-2 text-center">Estado Global</th>
+              <th class="py-2.5 px-2 text-right">Autorización Dual</th>
+              <th class="py-2.5 px-2 text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaBitacoraConjunto" class="divide-y divide-slate-800/60 text-slate-300">
+            <tr>
+              <td colspan="9" class="text-center py-6 text-slate-500 italic">No hay chequeos conjuntos registrados en este turno.</td>
             </tr>
           </tbody>
         </table>
@@ -1245,12 +1536,18 @@
       if (pillCap && typeof modoSimuladorActivo !== "undefined" && modoSimuladorActivo === "diesel") {
         pillCap.textContent = litros + " L";
       }
+      const conjCapD = document.getElementById("inputConjuntoCapDiesel");
+      if (conjCapD) conjCapD.value = litros;
       recalcular();
+      if (typeof recalcularConjunto === "function") recalcularConjunto();
     }
 
-    // Input directo de porcentaje por teclado
+    // Input directo de porcentaje por teclado (sincronizado con Chequeo Conjunto)
     inputPorcentajeDirecto.addEventListener('input', () => {
+      const conjPctD = document.getElementById('inputConjuntoPctDiesel');
+      if (conjPctD) conjPctD.value = inputPorcentajeDirecto.value;
       recalcular();
+      if (typeof recalcularConjunto === 'function') recalcularConjunto();
     });
 
     function setModoTrayecto(modo) {
@@ -1268,6 +1565,7 @@
       } else if (inputKmBase.value) {
         recalcular();
         recalcularAdblue();
+        recalcularConjunto();
       }
     }
 
@@ -1282,6 +1580,7 @@
       labelDistanciaRef.textContent = modoTrayecto === 'ida' ? km + ' km (Solo Retorno)' : km + ' km (Ida y Vuelta)';
       recalcular();
       recalcularAdblue();
+      recalcularConjunto();
     }
 
     function setRutaRapida(kmIda, nombre) {
@@ -1362,7 +1661,7 @@
         const choferHtml = resaltarCoincidencia(u.chofer, query);
 
         const scrPerf = typeof obtenerPerfilScrUnidad === "function" ? obtenerPerfilScrUnidad(u) : null;
-        const esAdblueMode = typeof modoSimuladorActivo !== "undefined" && modoSimuladorActivo === "adblue";
+        const esAdblueMode = typeof modoSimuladorActivo !== "undefined" && (modoSimuladorActivo === "adblue" || modoSimuladorActivo === "conjunto");
         const badgeGenHtml = scrPerf && scrPerf.calibradoScania
           ? '<span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-sky-500/15 text-sky-300 border border-sky-500/30">' + scrPerf.gen + "</span>"
           : "";
@@ -1422,6 +1721,7 @@
       aplicarPerfilAdblueUnidad(unidad);
       recalcular();
       recalcularAdblue();
+      recalcularConjunto();
     }
 
     function limpiarBuscadorUnidad(abrirLista = false) {
@@ -1562,7 +1862,10 @@
 
     inputCapacidad.addEventListener('input', (e) => {
       capacidadActual = parseFloat(e.target.value) || 750;
+      const conjCapD = document.getElementById('inputConjuntoCapDiesel');
+      if (conjCapD) conjCapD.value = e.target.value;
       recalcular();
+      if (typeof recalcularConjunto === 'function') recalcularConjunto();
     });
 
     inputRendimiento.addEventListener('input', recalcular);
@@ -1570,6 +1873,7 @@
       labelDistanciaRef.textContent = 'Personalizado (' + (inputKmBase.value || 0) + ' km)';
       recalcular();
       recalcularAdblue();
+      recalcularConjunto();
     });
 
     // MOTOR MATEMÁTICO Y DIAGNÓSTICO
@@ -2250,35 +2554,54 @@
     const inputPorcentajeAdblue = document.getElementById('inputPorcentajeAdblue');
 
     function cambiarModoSimulador(modo) {
-      modoSimuladorActivo = modo === 'adblue' ? 'adblue' : 'diesel';
+      modoSimuladorActivo = (modo === 'adblue' || modo === 'conjunto') ? modo : 'diesel';
+      const esDiesel = modoSimuladorActivo === 'diesel';
       const esAdblue = modoSimuladorActivo === 'adblue';
+      const esConjunto = modoSimuladorActivo === 'conjunto';
 
       const tabDiesel = document.getElementById('tabBtnDiesel');
       const tabAdblue = document.getElementById('tabBtnAdblue');
+      const tabConjunto = document.getElementById('tabBtnConjunto');
       const bannerTct = document.getElementById('bannerPoliticaTct');
       const bannerAdblue = document.getElementById('bannerPoliticaAdblue');
+      const bannerConjunto = document.getElementById('bannerPoliticaConjunto');
       const panelConfigDiesel = document.getElementById('panelConfigDiesel');
       const panelConfigAdblue = document.getElementById('panelConfigAdblue');
+      const panelConfigConjunto = document.getElementById('panelConfigConjunto');
       const cardNivelDiesel = document.getElementById('cardNivelDiesel');
       const cardNivelAdblue = document.getElementById('cardNivelAdblue');
+      const cardNivelConjunto = document.getElementById('cardNivelConjunto');
       const colDerechaDiesel = document.getElementById('colDerechaDiesel');
       const colDerechaAdblue = document.getElementById('colDerechaAdblue');
+      const colDerechaConjunto = document.getElementById('colDerechaConjunto');
       const secBitDiesel = document.getElementById('seccionBitacoraDiesel');
       const secBitAdblue = document.getElementById('seccionBitacoraAdblue');
+      const secBitConjunto = document.getElementById('seccionBitacoraConjunto');
       const headerBadge = document.getElementById('headerReservaBadge');
       const headerDot = document.getElementById('headerReservaDot');
       const headerTexto = document.getElementById('headerReservaTexto');
       const pillCap = document.getElementById('pillCapacidad');
 
+      const tabInactivo = 'px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white hover:bg-slate-900 whitespace-nowrap';
+      tabDiesel.className = esDiesel
+        ? 'px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 shadow-lg shadow-cyan-950/60 whitespace-nowrap'
+        : tabInactivo;
+      tabAdblue.className = esAdblue
+        ? 'px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-gradient-to-r from-blue-600 to-sky-500 text-white shadow-lg shadow-blue-950/60 whitespace-nowrap'
+        : tabInactivo;
+      tabConjunto.className = esConjunto
+        ? 'px-3 sm:px-4 py-2 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-lg shadow-indigo-950/60 whitespace-nowrap'
+        : tabInactivo;
+
       if (esAdblue) {
-        tabAdblue.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs font-extrabold transition-all flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-blue-600 to-sky-500 text-white shadow-lg shadow-blue-950/60';
-        tabDiesel.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-slate-900';
         if (headerBadge) headerBadge.className = 'flex items-center gap-2 text-xs bg-slate-900/90 border border-sky-500/40 px-3.5 py-2 rounded-xl shadow-sm';
         if (headerDot) headerDot.className = 'w-2 h-2 rounded-full bg-sky-400 animate-pulse';
         if (headerTexto) headerTexto.innerHTML = 'Reserva Anti-Derate: <strong class="text-sky-400 font-mono">10 Litros</strong>';
+      } else if (esConjunto) {
+        if (headerBadge) headerBadge.className = 'flex items-center gap-2 text-xs bg-slate-900/90 border border-indigo-500/40 px-3.5 py-2 rounded-xl shadow-sm';
+        if (headerDot) headerDot.className = 'w-2 h-2 rounded-full bg-indigo-400 animate-pulse';
+        if (headerTexto) headerTexto.innerHTML = 'Reservas: <strong class="text-amber-400 font-mono">20 L</strong> · <strong class="text-sky-400 font-mono">10 L SCR</strong>';
       } else {
-        tabDiesel.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs font-extrabold transition-all flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 shadow-lg shadow-cyan-950/60';
-        tabAdblue.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-300 hover:text-white hover:bg-slate-900';
         if (headerBadge) headerBadge.className = 'flex items-center gap-2 text-xs bg-slate-900/90 border border-slate-800 px-3.5 py-2 rounded-xl shadow-sm';
         if (headerDot) headerDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
         if (headerTexto) headerTexto.innerHTML = 'Reserva de Fondo: <strong class="text-amber-400 font-mono">20 Litros</strong>';
@@ -2288,19 +2611,29 @@
         }
       }
 
-      bannerTct.classList.toggle('hidden', esAdblue);
+      bannerTct.classList.toggle('hidden', !esDiesel);
       bannerAdblue.classList.toggle('hidden', !esAdblue);
-      panelConfigDiesel.classList.toggle('hidden', esAdblue);
+      bannerConjunto.classList.toggle('hidden', !esConjunto);
+
+      panelConfigDiesel.classList.toggle('hidden', !esDiesel);
       panelConfigAdblue.classList.toggle('hidden', !esAdblue);
-      cardNivelDiesel.classList.toggle('hidden', esAdblue);
+      panelConfigConjunto.classList.toggle('hidden', !esConjunto);
+
+      cardNivelDiesel.classList.toggle('hidden', !esDiesel);
       cardNivelAdblue.classList.toggle('hidden', !esAdblue);
-      colDerechaDiesel.classList.toggle('hidden', esAdblue);
+      cardNivelConjunto.classList.toggle('hidden', !esConjunto);
+
+      colDerechaDiesel.classList.toggle('hidden', !esDiesel);
       colDerechaAdblue.classList.toggle('hidden', !esAdblue);
-      secBitDiesel.classList.toggle('hidden', esAdblue);
+      colDerechaConjunto.classList.toggle('hidden', !esConjunto);
+
+      secBitDiesel.classList.toggle('hidden', !esDiesel);
       secBitAdblue.classList.toggle('hidden', !esAdblue);
+      secBitConjunto.classList.toggle('hidden', !esConjunto);
 
       recalcular();
       recalcularAdblue();
+      recalcularConjunto();
     }
 
     function actualizarBotonesPills(idsValores, valorActual) {
@@ -2332,28 +2665,53 @@
       });
     }
 
+    function sincronizarCamposAConjunto() {
+      const m = {
+        inputConjuntoCapDiesel: inputCapacidad.value,
+        inputConjuntoPctDiesel: inputPorcentajeDirecto.value,
+        inputConjuntoRendDiesel: inputRendimientoAdblue.value,
+        inputConjuntoCapAdblue: inputCapacidadAdblue.value,
+        inputConjuntoPctAdblue: inputPorcentajeAdblue.value,
+        inputConjuntoRBase: inputRBaseAdblue.value,
+        inputConjuntoFCarga: inputFCargaAdblue.value,
+        inputConjuntoFNox: inputFNoxAdblue.value
+      };
+      Object.entries(m).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+      });
+    }
+
     function setCapacidadAdblue(litros) {
       inputCapacidadAdblue.value = litros;
       actualizarBotonesCapacidadAdblue(litros);
+      sincronizarCamposAConjunto();
       recalcularAdblue();
+      if (typeof recalcularConjunto === 'function') recalcularConjunto();
     }
 
     function setRBaseAdblue(val) {
       inputRBaseAdblue.value = val;
       actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], val);
+      sincronizarCamposAConjunto();
       recalcularAdblue();
+      if (typeof recalcularConjunto === 'function') recalcularConjunto();
     }
 
     function setFCargaAdblue(val) {
       inputFCargaAdblue.value = val.toFixed(2);
       actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], val);
+      sincronizarCamposAConjunto();
       recalcularAdblue();
+      if (typeof recalcularConjunto === 'function') recalcularConjunto();
     }
 
     function setFNoxAdblue(val) {
       inputFNoxAdblue.value = val.toFixed(2);
       actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], val);
+      sincronizarCamposAConjunto();
       recalcularAdblue();
+      if (typeof recalcularConjunto === 'function') recalcularConjunto();
     }
 
     function aplicarPresetGeneracionAdblue(genKey) {
@@ -2375,7 +2733,9 @@
         pillScr.textContent = 'Preset Scania ' + perf.gen + ' · ' + perf.capAdblue + ' L · ' + perf.rBase + '% SCR';
         pillScr.className = 'text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
       }
+      sincronizarCamposAConjunto();
       recalcularAdblue();
+      if (typeof recalcularConjunto === 'function') recalcularConjunto();
     }
 
     function restaurarEstandarTrcAdblue() {
@@ -2394,7 +2754,9 @@
         pillScr.textContent = 'Estándar TRC 70 L · 6.0% SCR';
         pillScr.className = 'text-[10px] bg-sky-500/15 text-sky-300 border border-sky-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
       }
+      sincronizarCamposAConjunto();
       recalcularAdblue();
+      if (typeof recalcularConjunto === 'function') recalcularConjunto();
     }
 
     function aplicarPerfilAdblueUnidad(unidad) {
@@ -2428,6 +2790,7 @@
           pillScr.className = 'text-[10px] bg-amber-500/15 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full font-mono font-semibold';
         }
       }
+      sincronizarCamposAConjunto();
     }
 
     function formatearBidonesAdblue(litros) {
@@ -2444,7 +2807,9 @@
         actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], parseFloat(inputRBaseAdblue.value) || 0);
         actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], parseFloat(inputFCargaAdblue.value) || 0);
         actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], parseFloat(inputFNoxAdblue.value) || 0);
+        sincronizarCamposAConjunto();
         recalcularAdblue();
+        if (typeof recalcularConjunto === 'function') recalcularConjunto();
       });
     });
 
@@ -2815,11 +3180,603 @@
       link.click();
     }
 
+    // =========================================================================
+    // MÓDULO CHEQUEO CONJUNTO (DIÉSEL + ADBLUE SCR EN PARALELO)
+    // =========================================================================
+    const STORAGE_KEY_CONJUNTO = 'TRC_CONJUNTO_BITACORA_V1';
+    let bitacoraConjunto = [];
+
+    function evaluarDieselCore({ cap, rend, pct, kmBase }) {
+      const litrosActuales = (cap * pct) / 100;
+      const litrosUtiles = Math.max(0, litrosActuales - RESERVA_LITROS);
+      const autonomiaSeguraKm = litrosUtiles * rend;
+      const autonomiaBrutaKm = litrosActuales * rend;
+      if (!kmBase || kmBase <= 0) {
+        return {
+          status: 'LIBRE',
+          litrosActuales,
+          litrosUtiles,
+          autonomiaSeguraKm,
+          autonomiaBrutaKm,
+          litrosRequeridos: 0,
+          litrosLlegada: litrosActuales,
+          litrosAutorizar: 0,
+          excedeCapacidad: false,
+          kmFaltan: 0,
+          badgeText: 'ℹ️ Autonomía Libre',
+          sugerenciaTxt: Math.round(autonomiaBrutaKm).toLocaleString('es-CL') + ' KM'
+        };
+      }
+      const litrosRequeridos = kmBase / rend;
+      const litrosLlegada = litrosActuales - litrosRequeridos;
+      if (litrosLlegada >= RESERVA_LITROS) {
+        return {
+          status: 'VERDE',
+          litrosActuales,
+          litrosUtiles,
+          autonomiaSeguraKm,
+          autonomiaBrutaKm,
+          litrosRequeridos,
+          litrosLlegada,
+          litrosAutorizar: 0,
+          excedeCapacidad: false,
+          kmFaltan: 0,
+          badgeText: '✅ Retorno Seguro',
+          sugerenciaTxt: '0 LITROS'
+        };
+      }
+      if (litrosLlegada >= 0) {
+        const sugerido = Math.min(Math.ceil(RESERVA_LITROS - litrosLlegada), Math.floor(Math.max(0, cap - litrosActuales)));
+        return {
+          status: 'AMARILLO',
+          litrosActuales,
+          litrosUtiles,
+          autonomiaSeguraKm,
+          autonomiaBrutaKm,
+          litrosRequeridos,
+          litrosLlegada,
+          litrosAutorizar: sugerido,
+          excedeCapacidad: false,
+          kmFaltan: 0,
+          badgeText: '⚠️ En Reserva (20 L)',
+          sugerenciaTxt: sugerido + ' L (Prev.)'
+        };
+      }
+      const faltantes = (litrosRequeridos + RESERVA_LITROS) - litrosActuales;
+      const espacio = Math.max(0, cap - litrosActuales);
+      const autorizar = Math.min(Math.ceil(faltantes), Math.floor(espacio));
+      return {
+        status: 'ROJO',
+        litrosActuales,
+        litrosUtiles,
+        autonomiaSeguraKm,
+        autonomiaBrutaKm,
+        litrosRequeridos,
+        litrosLlegada,
+        litrosAutorizar: autorizar,
+        excedeCapacidad: faltantes > espacio,
+        kmFaltan: Math.max(0, Math.round(kmBase - autonomiaBrutaKm)),
+        badgeText: '🚨 Déficit Diésel',
+        sugerenciaTxt: autorizar + ' LITROS'
+      };
+    }
+
+    function evaluarAdblueCore({ cap, rendDiesel, rBasePct, fCarga, fNox, pct, kmBase }) {
+      const cDiesel = 1 / rendDiesel;
+      const tasaEfectiva = (rBasePct / 100) * fCarga * fNox;
+      const cAdblue = cDiesel * tasaEfectiva;
+      const litrosActuales = (cap * pct) / 100;
+      const litrosUtiles = Math.max(0, litrosActuales - ADBLUE_RESERVA_LITROS);
+      const autonomiaSeguraKm = litrosUtiles / cAdblue;
+      const autonomiaBrutaKm = litrosActuales / cAdblue;
+      if (!kmBase || kmBase <= 0) {
+        return {
+          status: 'LIBRE',
+          cAdblue,
+          tasaEfectiva,
+          litrosActuales,
+          litrosUtiles,
+          autonomiaSeguraKm,
+          autonomiaBrutaKm,
+          litrosRequeridos: 0,
+          litrosLlegada: litrosActuales,
+          litrosAutorizar: 0,
+          excedeCapacidad: false,
+          kmFaltanAgotar: 0,
+          kmFaltanDerate: 0,
+          badgeText: 'ℹ️ SCR Libre',
+          sugerenciaTxt: Math.round(autonomiaSeguraKm).toLocaleString('es-CL') + ' KM',
+          bidonesTxt: ''
+        };
+      }
+      const litrosRequeridos = kmBase * cAdblue;
+      const litrosLlegada = litrosActuales - litrosRequeridos;
+      if (litrosLlegada >= ADBLUE_RESERVA_LITROS) {
+        return {
+          status: 'VERDE',
+          cAdblue,
+          tasaEfectiva,
+          litrosActuales,
+          litrosUtiles,
+          autonomiaSeguraKm,
+          autonomiaBrutaKm,
+          litrosRequeridos,
+          litrosLlegada,
+          litrosAutorizar: 0,
+          excedeCapacidad: false,
+          kmFaltanAgotar: 0,
+          kmFaltanDerate: 0,
+          badgeText: '✅ SCR Seguro',
+          sugerenciaTxt: '0 LITROS',
+          bidonesTxt: ''
+        };
+      }
+      if (litrosLlegada >= 0) {
+        const sugerido = Math.min(Math.ceil(ADBLUE_RESERVA_LITROS - litrosLlegada), Math.floor(Math.max(0, cap - litrosActuales)));
+        return {
+          status: 'AMARILLO',
+          cAdblue,
+          tasaEfectiva,
+          litrosActuales,
+          litrosUtiles,
+          autonomiaSeguraKm,
+          autonomiaBrutaKm,
+          litrosRequeridos,
+          litrosLlegada,
+          litrosAutorizar: sugerido,
+          excedeCapacidad: false,
+          kmFaltanAgotar: 0,
+          kmFaltanDerate: 0,
+          badgeText: '⚠️ Zona Derate (10 L)',
+          sugerenciaTxt: sugerido + ' L (Prev.)',
+          bidonesTxt: formatearBidonesAdblue(sugerido)
+        };
+      }
+      const faltantes = (litrosRequeridos + ADBLUE_RESERVA_LITROS) - litrosActuales;
+      const espacio = Math.max(0, cap - litrosActuales);
+      const autorizar = Math.min(Math.ceil(faltantes), Math.floor(espacio));
+      return {
+        status: 'ROJO',
+        cAdblue,
+        tasaEfectiva,
+        litrosActuales,
+        litrosUtiles,
+        autonomiaSeguraKm,
+        autonomiaBrutaKm,
+        litrosRequeridos,
+        litrosLlegada,
+        litrosAutorizar: autorizar,
+        excedeCapacidad: faltantes > espacio,
+        kmFaltanAgotar: Math.max(0, Math.round(kmBase - autonomiaBrutaKm)),
+        kmFaltanDerate: Math.max(0, Math.round(kmBase - autonomiaSeguraKm)),
+        badgeText: '🚨 Déficit SCR',
+        sugerenciaTxt: autorizar + ' LITROS',
+        bidonesTxt: formatearBidonesAdblue(autorizar)
+      };
+    }
+
+    const conjInputs = [
+      'inputConjuntoCapDiesel', 'inputConjuntoRendDiesel', 'inputConjuntoCapAdblue',
+      'inputConjuntoRBase', 'inputConjuntoFCarga', 'inputConjuntoFNox',
+      'inputConjuntoPctDiesel', 'inputConjuntoPctAdblue'
+    ];
+    conjInputs.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', () => {
+        if (id === 'inputConjuntoCapDiesel') {
+          inputCapacidad.value = el.value;
+          capacidadActual = parseFloat(el.value) || 750;
+        }
+        if (id === 'inputConjuntoPctDiesel') inputPorcentajeDirecto.value = el.value;
+        if (id === 'inputConjuntoRendDiesel') inputRendimientoAdblue.value = el.value;
+        if (id === 'inputConjuntoCapAdblue') {
+          inputCapacidadAdblue.value = el.value;
+          actualizarBotonesCapacidadAdblue(parseFloat(el.value) || 0);
+        }
+        if (id === 'inputConjuntoPctAdblue') inputPorcentajeAdblue.value = el.value;
+        if (id === 'inputConjuntoRBase') {
+          inputRBaseAdblue.value = el.value;
+          actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], parseFloat(el.value) || 0);
+        }
+        if (id === 'inputConjuntoFCarga') {
+          inputFCargaAdblue.value = el.value;
+          actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], parseFloat(el.value) || 0);
+        }
+        if (id === 'inputConjuntoFNox') {
+          inputFNoxAdblue.value = el.value;
+          actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], parseFloat(el.value) || 0);
+        }
+        recalcular();
+        recalcularAdblue();
+        recalcularConjunto();
+      });
+    });
+
+    function recalcularConjunto() {
+      const elCapD = document.getElementById('inputConjuntoCapDiesel');
+      if (!elCapD) return;
+      const capD = Math.max(50, parseFloat(elCapD.value) || 750);
+      const rendD = Math.max(0.5, parseFloat(document.getElementById('inputConjuntoRendDiesel').value) || 3.5);
+      const capA = Math.max(15, parseFloat(document.getElementById('inputConjuntoCapAdblue').value) || 70);
+      const rBase = Math.max(0.5, parseFloat(document.getElementById('inputConjuntoRBase').value) || 6.0);
+      const fCarga = Math.max(0.5, parseFloat(document.getElementById('inputConjuntoFCarga').value) || 1.00);
+      const fNox = Math.max(0.5, parseFloat(document.getElementById('inputConjuntoFNox').value) || 1.00);
+      let pctD = parseFloat(document.getElementById('inputConjuntoPctDiesel').value);
+      let pctA = parseFloat(document.getElementById('inputConjuntoPctAdblue').value);
+      pctD = isNaN(pctD) ? 0 : Math.min(100, Math.max(0, pctD));
+      pctA = isNaN(pctA) ? 0 : Math.min(100, Math.max(0, pctA));
+      const kmBase = parseFloat(inputKmBase.value) || 0;
+
+      const d = evaluarDieselCore({ cap: capD, rend: rendD, pct: pctD, kmBase });
+      const a = evaluarAdblueCore({ cap: capA, rendDiesel: rendD, rBasePct: rBase, fCarga, fNox, pct: pctA, kmBase });
+
+      const u = obtenerUnidadActiva();
+      const pillConj = document.getElementById('pillConjuntoUnidad');
+      if (pillConj) {
+        pillConj.textContent = (u.patente !== 'MANUAL' ? u.patente + ' (' + generacionScrActiva + ')' : 'Estándar TRC') + ' · ' + capD + ' L / ' + capA + ' L (' + (a.tasaEfectiva * 100).toFixed(1) + '%)';
+      }
+      const pillCap = document.getElementById('pillCapacidad');
+      if (pillCap && modoSimuladorActivo === 'conjunto') {
+        pillCap.textContent = capD + ' L · SCR ' + capA + ' L';
+        pillCap.className = 'bg-indigo-950/60 border border-indigo-400/35 text-indigo-300 px-2 py-0.5 rounded-md font-mono font-bold';
+      }
+      const badgeStat = document.getElementById('badgeStatusConjunto');
+      if (badgeStat) {
+        badgeStat.innerHTML = '<span class="w-2 h-2 rounded-full bg-indigo-400"></span><span>Diésel ' + rendD.toFixed(2) + ' km/L · SCR ' + (a.tasaEfectiva * 100).toFixed(2) + '%</span>';
+      }
+
+      document.getElementById('conjuntoDieselLitrosLive').textContent = d.litrosActuales.toFixed(1) + ' L';
+      document.getElementById('conjuntoDieselAutonLive').textContent = Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' km útiles';
+      document.getElementById('conjuntoAdblueLitrosLive').textContent = a.litrosActuales.toFixed(1) + ' L';
+      document.getElementById('conjuntoAdblueAutonLive').textContent = Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' km segura';
+
+      // Factor limitante comparando autonomía útil sobre reserva
+      const alertaLim = document.getElementById('alertaLimitanteConjunto');
+      const txtLim = document.getElementById('textoLimitanteConjunto');
+      const diffKm = Math.round(d.autonomiaSeguraKm - a.autonomiaSeguraKm);
+      if (Math.abs(diffKm) <= 50) {
+        alertaLim.className = 'bg-slate-950/90 border border-emerald-500/30 rounded-xl px-3.5 py-2.5 text-xs flex items-center gap-2.5';
+        txtLim.innerHTML = 'Autonomías equilibradas: Diésel útil <strong class="text-cyan-300 font-mono">' + Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' km</strong> vs AdBlue seguro <strong class="text-sky-300 font-mono">' + Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' km</strong>.';
+      } else if (diffKm > 0) {
+        alertaLim.className = 'bg-sky-950/40 border border-sky-500/40 rounded-xl px-3.5 py-2.5 text-xs flex items-center gap-2.5';
+        txtLim.innerHTML = '<strong class="text-sky-300">Factor Limitante: AdBlue SCR</strong> — La urea entra en reserva/derate <strong class="text-white font-mono">' + diffKm.toLocaleString('es-CL') + ' km antes</strong> que el Diésel.';
+      } else {
+        alertaLim.className = 'bg-cyan-950/40 border border-cyan-500/40 rounded-xl px-3.5 py-2.5 text-xs flex items-center gap-2.5';
+        txtLim.innerHTML = '<strong class="text-cyan-300">Factor Limitante: Diésel</strong> — El combustible toca reserva <strong class="text-white font-mono">' + Math.abs(diffKm).toLocaleString('es-CL') + ' km antes</strong> que el AdBlue.';
+      }
+
+      // Dual gauges
+      document.getElementById('gaugeConjuntoDieselText').textContent = d.litrosActuales.toFixed(1) + ' / ' + capD + ' L';
+      document.getElementById('gaugeConjuntoAdblueText').textContent = a.litrosActuales.toFixed(1) + ' / ' + capA + ' L';
+      document.getElementById('marcaReservaConjuntoDiesel').style.width = Math.min(100, (RESERVA_LITROS / capD) * 100) + '%';
+      document.getElementById('marcaReservaConjuntoAdblue').style.width = Math.min(100, (ADBLUE_RESERVA_LITROS / capA) * 100) + '%';
+
+      const bD = document.getElementById('barraConjuntoDiesel');
+      const bDPct = document.getElementById('barraConjuntoDieselPct');
+      bD.style.width = pctD + '%';
+      bDPct.textContent = pctD + '%';
+      bD.className = d.litrosActuales <= RESERVA_LITROS
+        ? 'h-full rounded-md transition-all duration-300 flex items-center justify-end pr-2 bg-rose-600 alerta-peligro'
+        : 'h-full rounded-md transition-all duration-300 flex items-center justify-end pr-2 bg-gradient-to-r from-cyan-500 to-emerald-400';
+      bDPct.className = d.litrosActuales <= RESERVA_LITROS ? 'text-[11px] font-black font-mono text-white' : 'text-[11px] font-black font-mono text-slate-950';
+
+      const bA = document.getElementById('barraConjuntoAdblue');
+      const bAPct = document.getElementById('barraConjuntoAdbluePct');
+      bA.style.width = pctA + '%';
+      bAPct.textContent = pctA + '%';
+      bA.className = a.litrosActuales <= ADBLUE_RESERVA_LITROS
+        ? 'h-full rounded-md transition-all duration-300 flex items-center justify-end pr-2 bg-rose-600 alerta-peligro'
+        : 'h-full rounded-md transition-all duration-300 flex items-center justify-end pr-2 bg-gradient-to-r from-blue-600 to-sky-400';
+      bAPct.className = a.litrosActuales <= ADBLUE_RESERVA_LITROS ? 'text-[11px] font-black font-mono text-white' : 'text-[11px] font-black font-mono text-slate-950';
+
+      const mLD = document.getElementById('marcadorLlegadaConjuntoDiesel');
+      const mLA = document.getElementById('marcadorLlegadaConjuntoAdblue');
+      if (kmBase > 0 && d.litrosLlegada > 0 && d.litrosLlegada <= capD) {
+        mLD.classList.remove('hidden');
+        mLD.style.left = ((d.litrosLlegada / capD) * 100) + '%';
+      } else mLD.classList.add('hidden');
+      if (kmBase > 0 && a.litrosLlegada > 0 && a.litrosLlegada <= capA) {
+        mLA.classList.remove('hidden');
+        mLA.style.left = ((a.litrosLlegada / capA) * 100) + '%';
+      } else mLA.classList.add('hidden');
+
+      // Table values
+      document.getElementById('tblConjAutonDiesel').textContent = Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' km';
+      document.getElementById('tblConjAutonAdblue').textContent = Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' km';
+
+      const lblD = document.getElementById('lblSugConjuntoDiesel');
+      const lblA = document.getElementById('lblSugConjuntoAdblue');
+      const valD = document.getElementById('valSugConjuntoDiesel');
+      const detD = document.getElementById('detSugConjuntoDiesel');
+      const valA = document.getElementById('valSugConjuntoAdblue');
+      const detA = document.getElementById('detSugConjuntoAdblue');
+      const card = document.getElementById('cardResultadoConjunto');
+      const badge = document.getElementById('badgeEstadoConjunto');
+      const tit = document.getElementById('tituloResultadoConjunto');
+      const desc = document.getElementById('descripcionResultadoConjunto');
+
+      if (!kmBase || kmBase <= 0) {
+        if (lblD) lblD.textContent = '⛽ Autonomía Útil Diésel';
+        if (lblA) lblA.textContent = '💧 Autonomía Segura SCR';
+        card.className = 'border border-indigo-500/40 bg-gradient-to-br from-[#0e1738] to-slate-900/95 rounded-2xl p-5 shadow-2xl space-y-4';
+        badge.className = 'bg-indigo-500/20 text-indigo-300 border border-indigo-400/35 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap';
+        badge.innerHTML = '<span>ℹ️</span> Autonomía Dual Libre';
+        tit.textContent = 'Alcance Útil: Diésel ' + Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' km · AdBlue ' + Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' km';
+        desc.textContent = 'Ingresa un destino o distancia en el bloque 3 para calcular exactamente cuánto Diésel y AdBlue autorizar.';
+        valD.textContent = Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' KM';
+        valD.className = 'text-xl sm:text-2xl font-black font-mono tracking-tight text-cyan-400';
+        detD.textContent = d.litrosActuales.toFixed(1) + ' L (' + d.litrosUtiles.toFixed(1) + ' L útiles)';
+        valA.textContent = Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' KM';
+        valA.className = 'text-xl sm:text-2xl font-black font-mono tracking-tight text-sky-400';
+        detA.textContent = a.litrosActuales.toFixed(1) + ' L (' + a.litrosUtiles.toFixed(1) + ' L útiles)';
+        document.getElementById('tblConjReqDiesel').textContent = '-- L';
+        document.getElementById('tblConjReqAdblue').textContent = '-- L';
+        document.getElementById('tblConjLlegDiesel').textContent = '-- L';
+        document.getElementById('tblConjLlegAdblue').textContent = '-- L';
+        return;
+      }
+      if (lblD) lblD.textContent = '⛽ Autorizar Diésel';
+      if (lblA) lblA.textContent = '💧 Autorizar AdBlue';
+
+      document.getElementById('tblConjReqDiesel').textContent = d.litrosRequeridos.toFixed(1) + ' L';
+      document.getElementById('tblConjReqAdblue').textContent = a.litrosRequeridos.toFixed(1) + ' L';
+
+      const tblLlegD = document.getElementById('tblConjLlegDiesel');
+      const tblLlegA = document.getElementById('tblConjLlegAdblue');
+      tblLlegD.textContent = d.litrosLlegada >= 0 ? d.litrosLlegada.toFixed(1) + ' L' : '0.0 L (-' + d.kmFaltan + ' km)';
+      tblLlegA.textContent = a.litrosLlegada >= 0 ? a.litrosLlegada.toFixed(1) + ' L' : '0.0 L (-' + a.kmFaltanAgotar + ' km)';
+      tblLlegD.className = d.status === 'VERDE' ? 'py-1.5 text-right font-bold text-emerald-400' : (d.status === 'AMARILLO' ? 'py-1.5 text-right font-bold text-amber-400' : 'py-1.5 text-right font-bold text-rose-400');
+      tblLlegA.className = a.status === 'VERDE' ? 'py-1.5 text-right font-bold text-emerald-400' : (a.status === 'AMARILLO' ? 'py-1.5 text-right font-bold text-amber-400' : 'py-1.5 text-right font-bold text-rose-400');
+
+      valD.textContent = d.sugerenciaTxt;
+      valD.className = 'text-xl sm:text-2xl font-black font-mono tracking-tight ' + (d.status === 'VERDE' ? 'text-emerald-400' : (d.status === 'AMARILLO' ? 'text-amber-400' : 'text-rose-400'));
+      detD.textContent = d.status === 'VERDE' ? 'Llega con ' + d.litrosLlegada.toFixed(1) + ' L' : (d.status === 'AMARILLO' ? 'Invade reserva 20 L' : 'Se agota ' + d.kmFaltan + ' km antes');
+
+      valA.textContent = a.sugerenciaTxt;
+      valA.className = 'text-xl sm:text-2xl font-black font-mono tracking-tight ' + (a.status === 'VERDE' ? 'text-emerald-400' : (a.status === 'AMARILLO' ? 'text-amber-400' : 'text-rose-400'));
+      detA.textContent = a.status === 'VERDE'
+        ? 'Llega con ' + a.litrosLlegada.toFixed(1) + ' L'
+        : (a.litrosAutorizar <= 0 ? 'Estanque lleno hoy' : (a.litrosAutorizar <= 10 ? '1 bidón 10 L / surtidor' : (a.litrosAutorizar <= 20 ? '1 bidón 20 L / surtidor' : Math.ceil(a.litrosAutorizar / 20) + ' bidones 20 L')));
+
+      const prioridad = { VERDE: 0, AMARILLO: 1, ROJO: 2 };
+      const peor = Math.max(prioridad[d.status] || 0, prioridad[a.status] || 0);
+      if (peor === 0) {
+        card.className = 'border border-emerald-500/50 bg-gradient-to-br from-emerald-950/60 to-slate-900/90 rounded-2xl p-5 shadow-2xl space-y-4';
+        badge.className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap';
+        badge.innerHTML = '<span>✅</span> Retorno Seguro (Ambos Estanques)';
+        tit.textContent = 'Sin Carga Requerida — Diésel y AdBlue OK';
+        desc.textContent = 'Para ' + kmBase.toLocaleString('es-CL') + ' km el camión llega sobre reserva en ambos estanques (' + d.litrosLlegada.toFixed(1) + ' L Diésel y ' + a.litrosLlegada.toFixed(1) + ' L AdBlue).';
+      } else if (peor === 1) {
+        card.className = 'border border-amber-500/50 bg-gradient-to-br from-amber-950/60 to-slate-900/90 rounded-2xl p-5 shadow-2xl space-y-4';
+        badge.className = 'bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap';
+        badge.innerHTML = '<span>⚠️</span> Alerta Preventiva de Reserva';
+        if (d.status === 'VERDE' && a.status !== 'VERDE') {
+          tit.textContent = 'Diésel OK, pero AdBlue en Zona Anti-Derate';
+          desc.textContent = 'El petróleo alcanza para retornar, pero la urea bajaría a ' + a.litrosLlegada.toFixed(1) + ' L (< 10 L). Se recomienda cargar ' + a.litrosAutorizar + ' L de AdBlue.';
+        } else if (a.status === 'VERDE' && d.status !== 'VERDE') {
+          tit.textContent = 'AdBlue OK, pero Diésel en Zona de Reserva';
+          desc.textContent = 'El AdBlue alcanza sin problemas, pero el diésel bajaría a ' + d.litrosLlegada.toFixed(1) + ' L (< 20 L).';
+        } else {
+          tit.textContent = 'Ambos Estanques Ingresan en Zona de Reserva';
+          desc.textContent = 'Carga preventiva sugerida: ' + d.litrosAutorizar + ' L Diésel y ' + a.litrosAutorizar + ' L AdBlue.';
+        }
+      } else {
+        card.className = 'border border-rose-500/60 bg-gradient-to-br from-rose-950/70 to-slate-900/95 rounded-2xl p-5 shadow-2xl space-y-4';
+        badge.className = 'bg-rose-500/25 text-rose-300 border border-rose-500/40 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 alerta-peligro whitespace-nowrap';
+        badge.innerHTML = '<span>🚨</span> Carga Obligatoria en Ruta';
+        if (d.status === 'VERDE' && a.status === 'ROJO') {
+          tit.textContent = '⚠️ Diésel Suficiente, pero Falla por AdBlue!';
+          desc.textContent = 'El camión tiene Diésel para llegar (' + d.litrosLlegada.toFixed(1) + ' L al llegar), pero se quedará sin AdBlue ~' + a.kmFaltanAgotar + ' km antes de la base. Autorizar ' + a.litrosAutorizar + ' L de AdBlue.';
+        } else if (a.status === 'VERDE' && d.status === 'ROJO') {
+          tit.textContent = 'AdBlue OK — Déficit Crítico de Diésel';
+          desc.textContent = 'El estanque de AdBlue alcanza (' + a.litrosLlegada.toFixed(1) + ' L al llegar), pero requiere ' + d.litrosAutorizar + ' L de Diésel para no quedar en pana.';
+        } else {
+          tit.textContent = 'Déficit Conjunto: Cargar Diésel + AdBlue';
+          desc.textContent = 'Requiere recarga obligatoria en ruta de ' + d.litrosAutorizar + ' L Diésel y ' + a.litrosAutorizar + ' L AdBlue para retornar protegido.';
+        }
+      }
+    }
+
+    function copiarReporteWhatsAppConjunto() {
+      const u = obtenerUnidadActiva();
+      const capD = parseFloat(document.getElementById('inputConjuntoCapDiesel').value) || 750;
+      const rendD = parseFloat(document.getElementById('inputConjuntoRendDiesel').value) || 3.5;
+      const pctD = parseFloat(document.getElementById('inputConjuntoPctDiesel').value) || 0;
+      const capA = parseFloat(document.getElementById('inputConjuntoCapAdblue').value) || 70;
+      const rBase = parseFloat(document.getElementById('inputConjuntoRBase').value) || 6.0;
+      const fCarga = parseFloat(document.getElementById('inputConjuntoFCarga').value) || 1.00;
+      const fNox = parseFloat(document.getElementById('inputConjuntoFNox').value) || 1.00;
+      const pctA = parseFloat(document.getElementById('inputConjuntoPctAdblue').value) || 0;
+      const kmBase = parseFloat(inputKmBase.value) || 0;
+      const destinoTxt = obtenerNombreDestinoActual();
+      const genTag = generacionScrActiva !== 'GENERICO' ? ' · Gen. ' + generacionScrActiva : '';
+
+      const d = evaluarDieselCore({ cap: capD, rend: rendD, pct: pctD, kmBase });
+      const a = evaluarAdblueCore({ cap: capA, rendDiesel: rendD, rBasePct: rBase, fCarga, fNox, pct: pctA, kmBase });
+
+      guardarEnBitacoraConjunto('WHATSAPP', true);
+
+      const texto =
+'🚛💧 *TRC - CHEQUEO CONJUNTO (DIÉSEL + ADBLUE)*\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+'• *Unidad:* ' + u.patente + ' (' + (u.marca || 'SCANIA') + ' ' + (u.modelo || '') + genTag + ')\n' +
+'• *Chofer:* ' + u.chofer + '\n' +
+'• *Trayecto / Destino:* ' + destinoTxt + '\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+'⛽ *DIÉSEL:* ' + pctD + '% (' + d.litrosActuales.toFixed(1) + ' / ' + capD + ' L | ' + rendD + ' km/L)\n' +
+'➜ Estado: ' + d.badgeText + '\n' +
+'➜ *Autorizar Diésel:* *' + d.sugerenciaTxt + '*\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+'💧 *ADBLUE (SCR):* ' + pctA + '% (' + a.litrosActuales.toFixed(1) + ' / ' + capA + ' L | Tasa ' + (a.tasaEfectiva * 100).toFixed(2) + '%)\n' +
+'➜ Estado: ' + a.badgeText + '\n' +
+'➜ *Autorizar AdBlue:* *' + a.sugerenciaTxt + '*' + (a.bidonesTxt ? ' (' + a.bidonesTxt + ')' : '') + '\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+'🎯 *RESUMEN:* *' + d.sugerenciaTxt + ' Diésel + ' + a.sugerenciaTxt + ' AdBlue*\n' +
+'_Simulador Flota TRC — Chequeo Conjunto Diésel + SCR_';
+
+      navigator.clipboard.writeText(texto).then(() => {
+        alert('✅ ¡Reporte Conjunto copiado para WhatsApp y guardado en la Bitácora!');
+      }).catch(() => {
+        alert('Reporte Conjunto:\n\n' + texto);
+      });
+    }
+
+    function cargarBitacoraConjunto() {
+      const guardado = localStorage.getItem(STORAGE_KEY_CONJUNTO);
+      if (guardado) {
+        try { bitacoraConjunto = JSON.parse(guardado); } catch (e) { bitacoraConjunto = []; }
+      }
+      actualizarTablaBitacoraConjunto();
+    }
+
+    function guardarEnBitacoraConjunto(origen = 'BITACORA', silencioso = false) {
+      const now = new Date();
+      const u = obtenerUnidadActiva();
+      const capD = parseFloat(document.getElementById('inputConjuntoCapDiesel').value) || 750;
+      const rendD = parseFloat(document.getElementById('inputConjuntoRendDiesel').value) || 3.5;
+      const pctD = parseFloat(document.getElementById('inputConjuntoPctDiesel').value) || 0;
+      const capA = parseFloat(document.getElementById('inputConjuntoCapAdblue').value) || 70;
+      const rBase = parseFloat(document.getElementById('inputConjuntoRBase').value) || 6.0;
+      const fCarga = parseFloat(document.getElementById('inputConjuntoFCarga').value) || 1.00;
+      const fNox = parseFloat(document.getElementById('inputConjuntoFNox').value) || 1.00;
+      const pctA = parseFloat(document.getElementById('inputConjuntoPctAdblue').value) || 0;
+      const kmBase = parseFloat(inputKmBase.value) || 0;
+
+      const d = evaluarDieselCore({ cap: capD, rend: rendD, pct: pctD, kmBase });
+      const a = evaluarAdblueCore({ cap: capA, rendDiesel: rendD, rBasePct: rBase, fCarga, fNox, pct: pctA, kmBase });
+
+      const registro = {
+        id: Date.now(),
+        fecha: now.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+        hora: now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }),
+        patente: u.patente,
+        gen: generacionScrActiva,
+        chofer: u.chofer,
+        capD,
+        rendD,
+        pctD,
+        litrosD: d.litrosActuales.toFixed(1) + ' L',
+        capA,
+        rBase,
+        fCarga,
+        fNox,
+        pctA,
+        litrosA: a.litrosActuales.toFixed(1) + ' L',
+        kmBase: obtenerNombreDestinoActual(),
+        kmNum: kmBase,
+        destinoValue: selectDestino ? selectDestino.value : '',
+        modoTrayecto,
+        badgeText: document.getElementById('badgeEstadoConjunto').textContent.trim(),
+        sugDiesel: d.sugerenciaTxt,
+        sugAdblue: a.sugerenciaTxt,
+        origen
+      };
+
+      bitacoraConjunto.unshift(registro);
+      if (bitacoraConjunto.length > 200) bitacoraConjunto.pop();
+      localStorage.setItem(STORAGE_KEY_CONJUNTO, JSON.stringify(bitacoraConjunto));
+      actualizarTablaBitacoraConjunto();
+
+      if (!silencioso) {
+        const btn = document.getElementById('btnGuardarBitacoraConjunto');
+        const txt = document.getElementById('textoBtnBitacoraConjunto');
+        if (btn && txt) {
+          txt.textContent = '✅ ¡Guardado en Bitácora Conjunta!';
+          btn.className = 'w-full py-2.5 px-4 bg-indigo-600/20 border border-indigo-400 text-indigo-300 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer';
+          setTimeout(() => {
+            txt.textContent = '📋 Guardar en Bitácora Conjunta';
+            btn.className = 'w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer';
+          }, 1800);
+        }
+      }
+    }
+
+    function actualizarTablaBitacoraConjunto() {
+      const tabla = document.getElementById('tablaBitacoraConjunto');
+      const contador = document.getElementById('contadorBitacoraConjunto');
+      if (!tabla || !contador) return;
+
+      contador.textContent = bitacoraConjunto.length + (bitacoraConjunto.length === 1 ? ' registro' : ' registros');
+      if (bitacoraConjunto.length === 0) {
+        tabla.innerHTML = '<tr><td colspan="9" class="text-center py-6 text-slate-500 italic">No hay chequeos conjuntos registrados en este turno.</td></tr>';
+        return;
+      }
+
+      tabla.innerHTML = bitacoraConjunto.map((item, idx) => {
+        const up = (item.badgeText || '').toUpperCase();
+        const cls = obtenerClaseBadgeBitacora(up.includes('CARGA OBLIGATORIA') ? 'PANA' : (up.includes('ALERTA') ? 'RESERVA' : item.badgeText));
+        return '<tr class="hover:bg-slate-800/40 transition-colors">' +
+          '<td class="py-2.5 px-2 font-mono text-[11px] text-slate-400">' + item.hora + '</td>' +
+          '<td class="py-2.5 px-2 font-mono font-bold text-white">' + item.patente + ' <span class="text-[10px] text-indigo-300 font-normal">(' + item.gen + ')</span></td>' +
+          '<td class="py-2.5 px-2 text-slate-300">' + item.chofer + '</td>' +
+          '<td class="py-2.5 px-2 text-right font-mono font-bold text-cyan-400">' + item.pctD + '% <span class="text-[10px] text-slate-400 font-normal">(' + item.litrosD + ')</span></td>' +
+          '<td class="py-2.5 px-2 text-right font-mono font-bold text-sky-400">' + item.pctA + '% <span class="text-[10px] text-slate-400 font-normal">(' + item.litrosA + ')</span></td>' +
+          '<td class="py-2.5 px-2 text-[11px] text-slate-300">' + item.kmBase + '</td>' +
+          '<td class="py-2.5 px-2 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ' + cls + '">' + item.badgeText + '</span></td>' +
+          '<td class="py-2.5 px-2 text-right font-mono font-bold text-white text-[11px]">⛽ ' + item.sugDiesel + ' · 💧 ' + item.sugAdblue + '</td>' +
+          '<td class="py-2.5 px-2 text-center"><button type="button" onclick="cargarDesdeBitacoraConjunto(' + idx + ')" class="text-[10px] bg-slate-800 hover:bg-indigo-500 hover:text-white text-indigo-300 px-2 py-1 rounded-md font-bold transition-colors cursor-pointer">Cargar</button></td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    function cargarDesdeBitacoraConjunto(idx) {
+      const item = bitacoraConjunto[idx];
+      if (!item) return;
+      const existe = FLOTA_TRACTOS_DIESEL.find(u => u.patente === item.patente);
+      if (existe) seleccionarUnidadTracto(existe.patente);
+      setCapacidad(item.capD);
+      inputPorcentajeDirecto.value = item.pctD;
+      setCapacidadAdblue(item.capA);
+      inputRendimientoAdblue.value = item.rendD;
+      setRBaseAdblue(item.rBase);
+      setFCargaAdblue(item.fCarga);
+      setFNoxAdblue(item.fNox);
+      inputPorcentajeAdblue.value = item.pctA;
+      sincronizarCamposAConjunto();
+      if (item.modoTrayecto) setModoTrayecto(item.modoTrayecto);
+      if (item.destinoValue && selectDestino) selectDestino.value = item.destinoValue;
+      inputKmBase.value = item.kmNum > 0 ? item.kmNum : '';
+      recalcular();
+      recalcularAdblue();
+      recalcularConjunto();
+    }
+
+    function limpiarBitacoraConjunto() {
+      if (bitacoraConjunto.length === 0) return;
+      if (confirm('¿Limpiar el historial local de chequeos conjuntos?')) {
+        bitacoraConjunto = [];
+        localStorage.removeItem(STORAGE_KEY_CONJUNTO);
+        actualizarTablaBitacoraConjunto();
+      }
+    }
+
+    function exportarBitacoraConjuntoCsv() {
+      if (bitacoraConjunto.length === 0) {
+        alert('No hay registros conjuntos para exportar.');
+        return;
+      }
+      let csv = '\uFEFFFecha;Hora;Patente;Generacion;Chofer;Diesel %;Diesel L;Est. Diesel;Rend km/L;AdBlue %;AdBlue L;Est. AdBlue;Tasa SCR;Ruta;Estado Global;Autorizar Diesel;Autorizar AdBlue\n';
+      bitacoraConjunto.forEach(r => {
+        csv += [r.fecha, r.hora, r.patente, r.gen, r.chofer, r.pctD + '%', r.litrosD, r.capD, r.rendD, r.pctA + '%', r.litrosA, r.capA, r.rBase + '%', r.kmBase, r.badgeText, r.sugDiesel, r.sugAdblue]
+          .map(v => '"' + String(v).replace(/"/g, '""') + '"').join(';') + '\n';
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'bitacora_conjunta_trc_' + new Date().toISOString().slice(0, 10) + '.csv';
+      link.click();
+    }
+
+    sincronizarCamposAConjunto();
     cargarBitacoraAdblue();
+    cargarBitacoraConjunto();
     recalcularAdblue();
+    recalcularConjunto();
     try {
       const params = new URLSearchParams(window.location.search);
-      if (params.get('modo') === 'adblue') cambiarModoSimulador('adblue');
+      const m = params.get('modo');
+      if (m === 'adblue' || m === 'conjunto') cambiarModoSimulador(m);
     } catch (e) {}
   </script>
 </body>
