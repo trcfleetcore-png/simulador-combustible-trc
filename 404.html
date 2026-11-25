@@ -687,82 +687,177 @@
           </div>
         </div>
 
-        <!-- 3. DISTANCIA DE RETORNO A BASE CON CUADRO OFICIAL TRC -->
-        <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-3.5 shadow-xl space-y-2">
+        <!-- 3. DISTANCIA DE RETORNO A BASE / PLANIFICADOR MULTI-TRAMO TRC -->
+        <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-3.5 shadow-xl space-y-2.5">
           <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
             <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2 whitespace-nowrap">
               <span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-[10px] font-mono">3</span>
-              Retorno a Base / Destino TRC
+              Ruta / Destino TRC
             </span>
-            <div class="flex items-center gap-1 bg-slate-900 p-0.5 rounded-lg border border-slate-800 text-[11px] shrink-0">
+            <div class="flex flex-wrap items-center gap-1 bg-slate-900 p-0.5 rounded-lg border border-slate-800 text-[11px] shrink-0">
               <button type="button" onclick="setModoTrayecto('ida')" id="btnModoIda" class="px-2.5 py-1 rounded-md bg-cyan-500 text-slate-950 font-bold transition-all shadow-sm cursor-pointer whitespace-nowrap">Solo Retorno</button>
               <button type="button" onclick="setModoTrayecto('retorno')" id="btnModoRetorno" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition-all font-medium cursor-pointer whitespace-nowrap">Ida y Vuelta</button>
+              <button type="button" onclick="setModoTrayecto('multi')" id="btnModoPlanificador" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition-all font-medium cursor-pointer whitespace-nowrap">🗺️ Planificar Ruta</button>
             </div>
           </div>
 
-          <!-- CHIPS DE RUTAS FRECUENTES (1 CLIC) -->
-          <div class="flex flex-wrap items-center gap-1.5">
-            <span class="text-[10px] text-slate-500 font-mono uppercase mr-0.5">Rápidas:</span>
-            <button type="button" onclick="setRutaRapida(255, 'Talca')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Talca · 255</button>
-            <button type="button" onclick="setRutaRapida(500, 'Concepción')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Concepción · 500</button>
-            <button type="button" onclick="setRutaRapida(690, 'Temuco')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Temuco · 690</button>
-            <button type="button" onclick="setRutaRapida(1030, 'Puerto Montt')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Pto. Montt · 1.030</button>
-            <button type="button" onclick="setRutaRapida(1365, 'Antofagasta')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Antofagasta · 1.365</button>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-end">
-            <!-- SELECTOR DE DESTINOS OFICIALES TRC -->
-            <div class="sm:col-span-7">
-              <div class="flex items-center justify-between gap-2 mb-1">
-                <label class="text-[11px] text-slate-400 font-medium whitespace-nowrap">Destino (Cuadro Santiago):</label>
-                <span id="labelDistanciaRef" class="text-cyan-400 font-mono text-[10px] font-bold truncate">Personalizado</span>
-              </div>
-              <select id="selectDestino" onchange="seleccionarDestino(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
-                <option value="">-- Elegir ciudad o escribir km → --</option>
-                
-                <optgroup label="📍 ZONA CENTRO Y PUERTOS">
-                  <option value="85" data-iv="170">Rancagua — 85 km (Retorno) / 170 km (I/V)</option>
-                  <option value="115" data-iv="230">Puerto San Antonio — 115 km (Retorno) / 230 km (I/V)</option>
-                  <option value="120" data-iv="240">Puerto Valparaíso — 120 km (Retorno) / 240 km (I/V)</option>
-                  <option value="140" data-iv="280">San Fernando — 140 km (Retorno) / 280 km (I/V)</option>
-                  <option value="175" data-iv="350">Teno — 175 km (Retorno) / 350 km (I/V)</option>
-                  <option value="195" data-iv="390">Curicó — 195 km (Retorno) / 390 km (I/V)</option>
-                  <option value="255" data-iv="510">Talca — 255 km (Retorno) / 510 km (I/V)</option>
-                  <option value="305" data-iv="610">Linares — 305 km (Retorno) / 610 km (I/V)</option>
-                </optgroup>
-
-                <optgroup label="📍 ZONA SUR">
-                  <option value="400" data-iv="800">Chillán — 400 km (Retorno) / 800 km (I/V)</option>
-                  <option value="500" data-iv="1000">Concepción — 500 km (Retorno) / 1.000 km (I/V)</option>
-                  <option value="515" data-iv="1030">Los Ángeles — 515 km (Retorno) / 1.030 km (I/V)</option>
-                  <option value="690" data-iv="1380">Temuco — 690 km (Retorno) / 1.380 km (I/V)</option>
-                  <option value="850" data-iv="1700">Valdivia — 850 km (Retorno) / 1.700 km (I/V)</option>
-                  <option value="930" data-iv="1860">Osorno — 930 km (Retorno) / 1.860 km (I/V)</option>
-                  <option value="1030" data-iv="2060">Puerto Montt — 1.030 km (Retorno) / 2.060 km (I/V)</option>
-                  <option value="1200" data-iv="2400">Castro (Chiloé) — 1.200 km (Retorno) / 2.400 km (I/V)</option>
-                </optgroup>
-
-                <optgroup label="📍 ZONA NORTE">
-                  <option value="470" data-iv="940">La Serena / Coquimbo — 470 km (Retorno) / 940 km (I/V)</option>
-                  <option value="660" data-iv="1320">Vallenar — 660 km (Retorno) / 1.320 km (I/V)</option>
-                  <option value="805" data-iv="1610">Copiapó — 805 km (Retorno) / 1.610 km (I/V)</option>
-                  <option value="970" data-iv="1940">Chañaral — 970 km (Retorno) / 1.940 km (I/V)</option>
-                  <option value="1365" data-iv="2730">Antofagasta — 1.365 km (Retorno) / 2.730 km (I/V)</option>
-                  <option value="1430" data-iv="2860">Mejillones — 1.430 km (Retorno) / 2.860 km (I/V)</option>
-                  <option value="1530" data-iv="3060">Calama — 1.530 km (Retorno) / 3.060 km (I/V)</option>
-                  <option value="1790" data-iv="3580">Iquique — 1.790 km (Retorno) / 3.580 km (I/V)</option>
-                  <option value="2060" data-iv="4120">Arica — 2.060 km (Retorno) / 4.120 km (I/V)</option>
-                </optgroup>
-              </select>
+          <!-- PANEL RUTA SIMPLE (SOLO RETORNO / IDA Y VUELTA) -->
+          <div id="panelRutaSimple" class="space-y-2">
+            <!-- CHIPS DE RUTAS FRECUENTES (1 CLIC) -->
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-[10px] text-slate-500 font-mono uppercase mr-0.5">Rápidas:</span>
+              <button type="button" onclick="setRutaRapida(255, 'Talca')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Talca · 255</button>
+              <button type="button" onclick="setRutaRapida(500, 'Concepción')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Concepción · 500</button>
+              <button type="button" onclick="setRutaRapida(690, 'Temuco')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Temuco · 690</button>
+              <button type="button" onclick="setRutaRapida(1030, 'Puerto Montt')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Pto. Montt · 1.030</button>
+              <button type="button" onclick="setRutaRapida(1365, 'Antofagasta')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-0.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">Antofagasta · 1.365</button>
             </div>
 
-            <!-- INPUT DE KILÓMETROS FINAL (ALINEADO EN FILA CON DESTINO) -->
-            <div class="sm:col-span-5">
-              <label class="block text-[11px] text-slate-400 mb-1 font-medium whitespace-nowrap">Distancia a base (km):</label>
-              <div class="flex items-center bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 focus-within:border-cyan-500 focus-within:ring-1 focus-within:ring-cyan-500 transition-all">
-                <input type="number" id="inputKmBase" placeholder="Ej: 500" onfocus="this.select()" class="w-full bg-transparent text-xs sm:text-sm text-white font-mono placeholder:text-slate-600 focus:outline-none font-bold">
-                <span class="text-[11px] text-cyan-400 font-mono font-bold bg-slate-800 px-2 py-0.5 rounded-md shrink-0 select-none ml-1.5">km</span>
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-end">
+              <!-- SELECTOR DE DESTINOS OFICIALES TRC -->
+              <div class="sm:col-span-7">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <label class="text-[11px] text-slate-400 font-medium whitespace-nowrap">Destino (Cuadro Santiago):</label>
+                  <span id="labelDistanciaRef" class="text-cyan-400 font-mono text-[10px] font-bold truncate">Personalizado</span>
+                </div>
+                <select id="selectDestino" onchange="seleccionarDestino(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                  <option value="">-- Elegir ciudad o escribir km → --</option>
+                  
+                  <optgroup label="📍 ZONA CENTRO Y PUERTOS">
+                    <option value="85" data-iv="170">Rancagua — 85 km (Retorno) / 170 km (I/V)</option>
+                    <option value="115" data-iv="230">Puerto San Antonio — 115 km (Retorno) / 230 km (I/V)</option>
+                    <option value="120" data-iv="240">Puerto Valparaíso — 120 km (Retorno) / 240 km (I/V)</option>
+                    <option value="140" data-iv="280">San Fernando — 140 km (Retorno) / 280 km (I/V)</option>
+                    <option value="175" data-iv="350">Teno — 175 km (Retorno) / 350 km (I/V)</option>
+                    <option value="195" data-iv="390">Curicó — 195 km (Retorno) / 390 km (I/V)</option>
+                    <option value="255" data-iv="510">Talca — 255 km (Retorno) / 510 km (I/V)</option>
+                    <option value="305" data-iv="610">Linares — 305 km (Retorno) / 610 km (I/V)</option>
+                  </optgroup>
+
+                  <optgroup label="📍 ZONA SUR">
+                    <option value="400" data-iv="800">Chillán — 400 km (Retorno) / 800 km (I/V)</option>
+                    <option value="500" data-iv="1000">Concepción — 500 km (Retorno) / 1.000 km (I/V)</option>
+                    <option value="515" data-iv="1030">Los Ángeles — 515 km (Retorno) / 1.030 km (I/V)</option>
+                    <option value="690" data-iv="1380">Temuco — 690 km (Retorno) / 1.380 km (I/V)</option>
+                    <option value="850" data-iv="1700">Valdivia — 850 km (Retorno) / 1.700 km (I/V)</option>
+                    <option value="930" data-iv="1860">Osorno — 930 km (Retorno) / 1.860 km (I/V)</option>
+                    <option value="1030" data-iv="2060">Puerto Montt — 1.030 km (Retorno) / 2.060 km (I/V)</option>
+                    <option value="1200" data-iv="2400">Castro (Chiloé) — 1.200 km (Retorno) / 2.400 km (I/V)</option>
+                  </optgroup>
+
+                  <optgroup label="📍 ZONA NORTE">
+                    <option value="470" data-iv="940">La Serena / Coquimbo — 470 km (Retorno) / 940 km (I/V)</option>
+                    <option value="660" data-iv="1320">Vallenar — 660 km (Retorno) / 1.320 km (I/V)</option>
+                    <option value="805" data-iv="1610">Copiapó — 805 km (Retorno) / 1.610 km (I/V)</option>
+                    <option value="970" data-iv="1940">Chañaral — 970 km (Retorno) / 1.940 km (I/V)</option>
+                    <option value="1365" data-iv="2730">Antofagasta — 1.365 km (Retorno) / 2.730 km (I/V)</option>
+                    <option value="1430" data-iv="2860">Mejillones — 1.430 km (Retorno) / 2.860 km (I/V)</option>
+                    <option value="1530" data-iv="3060">Calama — 1.530 km (Retorno) / 3.060 km (I/V)</option>
+                    <option value="1790" data-iv="3580">Iquique — 1.790 km (Retorno) / 3.580 km (I/V)</option>
+                    <option value="2060" data-iv="4120">Arica — 2.060 km (Retorno) / 4.120 km (I/V)</option>
+                  </optgroup>
+                </select>
               </div>
+
+              <!-- INPUT DE KILÓMETROS FINAL (ALINEADO EN FILA CON DESTINO) -->
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] text-slate-400 mb-1 font-medium whitespace-nowrap">Distancia a base (km):</label>
+                <div class="flex items-center bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 focus-within:border-cyan-500 focus-within:ring-1 focus-within:ring-cyan-500 transition-all">
+                  <input type="number" id="inputKmBase" placeholder="Ej: 500" onfocus="this.select()" class="w-full bg-transparent text-xs sm:text-sm text-white font-mono placeholder:text-slate-600 focus:outline-none font-bold">
+                  <span class="text-[11px] text-cyan-400 font-mono font-bold bg-slate-800 px-2 py-0.5 rounded-md shrink-0 select-none ml-1.5">km</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL PLANIFICADOR DE RUTA MULTI-TRAMO -->
+          <div id="panelPlanificadorRuta" class="hidden space-y-2.5">
+            <!-- CONTROLES DE CONSTRUCCIÓN DE RUTA -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-end">
+              <div class="sm:col-span-4">
+                <label class="block text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Punto de Partida</label>
+                <select id="selectRutaOrigen" onchange="cambiarOrigenRutaMulti(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"></select>
+              </div>
+              <div class="sm:col-span-5">
+                <label class="block text-[10px] text-cyan-300 font-semibold uppercase tracking-wider mb-1">Siguiente Destino / Parada</label>
+                <select id="selectRutaNuevaParada" class="w-full bg-slate-900 border border-cyan-500/40 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-cyan-400"></select>
+              </div>
+              <div class="sm:col-span-3">
+                <button type="button" id="btnAgregarTramoRuta" onclick="agregarParadaDesdeSelector()" class="w-full py-2 px-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-extrabold rounded-xl transition-all shadow-md shadow-cyan-950/50 cursor-pointer whitespace-nowrap">
+                  + Agregar Tramo
+                </button>
+              </div>
+            </div>
+
+            <!-- BOTONES RÁPIDOS DE CIRCUITO Y PLANTILLAS -->
+            <div class="flex flex-wrap items-center justify-between gap-1.5">
+              <div class="flex flex-wrap items-center gap-1.5">
+                <button type="button" onclick="agregarParadaRapida('santiago')" class="text-[11px] bg-slate-900 hover:bg-cyan-500/20 hover:border-cyan-500/50 hover:text-cyan-300 text-slate-300 border border-slate-700/80 px-2 py-1 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">↩ Volver a Santiago</button>
+                <button type="button" onclick="repetirUltimoTramoIdaVuelta()" class="text-[11px] bg-slate-900 hover:bg-indigo-500/20 hover:border-indigo-500/50 hover:text-indigo-300 text-slate-300 border border-slate-700/80 px-2 py-1 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">🔁 Repetir último tramo</button>
+                <button type="button" id="btnAsumirSalida100" onclick="asumirSalidaLlenaMultiTramo()" class="text-[11px] bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 px-2 py-1 rounded-lg font-semibold transition-colors cursor-pointer whitespace-nowrap">⚡ Salida 100% lleno</button>
+                <button type="button" onclick="limpiarRutaMultiTramo()" class="text-[11px] bg-slate-900 hover:bg-rose-500/20 hover:border-rose-500/40 hover:text-rose-300 text-slate-400 border border-slate-700/80 px-2 py-1 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap">🧹 Limpiar</button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <select id="selectPlantillaRuta" onchange="cargarPlantillaRuta(this.value)" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-indigo-500 max-w-[200px]">
+                  <option value="">📂 Circuitos guardados...</option>
+                </select>
+                <button type="button" onclick="guardarPlantillaRutaActual()" title="Guardar circuito actual como plantilla" class="text-[11px] bg-indigo-500/15 hover:bg-indigo-500/30 border border-indigo-500/40 text-indigo-300 px-2 py-1 rounded-lg font-semibold transition-colors cursor-pointer whitespace-nowrap">💾 Guardar</button>
+              </div>
+            </div>
+
+            <!-- BREADCRUMB VISUAL DEL ITINERARIO -->
+            <div id="rutaChipsItinerario" class="bg-slate-950/90 border border-slate-800 rounded-xl px-3 py-2 text-[11px] text-slate-300 font-medium leading-relaxed">
+              Selecciona un destino y haz clic en <strong class="text-cyan-300">+ Agregar Tramo</strong> para armar tu circuito.
+            </div>
+
+            <!-- KPIs RESUMEN DE LA RUTA MULTI-TRAMO -->
+            <div id="resumenPlanificadorRuta" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-2 text-center">
+                <span class="block text-[10px] text-slate-400 uppercase font-semibold">Distancia Total</span>
+                <strong id="kpiRutaTotalKm" class="text-sm sm:text-base font-black font-mono text-white">0 km</strong>
+                <span id="kpiRutaTotalTramos" class="block text-[10px] text-slate-500 font-mono">0 tramos</span>
+              </div>
+              <div class="bg-slate-950/80 border border-cyan-500/25 rounded-xl p-2 text-center">
+                <span class="block text-[10px] text-cyan-300/90 uppercase font-semibold">⛽ Diésel Ruta</span>
+                <strong id="kpiRutaTotalDiesel" class="text-sm sm:text-base font-black font-mono text-cyan-300">0,0 L</strong>
+                <span id="kpiRutaEstanquesDiesel" class="block text-[10px] text-slate-400 font-mono">--</span>
+              </div>
+              <div class="bg-slate-950/80 border border-sky-500/25 rounded-xl p-2 text-center">
+                <span class="block text-[10px] text-sky-300/90 uppercase font-semibold">💧 AdBlue Ruta</span>
+                <strong id="kpiRutaTotalAdblue" class="text-sm sm:text-base font-black font-mono text-sky-300">0,0 L</strong>
+                <span id="kpiRutaTasaScr" class="block text-[10px] text-slate-400 font-mono">--</span>
+              </div>
+              <div class="bg-slate-950/80 border border-indigo-500/30 rounded-xl p-2 text-center">
+                <span class="block text-[10px] text-indigo-300 uppercase font-semibold">Recarga en Ruta</span>
+                <strong id="kpiRutaRecargaTotal" class="text-sm sm:text-base font-black font-mono text-amber-300">--</strong>
+                <span id="kpiRutaSaldoFinal" class="block text-[10px] text-slate-400 font-mono truncate">Según % inicial</span>
+              </div>
+            </div>
+
+            <!-- ALERTA DE TRAMO CRÍTICO -->
+            <div id="alertaTramoCriticoRuta" class="hidden rounded-xl px-3 py-2 text-xs font-medium flex items-start gap-2"></div>
+
+            <!-- TABLA TRAMO A TRAMO (CON EDICIÓN DE KM Y RECARGA OPCIONAL POR PARADA) -->
+            <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/70">
+              <table class="w-full text-[11px] text-left">
+                <thead>
+                  <tr class="text-slate-400 border-b border-slate-800 bg-slate-900/70 font-mono text-[10px] uppercase">
+                    <th class="py-1.5 px-2 text-center">#</th>
+                    <th class="py-1.5 px-2">Tramo</th>
+                    <th class="py-1.5 px-2 text-right">Km</th>
+                    <th class="py-1.5 px-2 text-right text-cyan-300">⛽ L</th>
+                    <th class="py-1.5 px-2 text-right text-sky-300">💧 L</th>
+                    <th class="py-1.5 px-2 text-center" title="Recarga opcional de Diésel antes de salir o al llegar a la parada">+ Carga (L)</th>
+                    <th class="py-1.5 px-2 text-right">Saldo Llegada</th>
+                    <th class="py-1.5 px-1.5 text-center"></th>
+                  </tr>
+                </thead>
+                <tbody id="tablaTramosRuta" class="divide-y divide-slate-800/70 font-mono">
+                  <tr>
+                    <td colspan="8" class="py-4 text-center text-slate-500 font-sans italic">Agrega el primer destino arriba (ej. Osorno) para comenzar a planificar la ruta.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -1722,6 +1817,7 @@
         badgeText: mapped.badgeText,
         sugDiesel: ex.sugDiesel || "--",
         sugAdblue: ex.sugAdblue || "--",
+        rutaMultiTramo: ex.rutaMultiTramo || null,
         origen: mapped.origenAccion || "BITACORA",
         archivado: mapped.archivado
       };
@@ -1866,20 +1962,35 @@
 
     function setModoTrayecto(modo) {
       modoTrayecto = modo;
-      if (modo === 'ida') {
-        btnModoIda.className = 'px-2.5 py-1 rounded-md bg-cyan-500 text-slate-950 font-bold transition-all shadow-sm';
-        btnModoRetorno.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition-all font-medium';
-      } else {
-        btnModoIda.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition-all font-medium';
-        btnModoRetorno.className = 'px-2.5 py-1 rounded-md bg-cyan-500 text-slate-950 font-bold transition-all shadow-sm';
+      const btnPlan = document.getElementById('btnModoPlanificador');
+      const panelSimple = document.getElementById('panelRutaSimple');
+      const panelPlan = document.getElementById('panelPlanificadorRuta');
+      const clsOn = 'px-2.5 py-1 rounded-md bg-cyan-500 text-slate-950 font-bold transition-all shadow-sm cursor-pointer whitespace-nowrap';
+      const clsOnMulti = 'px-2.5 py-1 rounded-md bg-indigo-500 text-white font-bold transition-all shadow-sm cursor-pointer whitespace-nowrap';
+      const clsOff = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition-all font-medium cursor-pointer whitespace-nowrap';
+
+      if (btnModoIda) btnModoIda.className = modo === 'ida' ? clsOn : clsOff;
+      if (btnModoRetorno) btnModoRetorno.className = modo === 'retorno' ? clsOn : clsOff;
+      if (btnPlan) btnPlan.className = modo === 'multi' ? clsOnMulti : clsOff;
+
+      if (modo === 'multi') {
+        if (panelSimple) panelSimple.classList.add('hidden');
+        if (panelPlan) panelPlan.classList.remove('hidden');
+        if (typeof sincronizarKmMultiTramo === 'function') {
+          sincronizarKmMultiTramo();
+        }
+        return;
       }
-      
+
+      if (panelSimple) panelSimple.classList.remove('hidden');
+      if (panelPlan) panelPlan.classList.add('hidden');
+
       if (selectDestino.value) {
         seleccionarDestino(selectDestino.value);
-      } else if (inputKmBase.value) {
+      } else {
         recalcular();
-        recalcularAdblue();
-        recalcularConjunto();
+        if (typeof recalcularAdblue === 'function') recalcularAdblue();
+        if (typeof recalcularConjunto === 'function') recalcularConjunto();
       }
     }
 
@@ -1898,6 +2009,7 @@
     }
 
     function setRutaRapida(kmIda, nombre) {
+      if (modoTrayecto === 'multi') setModoTrayecto('ida');
       const km = modoTrayecto === 'ida' ? kmIda : (kmIda * 2);
       inputKmBase.value = km;
       labelDistanciaRef.textContent = nombre + ': ' + km + ' km';
@@ -1916,6 +2028,7 @@
     }
 
     function aplicarDesdeModal(kmIda) {
+      if (modoTrayecto === 'multi') setModoTrayecto('ida');
       selectDestino.value = kmIda;
       seleccionarDestino(kmIda);
       toggleModalCuadro();
@@ -2484,6 +2597,10 @@
     }
 
     function obtenerNombreDestinoActual() {
+      if (modoTrayecto === "multi" && typeof obtenerResumenTextoRutaMulti === "function") {
+        const resumenMulti = obtenerResumenTextoRutaMulti();
+        if (resumenMulti) return resumenMulti;
+      }
       const kmVal = parseFloat(inputKmBase.value) || 0;
       if (!kmVal) return "Solo Autonomía";
       if (selectDestino && selectDestino.value) {
@@ -3891,8 +4008,10 @@
         };
       }
       const faltantes = (litrosRequeridos + RESERVA_LITROS) - litrosActuales;
+      const faltantesTotal = Math.max(0, Math.ceil(faltantes));
       const espacio = Math.max(0, cap - litrosActuales);
-      const autorizar = Math.min(Math.ceil(faltantes), Math.floor(espacio));
+      const excedeCapacidad = faltantes > espacio;
+      const autorizar = Math.min(faltantesTotal, Math.floor(espacio));
       return {
         status: 'ROJO',
         litrosActuales,
@@ -3902,10 +4021,11 @@
         litrosRequeridos,
         litrosLlegada,
         litrosAutorizar: autorizar,
-        excedeCapacidad: faltantes > espacio,
+        litrosFaltantesTotal: faltantesTotal,
+        excedeCapacidad,
         kmFaltan: Math.max(0, Math.round(kmBase - autonomiaBrutaKm)),
         badgeText: '🚨 Déficit Diésel',
-        sugerenciaTxt: autorizar + ' LITROS'
+        sugerenciaTxt: excedeCapacidad ? (faltantesTotal + ' L (Ruta)') : (autorizar + ' LITROS')
       };
     }
 
@@ -3929,6 +4049,7 @@
           litrosRequeridos: 0,
           litrosLlegada: litrosActuales,
           litrosAutorizar: 0,
+          litrosFaltantesTotal: 0,
           excedeCapacidad: false,
           kmFaltanAgotar: 0,
           kmFaltanDerate: 0,
@@ -3951,6 +4072,7 @@
           litrosRequeridos,
           litrosLlegada,
           litrosAutorizar: 0,
+          litrosFaltantesTotal: 0,
           excedeCapacidad: false,
           kmFaltanAgotar: 0,
           kmFaltanDerate: 0,
@@ -3972,6 +4094,7 @@
           litrosRequeridos,
           litrosLlegada,
           litrosAutorizar: sugerido,
+          litrosFaltantesTotal: Math.max(0, Math.ceil(ADBLUE_RESERVA_LITROS - litrosLlegada)),
           excedeCapacidad: false,
           kmFaltanAgotar: 0,
           kmFaltanDerate: 0,
@@ -3981,8 +4104,10 @@
         };
       }
       const faltantes = (litrosRequeridos + ADBLUE_RESERVA_LITROS) - litrosActuales;
+      const faltantesTotal = Math.max(0, Math.ceil(faltantes));
       const espacio = Math.max(0, cap - litrosActuales);
-      const autorizar = Math.min(Math.ceil(faltantes), Math.floor(espacio));
+      const excedeCapacidad = faltantes > espacio;
+      const autorizar = Math.min(faltantesTotal, Math.floor(espacio));
       return {
         status: 'ROJO',
         cAdblue,
@@ -3994,12 +4119,13 @@
         litrosRequeridos,
         litrosLlegada,
         litrosAutorizar: autorizar,
-        excedeCapacidad: faltantes > espacio,
+        litrosFaltantesTotal: faltantesTotal,
+        excedeCapacidad,
         kmFaltanAgotar: Math.max(0, Math.round(kmBase - autonomiaBrutaKm)),
         kmFaltanDerate: Math.max(0, Math.round(kmBase - autonomiaSeguraKm)),
         badgeText: '🚨 Déficit SCR',
-        sugerenciaTxt: autorizar + ' LITROS',
-        bidonesTxt: formatearBidonesAdblue(autorizar)
+        sugerenciaTxt: excedeCapacidad ? (faltantesTotal + ' L (Ruta)') : (autorizar + ' LITROS'),
+        bidonesTxt: formatearBidonesAdblue(excedeCapacidad ? faltantesTotal : autorizar)
       };
     }
 
@@ -4204,6 +4330,7 @@
         tblLlegD.className = 'py-1 text-right font-bold text-slate-400';
         tblLlegA.className = 'py-1 text-right font-bold text-slate-400';
         actualizarMobileStickyBar();
+        if (typeof renderizarPlanificadorRuta === 'function') renderizarPlanificadorRuta();
         return;
       }
 
@@ -4242,6 +4369,7 @@
         tblLlegD.className = 'py-1 text-right font-bold text-slate-400';
         tblLlegA.className = 'py-1 text-right font-bold text-slate-400';
         actualizarMobileStickyBar();
+        if (typeof renderizarPlanificadorRuta === 'function') renderizarPlanificadorRuta();
         return;
       }
 
@@ -4260,7 +4388,7 @@
           ? 'Llega con ' + d.litrosLlegada.toFixed(1) + ' L'
           : (d.status === 'AMARILLO'
               ? (d.litrosAutorizar < Math.ceil(RESERVA_LITROS - d.litrosLlegada) ? 'Tope estanque (' + capD + ' L)' : 'Invade reserva 20 L')
-              : (d.excedeCapacidad ? 'Tope estanque · ⚠️ +1 parada' : 'Se agota ' + d.kmFaltan.toLocaleString('es-CL') + ' km antes'));
+              : (d.excedeCapacidad ? ('En ruta · hoy caben ' + d.litrosAutorizar + ' L') : 'Se agota ' + d.kmFaltan.toLocaleString('es-CL') + ' km antes'));
       } else {
         tblLlegD.textContent = 'No inf.';
         tblLlegD.className = 'py-1 text-right font-bold text-slate-500 whitespace-nowrap';
@@ -4277,7 +4405,7 @@
         if (a.status === 'VERDE') {
           detA.textContent = 'Llega con ' + a.litrosLlegada.toFixed(1) + ' L';
         } else if (a.excedeCapacidad) {
-          detA.textContent = 'Tope estanque · ⚠️ +1 parada';
+          detA.textContent = 'En ruta · hoy caben ' + a.litrosAutorizar + ' L';
         } else {
           detA.textContent = a.litrosAutorizar <= 0
             ? 'Estanque lleno hoy'
@@ -4315,10 +4443,16 @@
           badge.className = 'bg-rose-500/25 text-rose-300 border border-rose-500/40 text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 alerta-peligro whitespace-nowrap';
           badge.innerHTML = '<span>🚨</span> Carga Obligatoria (' + nombreActivo + ')';
           const kmAntes = d ? d.kmFaltan : a.kmFaltanAgotar;
-          tit.textContent = 'Déficit Crítico de ' + nombreActivo + ' en Ruta';
-          desc.textContent = 'Se agotará aprox. ' + kmAntes.toLocaleString('es-CL') + ' km antes de base. Autorizar ' + activo.litrosAutorizar + ' L de ' + nombreActivo + ' para retornar protegido.';
+          if (activo.excedeCapacidad) {
+            tit.textContent = 'Trayecto Largo — Requiere Recarga en Ruta (' + nombreActivo + ')';
+            desc.textContent = 'La ruta exige ' + activo.litrosRequeridos.toFixed(1) + ' L de ' + nombreActivo + '. Faltan ' + (activo.litrosFaltantesTotal || activo.litrosAutorizar) + ' L en ruta para terminar protegido (hoy caben ' + activo.litrosAutorizar + ' L en estanque).';
+          } else {
+            tit.textContent = 'Déficit Crítico de ' + nombreActivo + ' en Ruta';
+            desc.textContent = 'Se agotará aprox. ' + kmAntes.toLocaleString('es-CL') + ' km antes de base. Autorizar ' + activo.litrosAutorizar + ' L de ' + nombreActivo + ' para retornar protegido.';
+          }
         }
         actualizarMobileStickyBar();
+        if (typeof renderizarPlanificadorRuta === 'function') renderizarPlanificadorRuta();
         return;
       }
 
@@ -4349,36 +4483,37 @@
         badge.className = 'bg-rose-500/25 text-rose-300 border border-rose-500/40 text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 alerta-peligro whitespace-nowrap';
         badge.innerHTML = '<span>🚨</span> Carga Obligatoria en Ruta';
         const excesos = [];
-        if (d.excedeCapacidad) excesos.push('Diésel (req. ' + d.litrosRequeridos.toFixed(1) + ' L / est. ' + capD + ' L)');
-        if (a.excedeCapacidad) excesos.push('AdBlue (req. ' + a.litrosRequeridos.toFixed(1) + ' L / est. ' + capA + ' L)');
+        if (d.excedeCapacidad) excesos.push('Diésel (req. ' + d.litrosRequeridos.toFixed(1) + ' L / recarga ruta ' + (d.litrosFaltantesTotal || d.litrosAutorizar) + ' L)');
+        if (a.excedeCapacidad) excesos.push('AdBlue (req. ' + a.litrosRequeridos.toFixed(1) + ' L / recarga ruta ' + (a.litrosFaltantesTotal || a.litrosAutorizar) + ' L)');
         const notaExceso = excesos.length
-          ? ' ⚠️ Trayecto largo — ' + excesos.join(' y ') + ' supera la capacidad del estanque (requiere más de 1 parada en ruta).'
+          ? ' ⚠️ Trayecto largo — ' + excesos.join(' y ') + ' supera la capacidad del estanque (requiere parada de recarga en ruta).'
           : '';
 
         if (d.status !== 'ROJO' && a.status === 'ROJO') {
           if (d.status === 'VERDE') {
             tit.textContent = '⚠️ Diésel Suficiente, pero Falla por AdBlue!';
-            desc.textContent = 'El camión tiene Diésel para llegar (' + d.litrosLlegada.toFixed(1) + ' L al llegar), pero se quedará sin AdBlue ~' + a.kmFaltanAgotar.toLocaleString('es-CL') + ' km antes de la base. Autorizar ' + a.litrosAutorizar + ' L de AdBlue.' + notaExceso;
+            desc.textContent = 'El camión tiene Diésel para llegar (' + d.litrosLlegada.toFixed(1) + ' L al llegar), pero se quedará sin AdBlue ~' + a.kmFaltanAgotar.toLocaleString('es-CL') + ' km antes de la base. Autorizar ' + (a.excedeCapacidad ? a.litrosFaltantesTotal : a.litrosAutorizar) + ' L de AdBlue.' + notaExceso;
           } else {
             tit.textContent = '⚠️ Déficit Crítico de AdBlue (+ Diésel en Reserva)';
-            desc.textContent = 'Se quedará sin AdBlue ~' + a.kmFaltanAgotar.toLocaleString('es-CL') + ' km antes de base (autorizar ' + a.litrosAutorizar + ' L) y el Diésel bajaría a ' + d.litrosLlegada.toFixed(1) + ' L (< 20 L; carga preventiva ' + d.litrosAutorizar + ' L).' + notaExceso;
+            desc.textContent = 'Se quedará sin AdBlue ~' + a.kmFaltanAgotar.toLocaleString('es-CL') + ' km antes de base (autorizar ' + (a.excedeCapacidad ? a.litrosFaltantesTotal : a.litrosAutorizar) + ' L) y el Diésel bajaría a ' + d.litrosLlegada.toFixed(1) + ' L (< 20 L; carga preventiva ' + d.litrosAutorizar + ' L).' + notaExceso;
           }
         } else if (a.status !== 'ROJO' && d.status === 'ROJO') {
           if (a.status === 'VERDE') {
             tit.textContent = 'AdBlue OK — Déficit Crítico de Diésel';
-            desc.textContent = 'El estanque de AdBlue alcanza (' + a.litrosLlegada.toFixed(1) + ' L al llegar), pero el Diésel se agota ~' + d.kmFaltan.toLocaleString('es-CL') + ' km antes de base. Autorizar ' + d.litrosAutorizar + ' L de Diésel.' + notaExceso;
+            desc.textContent = 'El estanque de AdBlue alcanza (' + a.litrosLlegada.toFixed(1) + ' L al llegar), pero el Diésel se agota ~' + d.kmFaltan.toLocaleString('es-CL') + ' km antes de base. Autorizar ' + (d.excedeCapacidad ? d.litrosFaltantesTotal : d.litrosAutorizar) + ' L de Diésel.' + notaExceso;
           } else {
             tit.textContent = 'Déficit Crítico de Diésel (+ AdBlue en Zona Anti-Derate)';
-            desc.textContent = 'El Diésel se agota ~' + d.kmFaltan.toLocaleString('es-CL') + ' km antes de base (autorizar ' + d.litrosAutorizar + ' L) y el AdBlue bajaría a ' + a.litrosLlegada.toFixed(1) + ' L (< 10 L; carga preventiva ' + a.litrosAutorizar + ' L).' + notaExceso;
+            desc.textContent = 'El Diésel se agota ~' + d.kmFaltan.toLocaleString('es-CL') + ' km antes de base (autorizar ' + (d.excedeCapacidad ? d.litrosFaltantesTotal : d.litrosAutorizar) + ' L) y el AdBlue bajaría a ' + a.litrosLlegada.toFixed(1) + ' L (< 10 L; carga preventiva ' + a.litrosAutorizar + ' L).' + notaExceso;
           }
         } else {
           tit.textContent = excesos.length ? '🚨 Déficit Conjunto — Trayecto Largo (+1 Parada)' : 'Déficit Conjunto: Cargar Diésel + AdBlue';
           desc.textContent = excesos.length
-            ? ('La carga máxima inicial que cabe hoy es ' + d.litrosAutorizar + ' L Diésel y ' + a.litrosAutorizar + ' L AdBlue.' + notaExceso)
+            ? ('Recarga total en ruta: ' + (d.litrosFaltantesTotal || d.litrosAutorizar) + ' L Diésel y ' + (a.litrosFaltantesTotal || a.litrosAutorizar) + ' L AdBlue.' + notaExceso)
             : ('Requiere recarga obligatoria en ruta de ' + d.litrosAutorizar + ' L Diésel y ' + a.litrosAutorizar + ' L AdBlue para retornar protegido.');
         }
       }
       actualizarMobileStickyBar();
+      if (typeof renderizarPlanificadorRuta === 'function') renderizarPlanificadorRuta();
     }
 
     function copiarReporteWhatsAppConjunto() {
@@ -4431,12 +4566,17 @@
         ? ('*' + d.sugerenciaTxt + ' Diésel + ' + a.sugerenciaTxt + ' AdBlue*')
         : (d ? ('*' + d.sugerenciaTxt + ' Diésel*') : ('*' + a.sugerenciaTxt + ' AdBlue*'));
 
+      const bloqueRutaMultiWa = (modoTrayecto === 'multi' && typeof generarBloqueWhatsAppRutaMulti === 'function')
+        ? generarBloqueWhatsAppRutaMulti()
+        : '';
+
       const texto =
         tituloWa + '\n' +
         '━━━━━━━━━━━━━━━━━━━━━━━━\n' +
         '• *Unidad:* ' + u.patente + ' (' + (u.marca || 'SCANIA') + ' ' + (u.modelo || '') + genTag + ')\n' +
         '• *Chofer:* ' + u.chofer + '\n' +
         '• *Trayecto / Destino:* ' + destinoTxt + '\n' +
+        (bloqueRutaMultiWa ? ('━━━━━━━━━━━━━━━━━━━━━━━━\n' + bloqueRutaMultiWa + '\n') : '') +
         '━━━━━━━━━━━━━━━━━━━━━━━━\n' +
         bloques.join('\n━━━━━━━━━━━━━━━━━━━━━━━━\n') + '\n' +
         '━━━━━━━━━━━━━━━━━━━━━━━━\n' +
@@ -4491,6 +4631,10 @@
       const a = pctA !== null ? evaluarAdblueCore({ cap: capA, rendDiesel: rendD, rBasePct: rBase, fCarga, fNox, pct: pctA, kmBase }) : null;
       const badgeText = document.getElementById('badgeEstadoConjunto').textContent.trim();
 
+      const rutaMultiSnap = (modoTrayecto === 'multi' && typeof exportarEstadoRutaMulti === 'function')
+        ? exportarEstadoRutaMulti()
+        : null;
+
       const registro = {
         id: Date.now(),
         fecha: now.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' }),
@@ -4515,6 +4659,7 @@
         badgeText,
         sugDiesel: d ? d.sugerenciaTxt : '--',
         sugAdblue: a ? a.sugerenciaTxt : '--',
+        rutaMultiTramo: rutaMultiSnap,
         origen,
         archivado: false
       };
@@ -4546,7 +4691,8 @@
           pctA: registro.pctA,
           litrosA: registro.litrosA,
           sugDiesel: registro.sugDiesel,
-          sugAdblue: registro.sugAdblue
+          sugAdblue: registro.sugAdblue,
+          rutaMultiTramo: rutaMultiSnap
         },
         fecha: registro.fecha,
         hora: registro.hora,
@@ -4739,11 +4885,17 @@ lineaD + lineaA +
       setFNoxAdblue(item.fNox);
       inputPorcentajeAdblue.value = (item.pctA !== null && item.pctA !== undefined) ? item.pctA : '';
       sincronizarCamposAConjunto();
-      if (item.modoTrayecto) setModoTrayecto(item.modoTrayecto);
-      if (selectDestino) selectDestino.value = item.destinoValue || '';
-      inputKmBase.value = item.kmNum > 0 ? item.kmNum : '';
-      if (labelDistanciaRef) {
-        labelDistanciaRef.textContent = item.kmNum > 0 ? (item.kmBase || (item.kmNum + ' km')) : 'Personalizado';
+      if (item.modoTrayecto === 'multi' && item.rutaMultiTramo && typeof restaurarEstadoRutaMulti === 'function') {
+        restaurarEstadoRutaMulti(item.rutaMultiTramo);
+        setModoTrayecto('multi');
+      } else {
+        if (item.modoTrayecto && item.modoTrayecto !== 'multi') setModoTrayecto(item.modoTrayecto);
+        else setModoTrayecto('ida');
+        if (selectDestino) selectDestino.value = item.destinoValue || '';
+        inputKmBase.value = item.kmNum > 0 ? item.kmNum : '';
+        if (labelDistanciaRef) {
+          labelDistanciaRef.textContent = item.kmNum > 0 ? (item.kmBase || (item.kmNum + ' km')) : 'Personalizado';
+        }
       }
       recalcular();
       recalcularAdblue();
@@ -4787,6 +4939,709 @@ lineaD + lineaA +
       link.click();
     }
 
+    // =========================================================================
+    // MÓDULO PLANIFICADOR DE RUTA MULTI-TRAMO (CHILE — EJE RUTA 5 + RAMALES)
+    // =========================================================================
+    const STORAGE_KEY_PLANTILLAS_RUTA = 'TRC_RUTAS_PLANTILLAS_V1';
+
+    const CIUDADES_RUTA_TRC = [
+      // Base
+      { id: 'santiago', nombre: 'Santiago (Base)', corto: 'Santiago', zona: 'BASE TRC', eje: 0, distRamal: 0 },
+      // Zona Centro y Puertos
+      { id: 'rancagua', nombre: 'Rancagua', corto: 'Rancagua', zona: 'ZONA CENTRO Y PUERTOS', eje: 85, distRamal: 0 },
+      { id: 'san_antonio', nombre: 'Puerto San Antonio', corto: 'San Antonio', zona: 'ZONA CENTRO Y PUERTOS', eje: 0, distRamal: 115 },
+      { id: 'valparaiso', nombre: 'Puerto Valparaíso', corto: 'Valparaíso', zona: 'ZONA CENTRO Y PUERTOS', eje: 0, distRamal: 120 },
+      { id: 'los_andes', nombre: 'Los Andes', corto: 'Los Andes', zona: 'ZONA CENTRO Y PUERTOS', eje: -75, distRamal: 15 },
+      { id: 'san_fernando', nombre: 'San Fernando', corto: 'San Fernando', zona: 'ZONA CENTRO Y PUERTOS', eje: 140, distRamal: 0 },
+      { id: 'teno', nombre: 'Teno', corto: 'Teno', zona: 'ZONA CENTRO Y PUERTOS', eje: 175, distRamal: 0 },
+      { id: 'curico', nombre: 'Curicó', corto: 'Curicó', zona: 'ZONA CENTRO Y PUERTOS', eje: 195, distRamal: 0 },
+      { id: 'talca', nombre: 'Talca', corto: 'Talca', zona: 'ZONA CENTRO Y PUERTOS', eje: 255, distRamal: 0 },
+      { id: 'linares', nombre: 'Linares', corto: 'Linares', zona: 'ZONA CENTRO Y PUERTOS', eje: 305, distRamal: 0 },
+      // Zona Sur
+      { id: 'chillan', nombre: 'Chillán', corto: 'Chillán', zona: 'ZONA SUR', eje: 400, distRamal: 0 },
+      { id: 'concepcion', nombre: 'Concepción', corto: 'Concepción', zona: 'ZONA SUR', eje: 465, distRamal: 75 },
+      { id: 'los_angeles', nombre: 'Los Ángeles', corto: 'Los Ángeles', zona: 'ZONA SUR', eje: 515, distRamal: 0 },
+      { id: 'temuco', nombre: 'Temuco', corto: 'Temuco', zona: 'ZONA SUR', eje: 690, distRamal: 0 },
+      { id: 'valdivia', nombre: 'Valdivia', corto: 'Valdivia', zona: 'ZONA SUR', eje: 820, distRamal: 30 },
+      { id: 'osorno', nombre: 'Osorno', corto: 'Osorno', zona: 'ZONA SUR', eje: 930, distRamal: 0 },
+      { id: 'puerto_montt', nombre: 'Puerto Montt', corto: 'Pto. Montt', zona: 'ZONA SUR', eje: 1030, distRamal: 0 },
+      { id: 'castro', nombre: 'Castro (Chiloé)', corto: 'Castro', zona: 'ZONA SUR', eje: 1200, distRamal: 0 },
+      // Zona Norte
+      { id: 'la_serena', nombre: 'La Serena / Coquimbo', corto: 'La Serena', zona: 'ZONA NORTE', eje: -470, distRamal: 0 },
+      { id: 'vallenar', nombre: 'Vallenar', corto: 'Vallenar', zona: 'ZONA NORTE', eje: -660, distRamal: 0 },
+      { id: 'copiapo', nombre: 'Copiapó', corto: 'Copiapó', zona: 'ZONA NORTE', eje: -805, distRamal: 0 },
+      { id: 'chanaral', nombre: 'Chañaral', corto: 'Chañaral', zona: 'ZONA NORTE', eje: -970, distRamal: 0 },
+      { id: 'antofagasta', nombre: 'Antofagasta', corto: 'Antofagasta', zona: 'ZONA NORTE', eje: -1365, distRamal: 0 },
+      { id: 'mejillones', nombre: 'Mejillones', corto: 'Mejillones', zona: 'ZONA NORTE', eje: -1400, distRamal: 30 },
+      { id: 'calama', nombre: 'Calama', corto: 'Calama', zona: 'ZONA NORTE', eje: -1380, distRamal: 150 },
+      { id: 'iquique', nombre: 'Iquique', corto: 'Iquique', zona: 'ZONA NORTE', eje: -1790, distRamal: 0 },
+      { id: 'arica', nombre: 'Arica', corto: 'Arica', zona: 'ZONA NORTE', eje: -2060, distRamal: 0 },
+      // Personalizado
+      { id: 'custom', nombre: 'Otro punto (km manual)', corto: 'Punto Manual', zona: 'PERSONALIZADO', eje: 0, distRamal: 0 }
+    ];
+
+    const MAPA_CIUDADES_TRC = Object.fromEntries(CIUDADES_RUTA_TRC.map(c => [c.id, c]));
+
+    // Matriz de distancias reales para ramales fuera de la Ruta 5 (simétrica)
+    const DISTANCIAS_EXCEPCIONES = {
+      'santiago|concepcion': 500,
+      'santiago|valdivia': 850,
+      'santiago|los_andes': 85,
+      'santiago|valparaiso': 120,
+      'santiago|san_antonio': 115,
+      'santiago|mejillones': 1430,
+      'santiago|calama': 1530,
+      'valparaiso|san_antonio': 95,
+      'valparaiso|los_andes': 135,
+      'valparaiso|la_serena': 440,
+      'valparaiso|rancagua': 185,
+      'san_antonio|rancagua': 145,
+      'concepcion|chillan': 105,
+      'concepcion|los_angeles': 125,
+      'concepcion|temuco': 290,
+      'concepcion|valdivia': 450,
+      'concepcion|osorno': 530,
+      'concepcion|puerto_montt': 630,
+      'concepcion|castro': 800,
+      'concepcion|talca': 250,
+      'concepcion|curico': 310,
+      'concepcion|linares': 200,
+      'valdivia|temuco': 170,
+      'valdivia|los_angeles': 335,
+      'valdivia|osorno': 110,
+      'valdivia|puerto_montt': 210,
+      'valdivia|castro': 380,
+      'antofagasta|mejillones': 65,
+      'antofagasta|calama': 215,
+      'mejillones|calama': 225,
+      'calama|iquique': 390,
+      'calama|arica': 600
+    };
+
+    const PLANTILLAS_RUTA_DEFAULT = [
+      {
+        id: 'tpl_osorno_los_angeles',
+        nombre: 'Circuito Sur: Stgo → Osorno ↔ Los Ángeles → Stgo',
+        origen: 'santiago',
+        paradas: ['osorno', 'los_angeles', 'osorno', 'los_angeles', 'santiago']
+      },
+      {
+        id: 'tpl_puerto_montt_iv',
+        nombre: 'Ida y Vuelta: Stgo → Pto. Montt → Stgo',
+        origen: 'santiago',
+        paradas: ['puerto_montt', 'santiago']
+      },
+      {
+        id: 'tpl_concepcion_los_angeles',
+        nombre: 'Circuito Biobío: Stgo → Concepción → Los Ángeles → Stgo',
+        origen: 'santiago',
+        paradas: ['concepcion', 'los_angeles', 'santiago']
+      }
+    ];
+
+    let rutaOrigenId = 'santiago';
+    let rutaTramos = []; // { destinoId, nombreCustom, km, recargaDiesel }
+    let plantillasRutaGuardadas = [];
+
+    function escHtmlRuta(str) {
+      return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function obtenerNombreCiudadRuta(id, nombreCustom = '') {
+      if (id === 'custom' && nombreCustom) return nombreCustom;
+      const c = MAPA_CIUDADES_TRC[id];
+      return c ? c.corto : (nombreCustom || id || 'Punto');
+    }
+
+    function calcularDistanciaEntreCiudades(idA, idB) {
+      if (!idA || !idB || idA === idB) return 0;
+      if (idA === 'custom' || idB === 'custom') return 0;
+      const k1 = idA + '|' + idB;
+      const k2 = idB + '|' + idA;
+      if (DISTANCIAS_EXCEPCIONES[k1] !== undefined) return DISTANCIAS_EXCEPCIONES[k1];
+      if (DISTANCIAS_EXCEPCIONES[k2] !== undefined) return DISTANCIAS_EXCEPCIONES[k2];
+      const a = MAPA_CIUDADES_TRC[idA];
+      const b = MAPA_CIUDADES_TRC[idB];
+      if (!a || !b) return 0;
+      return Math.round(Math.abs(a.eje - b.eje) + (a.distRamal || 0) + (b.distRamal || 0));
+    }
+
+    function construirOpcionesCiudadesHtml(incluirCustom = true) {
+      const zonas = ['BASE TRC', 'ZONA CENTRO Y PUERTOS', 'ZONA SUR', 'ZONA NORTE'];
+      if (incluirCustom) zonas.push('PERSONALIZADO');
+      return zonas.map(z => {
+        const items = CIUDADES_RUTA_TRC.filter(c => c.zona === z);
+        if (!items.length) return '';
+        const opts = items.map(c => '<option value="' + c.id + '">' + escHtmlRuta(c.nombre) + '</option>').join('');
+        return '<optgroup label="📍 ' + escHtmlRuta(z) + '">' + opts + '</optgroup>';
+      }).join('');
+    }
+
+    function cargarPlantillasRutaStorage() {
+      let custom = [];
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_PLANTILLAS_RUTA);
+        if (raw) custom = JSON.parse(raw);
+      } catch (e) { custom = []; }
+      plantillasRutaGuardadas = [...PLANTILLAS_RUTA_DEFAULT, ...(Array.isArray(custom) ? custom : [])];
+      const sel = document.getElementById('selectPlantillaRuta');
+      if (!sel) return;
+      sel.innerHTML = '<option value="">📂 Circuitos guardados...</option>' +
+        plantillasRutaGuardadas.map(p => '<option value="' + escHtmlRuta(p.id) + '">' + escHtmlRuta(p.nombre) + '</option>').join('');
+    }
+
+    function inicializarPlanificadorRuta() {
+      const selOrg = document.getElementById('selectRutaOrigen');
+      const selPar = document.getElementById('selectRutaNuevaParada');
+      if (selOrg) {
+        selOrg.innerHTML = construirOpcionesCiudadesHtml(false);
+        selOrg.value = rutaOrigenId;
+      }
+      if (selPar) {
+        selPar.innerHTML = construirOpcionesCiudadesHtml(true);
+        selPar.value = 'osorno';
+      }
+      cargarPlantillasRutaStorage();
+      renderizarPlanificadorRuta();
+    }
+
+    function obtenerUltimoPuntoRuta() {
+      if (rutaTramos.length === 0) return rutaOrigenId;
+      return rutaTramos[rutaTramos.length - 1].destinoId;
+    }
+
+    function cambiarOrigenRutaMulti(nuevoOrigenId) {
+      if (!nuevoOrigenId) return;
+      rutaOrigenId = nuevoOrigenId;
+      if (rutaTramos.length > 0 && rutaTramos[0].destinoId !== 'custom') {
+        rutaTramos[0].km = calcularDistanciaEntreCiudades(rutaOrigenId, rutaTramos[0].destinoId);
+      }
+      sincronizarKmMultiTramo();
+    }
+
+    function agregarParadaRuta(destinoId, kmManual = null, nombreCustom = '', recargaDiesel = 0) {
+      if (!destinoId) return;
+      const prevId = obtenerUltimoPuntoRuta();
+      if (destinoId !== 'custom' && destinoId === prevId) {
+        mostrarToast('⚠️ El destino coincide con el punto actual (' + obtenerNombreCiudadRuta(prevId) + '). Elige otra ciudad.', 'warn');
+        return;
+      }
+      const kmCalc = kmManual !== null && !isNaN(Number(kmManual))
+        ? Math.max(0, Number(kmManual))
+        : calcularDistanciaEntreCiudades(prevId, destinoId);
+      rutaTramos.push({
+        destinoId,
+        nombreCustom: nombreCustom || (destinoId === 'custom' ? ('Punto ' + (rutaTramos.length + 1)) : ''),
+        km: kmCalc,
+        recargaDiesel: Math.max(0, Number(recargaDiesel) || 0)
+      });
+      sincronizarKmMultiTramo();
+    }
+
+    function agregarParadaDesdeSelector() {
+      const sel = document.getElementById('selectRutaNuevaParada');
+      if (!sel || !sel.value) return;
+      agregarParadaRuta(sel.value);
+    }
+
+    function agregarParadaRapida(destinoId) {
+      agregarParadaRuta(destinoId);
+    }
+
+    function repetirUltimoTramoIdaVuelta() {
+      if (rutaTramos.length === 0) {
+        mostrarToast('ℹ️ Agrega primero un tramo para poder repetirlo.', 'info');
+        return;
+      }
+      const ultimoIdx = rutaTramos.length - 1;
+      const origenPrevio = ultimoIdx === 0 ? rutaOrigenId : rutaTramos[ultimoIdx - 1].destinoId;
+      const ultimo = rutaTramos[ultimoIdx];
+      if (origenPrevio === 'custom') {
+        agregarParadaRuta('custom', ultimo.km, ultimoIdx === 0 ? 'Origen' : rutaTramos[ultimoIdx - 1].nombreCustom);
+      } else {
+        agregarParadaRuta(origenPrevio);
+      }
+    }
+
+    function eliminarTramoRuta(idx) {
+      if (idx < 0 || idx >= rutaTramos.length) return;
+      rutaTramos.splice(idx, 1);
+      // Recalcular km del tramo que quedó en posición idx (si no es custom)
+      if (idx < rutaTramos.length) {
+        const prevId = idx === 0 ? rutaOrigenId : rutaTramos[idx - 1].destinoId;
+        if (rutaTramos[idx].destinoId !== 'custom' && prevId !== 'custom') {
+          rutaTramos[idx].km = calcularDistanciaEntreCiudades(prevId, rutaTramos[idx].destinoId);
+        }
+      }
+      sincronizarKmMultiTramo();
+    }
+
+    function limpiarRutaMultiTramo() {
+      rutaTramos = [];
+      const selTpl = document.getElementById('selectPlantillaRuta');
+      if (selTpl) selTpl.value = '';
+      sincronizarKmMultiTramo();
+    }
+
+    function asumirSalidaLlenaMultiTramo() {
+      const elPctD = document.getElementById('inputConjuntoPctDiesel');
+      const elPctA = document.getElementById('inputConjuntoPctAdblue');
+      if (elPctD) elPctD.value = '100';
+      if (inputPorcentajeDirecto) inputPorcentajeDirecto.value = '100';
+      if (elPctA && leerPctOpcional(elPctA) === null) {
+        elPctA.value = '100';
+        if (typeof inputPorcentajeAdblue !== 'undefined' && inputPorcentajeAdblue) inputPorcentajeAdblue.value = '100';
+      }
+      recalcular();
+      if (typeof recalcularAdblue === 'function') recalcularAdblue();
+      recalcularConjunto();
+      mostrarToast('⚡ Estanque fijado al 100% para simular salida lleno desde origen.', 'info');
+    }
+
+    let _soloKpisTablaRuta = false;
+
+    function actualizarKmTramoRuta(idx, val, rerenderTabla = false) {
+      if (!rutaTramos[idx]) return;
+      const kmNum = Math.max(0, parseFloat(val) || 0);
+      rutaTramos[idx].km = kmNum;
+      sincronizarKmMultiTramo(!rerenderTabla);
+    }
+
+    function actualizarRecargaTramoRuta(idx, val, rerenderTabla = false) {
+      if (!rutaTramos[idx]) return;
+      const lNum = Math.max(0, parseFloat(val) || 0);
+      rutaTramos[idx].recargaDiesel = lNum;
+      renderizarPlanificadorRuta(!rerenderTabla);
+    }
+
+    function llenarEnTramoRuta(idx) {
+      if (!rutaTramos[idx]) return;
+      const sim = simularRutaMultiTramo();
+      if (!sim.tienePctDiesel) {
+        asumirSalidaLlenaMultiTramo();
+      }
+      const simActual = simularRutaMultiTramo();
+      const fila = simActual.filas[idx];
+      if (!fila) return;
+      const espacioAntes = Math.max(0, Math.floor(simActual.capD - fila.dieselAntesDeRecarga));
+      rutaTramos[idx].recargaDiesel = espacioAntes;
+      renderizarPlanificadorRuta();
+      mostrarToast('⛽ Recarga simulada de +' + espacioAntes + ' L antes del Tramo ' + (idx + 1) + '.', 'info');
+    }
+
+    function cargarPlantillaRuta(tplId) {
+      if (!tplId) return;
+      const tpl = plantillasRutaGuardadas.find(p => p.id === tplId);
+      if (!tpl) return;
+      rutaOrigenId = tpl.origen || 'santiago';
+      const selOrg = document.getElementById('selectRutaOrigen');
+      if (selOrg) selOrg.value = rutaOrigenId;
+      rutaTramos = [];
+      let prev = rutaOrigenId;
+      (tpl.paradas || []).forEach(p => {
+        if (typeof p === 'string') {
+          rutaTramos.push({
+            destinoId: p,
+            nombreCustom: '',
+            km: calcularDistanciaEntreCiudades(prev, p),
+            recargaDiesel: 0
+          });
+          prev = p;
+        } else if (p && typeof p === 'object') {
+          rutaTramos.push({
+            destinoId: p.destinoId || 'custom',
+            nombreCustom: p.nombreCustom || '',
+            km: Number(p.km) || calcularDistanciaEntreCiudades(prev, p.destinoId),
+            recargaDiesel: Number(p.recargaDiesel) || 0
+          });
+          prev = p.destinoId || 'custom';
+        }
+      });
+      sincronizarKmMultiTramo();
+      mostrarToast('🗺️ Circuito cargado: ' + tpl.nombre, 'ok');
+    }
+
+    function guardarPlantillaRutaActual() {
+      if (rutaTramos.length === 0) {
+        mostrarToast('⚠️ Agrega al menos un tramo antes de guardar un circuito.', 'warn');
+        return;
+      }
+      const nombreDef = obtenerResumenTextoRutaMulti(true);
+      const nombre = typeof prompt === 'function' ? prompt('Nombre del circuito a guardar:', nombreDef) : nombreDef;
+      if (!nombre || !nombre.trim()) return;
+      let custom = [];
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_PLANTILLAS_RUTA);
+        if (raw) custom = JSON.parse(raw);
+      } catch (e) { custom = []; }
+      custom.push({
+        id: 'tpl_user_' + Date.now(),
+        nombre: nombre.trim(),
+        origen: rutaOrigenId,
+        paradas: rutaTramos.map(t => ({
+          destinoId: t.destinoId,
+          nombreCustom: t.nombreCustom || '',
+          km: t.km,
+          recargaDiesel: t.recargaDiesel || 0
+        }))
+      });
+      localStorage.setItem(STORAGE_KEY_PLANTILLAS_RUTA, JSON.stringify(custom));
+      cargarPlantillasRutaStorage();
+      mostrarToast('💾 Circuito guardado en plantillas locales.', 'ok');
+    }
+
+    function exportarEstadoRutaMulti() {
+      if (rutaTramos.length === 0) return null;
+      return {
+        origen: rutaOrigenId,
+        tramos: rutaTramos.map(t => ({
+          destinoId: t.destinoId,
+          nombreCustom: t.nombreCustom || '',
+          km: t.km,
+          recargaDiesel: t.recargaDiesel || 0
+        }))
+      };
+    }
+
+    function restaurarEstadoRutaMulti(estado) {
+      if (!estado || !Array.isArray(estado.tramos)) return;
+      rutaOrigenId = estado.origen || 'santiago';
+      const selOrg = document.getElementById('selectRutaOrigen');
+      if (selOrg) selOrg.value = rutaOrigenId;
+      rutaTramos = estado.tramos.map(t => ({
+        destinoId: t.destinoId || 'custom',
+        nombreCustom: t.nombreCustom || '',
+        km: Math.max(0, Number(t.km) || 0),
+        recargaDiesel: Math.max(0, Number(t.recargaDiesel) || 0)
+      }));
+    }
+
+    function obtenerResumenTextoRutaMulti(soloCiudades = false) {
+      if (rutaTramos.length === 0) return '';
+      const nodos = [obtenerNombreCiudadRuta(rutaOrigenId)];
+      rutaTramos.forEach(t => nodos.push(obtenerNombreCiudadRuta(t.destinoId, t.nombreCustom)));
+      const cadena = nodos.join(' → ');
+      if (soloCiudades) return cadena;
+      const totalKm = rutaTramos.reduce((acc, t) => acc + (Number(t.km) || 0), 0);
+      return cadena + ' (' + Math.round(totalKm).toLocaleString('es-CL') + ' km · ' + rutaTramos.length + (rutaTramos.length === 1 ? ' tramo)' : ' tramos)');
+    }
+
+    function simularRutaMultiTramo() {
+      const capD = parseFloat(document.getElementById('inputConjuntoCapDiesel')?.value) || 750;
+      const rendD = parseFloat(document.getElementById('inputConjuntoRendDiesel')?.value) || 3.5;
+      const capA = parseFloat(document.getElementById('inputConjuntoCapAdblue')?.value) || 70;
+      const rBase = parseFloat(document.getElementById('inputConjuntoRBase')?.value) || 6.0;
+      const fCarga = parseFloat(document.getElementById('inputConjuntoFCarga')?.value) || 1.00;
+      const fNox = parseFloat(document.getElementById('inputConjuntoFNox')?.value) || 1.00;
+      const pctD = leerPctOpcional(document.getElementById('inputConjuntoPctDiesel'));
+      const pctA = leerPctOpcional(document.getElementById('inputConjuntoPctAdblue'));
+
+      const tasaEfectiva = (rBase / 100) * fCarga * fNox;
+      const cAdblue = (1 / rendD) * tasaEfectiva;
+
+      let saldoD = pctD !== null ? (capD * pctD) / 100 : null;
+      let saldoA = pctA !== null ? (capA * pctA) / 100 : null;
+
+      let totalKm = 0;
+      let totalDiesel = 0;
+      let totalAdblue = 0;
+      let totalRecargaSimuladaD = 0;
+      let primerTramoCriticoD = null;
+      let primerTramoCriticoA = null;
+      let prevId = rutaOrigenId;
+      let prevCustom = '';
+
+      const filas = rutaTramos.map((t, idx) => {
+        const km = Math.max(0, Number(t.km) || 0);
+        const consD = km / rendD;
+        const consA = km * cAdblue;
+        const recD = Math.max(0, Number(t.recargaDiesel) || 0);
+        const origenNombre = obtenerNombreCiudadRuta(prevId, prevCustom);
+        const destinoNombre = obtenerNombreCiudadRuta(t.destinoId, t.nombreCustom);
+
+        totalKm += km;
+        totalDiesel += consD;
+        totalAdblue += consA;
+        totalRecargaSimuladaD += recD;
+
+        let dieselAntesDeRecarga = saldoD;
+        let dieselSalida = saldoD;
+        let dieselLlegada = null;
+        let estadoD = 'NEUTRO';
+        if (saldoD !== null) {
+          dieselAntesDeRecarga = saldoD;
+          dieselSalida = Math.min(capD, saldoD + recD);
+          dieselLlegada = dieselSalida - consD;
+          if (dieselLlegada >= RESERVA_LITROS) {
+            estadoD = 'VERDE';
+          } else if (dieselLlegada >= 0) {
+            estadoD = 'AMARILLO';
+            if (!primerTramoCriticoD) {
+              primerTramoCriticoD = {
+                idx,
+                origenNombre,
+                destinoNombre,
+                tipo: 'RESERVA',
+                llegada: dieselLlegada,
+                faltanteMin: Math.ceil(RESERVA_LITROS - dieselLlegada)
+              };
+            }
+          } else {
+            estadoD = 'ROJO';
+            if (!primerTramoCriticoD || primerTramoCriticoD.tipo === 'RESERVA') {
+              primerTramoCriticoD = {
+                idx,
+                origenNombre,
+                destinoNombre,
+                tipo: 'DEFICIT',
+                llegada: dieselLlegada,
+                faltanteMin: Math.ceil(RESERVA_LITROS - dieselLlegada)
+              };
+            }
+          }
+          saldoD = dieselLlegada;
+        }
+
+        let adblueLlegada = null;
+        let estadoA = 'NEUTRO';
+        if (saldoA !== null) {
+          adblueLlegada = saldoA - consA;
+          if (adblueLlegada >= ADBLUE_RESERVA_LITROS) {
+            estadoA = 'VERDE';
+          } else if (adblueLlegada >= 0) {
+            estadoA = 'AMARILLO';
+            if (!primerTramoCriticoA) {
+              primerTramoCriticoA = { idx, origenNombre, destinoNombre, tipo: 'RESERVA', llegada: adblueLlegada, faltanteMin: Math.ceil(ADBLUE_RESERVA_LITROS - adblueLlegada) };
+            }
+          } else {
+            estadoA = 'ROJO';
+            if (!primerTramoCriticoA || primerTramoCriticoA.tipo === 'RESERVA') {
+              primerTramoCriticoA = { idx, origenNombre, destinoNombre, tipo: 'DEFICIT', llegada: adblueLlegada, faltanteMin: Math.ceil(ADBLUE_RESERVA_LITROS - adblueLlegada) };
+            }
+          }
+          saldoA = adblueLlegada;
+        }
+
+        prevId = t.destinoId;
+        prevCustom = t.nombreCustom || '';
+
+        return {
+          idx,
+          origenNombre,
+          destinoNombre,
+          destinoId: t.destinoId,
+          km,
+          consD,
+          consA,
+          recargaDiesel: recD,
+          dieselAntesDeRecarga,
+          dieselSalida,
+          dieselLlegada,
+          estadoD,
+          adblueLlegada,
+          estadoA
+        };
+      });
+
+      const litrosInicialesD = pctD !== null ? (capD * pctD) / 100 : null;
+      const recargaMinimaTotalD = litrosInicialesD !== null
+        ? Math.max(0, Math.ceil((totalDiesel + RESERVA_LITROS) - litrosInicialesD))
+        : null;
+      const recargaPendienteD = saldoD !== null
+        ? Math.max(0, Math.ceil(RESERVA_LITROS - saldoD))
+        : null;
+
+      return {
+        capD,
+        rendD,
+        capA,
+        tasaEfectiva,
+        tienePctDiesel: pctD !== null,
+        tienePctAdblue: pctA !== null,
+        totalKm,
+        totalDiesel,
+        totalAdblue,
+        totalRecargaSimuladaD,
+        recargaMinimaTotalD,
+        recargaPendienteD,
+        saldoFinalD: saldoD,
+        saldoFinalA: saldoA,
+        primerTramoCriticoD,
+        primerTramoCriticoA,
+        filas
+      };
+    }
+
+    function sincronizarKmMultiTramo(omitirRerenderTabla = false) {
+      const totalKm = rutaTramos.reduce((acc, t) => acc + (Number(t.km) || 0), 0);
+      if (inputKmBase) {
+        inputKmBase.value = totalKm > 0 ? Math.round(totalKm) : '';
+      }
+      if (labelDistanciaRef) {
+        labelDistanciaRef.textContent = totalKm > 0 ? (Math.round(totalKm).toLocaleString('es-CL') + ' km (Multi-tramo)') : 'Personalizado';
+      }
+      _soloKpisTablaRuta = Boolean(omitirRerenderTabla);
+      try {
+        recalcular();
+        if (typeof recalcularAdblue === 'function') recalcularAdblue();
+        recalcularConjunto();
+      } finally {
+        _soloKpisTablaRuta = false;
+      }
+    }
+
+    function renderizarPlanificadorRuta(soloKpis = false) {
+      const omitirTabla = Boolean(soloKpis || _soloKpisTablaRuta);
+      const sim = simularRutaMultiTramo();
+      const chipsEl = document.getElementById('rutaChipsItinerario');
+      const kpiKm = document.getElementById('kpiRutaTotalKm');
+      const kpiTramos = document.getElementById('kpiRutaTotalTramos');
+      const kpiDiesel = document.getElementById('kpiRutaTotalDiesel');
+      const kpiEst = document.getElementById('kpiRutaEstanquesDiesel');
+      const kpiAdblue = document.getElementById('kpiRutaTotalAdblue');
+      const kpiScr = document.getElementById('kpiRutaTasaScr');
+      const kpiRecarga = document.getElementById('kpiRutaRecargaTotal');
+      const kpiSaldo = document.getElementById('kpiRutaSaldoFinal');
+      const alertaEl = document.getElementById('alertaTramoCriticoRuta');
+      const btn100 = document.getElementById('btnAsumirSalida100');
+
+      if (btn100) btn100.classList.toggle('hidden', sim.tienePctDiesel);
+
+      if (chipsEl) {
+        if (rutaTramos.length === 0) {
+          chipsEl.innerHTML = 'Origen: <strong class="text-white">' + escHtmlRuta(obtenerNombreCiudadRuta(rutaOrigenId)) + '</strong> — Selecciona el siguiente destino y pulsa <strong class="text-cyan-300">+ Agregar Tramo</strong>.';
+        } else {
+          const nodos = [obtenerNombreCiudadRuta(rutaOrigenId), ...rutaTramos.map(t => obtenerNombreCiudadRuta(t.destinoId, t.nombreCustom))];
+          chipsEl.innerHTML = nodos.map((n, i) =>
+            '<span class="' + (i === 0 || i === nodos.length - 1 ? 'text-cyan-300 font-bold' : 'text-white font-semibold') + '">' + escHtmlRuta(n) + '</span>'
+          ).join(' <span class="text-slate-500">→</span> ');
+        }
+      }
+
+      if (kpiKm) kpiKm.textContent = Math.round(sim.totalKm).toLocaleString('es-CL') + ' km';
+      if (kpiTramos) kpiTramos.textContent = rutaTramos.length + (rutaTramos.length === 1 ? ' tramo' : ' tramos');
+      if (kpiDiesel) kpiDiesel.textContent = sim.totalDiesel.toFixed(1).replace('.', ',') + ' L';
+      if (kpiEst) {
+        const capUtil = Math.max(1, sim.capD - RESERVA_LITROS);
+        const estNecesarios = sim.totalDiesel / capUtil;
+        kpiEst.textContent = '@ ' + sim.rendD + ' km/L · ' + estNecesarios.toFixed(2).replace('.', ',') + ' est.';
+      }
+      if (kpiAdblue) kpiAdblue.textContent = sim.totalAdblue.toFixed(1).replace('.', ',') + ' L';
+      if (kpiScr) kpiScr.textContent = 'Tasa ' + (sim.tasaEfectiva * 100).toFixed(1).replace('.', ',') + '%';
+
+      if (kpiRecarga && kpiSaldo) {
+        if (rutaTramos.length === 0) {
+          kpiRecarga.textContent = '--';
+          kpiRecarga.className = 'text-sm sm:text-base font-black font-mono text-slate-400';
+          kpiSaldo.textContent = 'Sin tramos aún';
+        } else if (!sim.tienePctDiesel) {
+          const minFull = Math.max(0, Math.ceil((sim.totalDiesel + RESERVA_LITROS) - sim.capD));
+          kpiRecarga.textContent = minFull > 0 ? ('+' + minFull + ' L') : '0 L';
+          kpiRecarga.className = 'text-sm sm:text-base font-black font-mono ' + (minFull > 0 ? 'text-amber-300' : 'text-emerald-400');
+          kpiSaldo.textContent = 'Si sale al 100% (' + sim.capD + ' L)';
+        } else if (sim.totalRecargaSimuladaD > 0) {
+          if (sim.recargaPendienteD === 0 && !sim.primerTramoCriticoD) {
+            kpiRecarga.textContent = '+' + Math.round(sim.totalRecargaSimuladaD) + ' L OK';
+            kpiRecarga.className = 'text-sm sm:text-base font-black font-mono text-emerald-400';
+            kpiSaldo.textContent = 'Final: ' + sim.saldoFinalD.toFixed(0) + ' L (' + Math.round((sim.saldoFinalD / sim.capD) * 100) + '%)';
+          } else {
+            kpiRecarga.textContent = 'Faltan +' + sim.recargaPendienteD + ' L';
+            kpiRecarga.className = 'text-sm sm:text-base font-black font-mono text-rose-400';
+            kpiSaldo.textContent = 'Simulado: +' + Math.round(sim.totalRecargaSimuladaD) + ' L';
+          }
+        } else {
+          if (sim.recargaMinimaTotalD === 0) {
+            kpiRecarga.textContent = '0 L · OK';
+            kpiRecarga.className = 'text-sm sm:text-base font-black font-mono text-emerald-400';
+            kpiSaldo.textContent = 'Llega con ' + sim.saldoFinalD.toFixed(0) + ' L';
+          } else {
+            kpiRecarga.textContent = '+' + sim.recargaMinimaTotalD + ' L';
+            kpiRecarga.className = 'text-sm sm:text-base font-black font-mono text-rose-400';
+            kpiSaldo.textContent = 'Mín. en ruta (res. 20 L)';
+          }
+        }
+      }
+
+      if (alertaEl) {
+        if (rutaTramos.length === 0 || !sim.tienePctDiesel) {
+          alertaEl.classList.add('hidden');
+        } else if (sim.primerTramoCriticoD) {
+          const c = sim.primerTramoCriticoD;
+          alertaEl.className = c.tipo === 'DEFICIT'
+            ? 'rounded-xl px-3 py-2 text-xs font-medium flex items-start gap-2 bg-rose-950/60 border border-rose-500/40 text-rose-200'
+            : 'rounded-xl px-3 py-2 text-xs font-medium flex items-start gap-2 bg-amber-950/60 border border-amber-500/40 text-amber-200';
+          alertaEl.innerHTML = '<span class="shrink-0">' + (c.tipo === 'DEFICIT' ? '🚨' : '⚠️') + '</span><span><strong>Tramo ' + (c.idx + 1) + ' (' + escHtmlRuta(c.origenNombre) + ' → ' + escHtmlRuta(c.destinoNombre) + '):</strong> ' +
+            (c.tipo === 'DEFICIT'
+              ? ('el Diésel se agota en este tramo (saldo proyectado ' + c.llegada.toFixed(1) + ' L). Agrega al menos <strong>+' + c.faltanteMin + ' L</strong> en "+ Carga (L)" antes de salir de ' + escHtmlRuta(c.origenNombre) + ' o en una parada previa.')
+              : ('ingresa en reserva de 20 L (llega con ' + c.llegada.toFixed(1) + ' L). Recarga preventiva sugerida: <strong>+' + c.faltanteMin + ' L</strong>.')) +
+            '</span>';
+        } else if (sim.primerTramoCriticoA) {
+          const cA = sim.primerTramoCriticoA;
+          alertaEl.className = 'rounded-xl px-3 py-2 text-xs font-medium flex items-start gap-2 bg-sky-950/60 border border-sky-500/40 text-sky-200';
+          alertaEl.innerHTML = '<span class="shrink-0">💧</span><span><strong>Diésel OK, alerta AdBlue SCR en Tramo ' + (cA.idx + 1) + ' (' + escHtmlRuta(cA.origenNombre) + ' → ' + escHtmlRuta(cA.destinoNombre) + '):</strong> AdBlue bajaría a ' + cA.llegada.toFixed(1) + ' L. Cargar al menos <strong>+' + cA.faltanteMin + ' L</strong> de AdBlue.</span>';
+        } else {
+          alertaEl.className = 'rounded-xl px-3 py-2 text-xs font-medium flex items-start gap-2 bg-emerald-950/50 border border-emerald-500/35 text-emerald-200';
+          alertaEl.innerHTML = '<span class="shrink-0">✅</span><span><strong>Circuito cubierto:</strong> todos los tramos llegan sobre reserva. Saldo final proyectado: <strong>' + sim.saldoFinalD.toFixed(1) + ' L</strong> (' + Math.round((sim.saldoFinalD / sim.capD) * 100) + '%)' +
+            (sim.totalRecargaSimuladaD > 0 ? (' considerando +' + Math.round(sim.totalRecargaSimuladaD) + ' L recargados en ruta.') : '.') + '</span>';
+        }
+      }
+
+      if (omitirTabla) return;
+
+      const tbody = document.getElementById('tablaTramosRuta');
+      if (!tbody) return;
+      if (sim.filas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="py-4 text-center text-slate-500 font-sans italic">Agrega el primer destino arriba (ej. Osorno) o elige un circuito guardado.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = sim.filas.map(f => {
+        let saldoHtml = '<span class="text-slate-500">--</span>';
+        if (f.dieselLlegada !== null) {
+          const pctLleg = Math.round((Math.max(0, f.dieselLlegada) / sim.capD) * 100);
+          if (f.estadoD === 'VERDE') {
+            saldoHtml = '<span class="text-emerald-400 font-bold">🟢 ' + f.dieselLlegada.toFixed(0) + ' L</span> <span class="text-[10px] text-slate-400">(' + pctLleg + '%)</span>';
+          } else if (f.estadoD === 'AMARILLO') {
+            saldoHtml = '<span class="text-amber-400 font-bold">🟡 ' + f.dieselLlegada.toFixed(0) + ' L</span> <span class="text-[10px] text-amber-300/80">(Res.)</span>';
+          } else {
+            saldoHtml = '<span class="text-rose-400 font-bold">🔴 ' + f.dieselLlegada.toFixed(0) + ' L</span>';
+          }
+        }
+        return '<tr class="hover:bg-slate-800/40 transition-colors">' +
+          '<td class="py-1.5 px-2 text-center text-slate-500 font-bold">' + (f.idx + 1) + '</td>' +
+          '<td class="py-1.5 px-2 font-sans text-slate-200 whitespace-nowrap">' + escHtmlRuta(f.origenNombre) + ' <span class="text-cyan-500">→</span> <strong class="text-white">' + escHtmlRuta(f.destinoNombre) + '</strong></td>' +
+          '<td class="py-1.5 px-2 text-right whitespace-nowrap">' +
+            '<input type="number" min="0" value="' + Math.round(f.km) + '" oninput="actualizarKmTramoRuta(' + f.idx + ', this.value, false)" onchange="actualizarKmTramoRuta(' + f.idx + ', this.value, true)" class="w-16 bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-1.5 py-0.5 text-right text-white font-mono text-[11px] focus:outline-none">' +
+          '</td>' +
+          '<td class="py-1.5 px-2 text-right text-cyan-300 whitespace-nowrap">' + f.consD.toFixed(1) + '</td>' +
+          '<td class="py-1.5 px-2 text-right text-sky-300 whitespace-nowrap">' + f.consA.toFixed(1) + '</td>' +
+          '<td class="py-1.5 px-2 text-center whitespace-nowrap">' +
+            '<div class="inline-flex items-center gap-1">' +
+              '<input type="number" min="0" placeholder="0" value="' + (f.recargaDiesel > 0 ? Math.round(f.recargaDiesel) : '') + '" oninput="actualizarRecargaTramoRuta(' + f.idx + ', this.value, false)" onchange="actualizarRecargaTramoRuta(' + f.idx + ', this.value, true)" class="w-14 bg-slate-900 border border-slate-700 focus:border-emerald-500 rounded-md px-1 py-0.5 text-right text-emerald-300 font-mono text-[11px] placeholder:text-slate-600 focus:outline-none">' +
+              '<button type="button" onclick="llenarEnTramoRuta(' + f.idx + ')" title="Llenar estanque antes de salir de ' + escHtmlRuta(f.origenNombre) + '" class="px-1 py-0.5 rounded bg-slate-800 hover:bg-emerald-500/30 text-emerald-300 text-[10px] cursor-pointer">⚡</button>' +
+            '</div>' +
+          '</td>' +
+          '<td class="py-1.5 px-2 text-right whitespace-nowrap">' + saldoHtml + '</td>' +
+          '<td class="py-1.5 px-1.5 text-center">' +
+            '<button type="button" onclick="eliminarTramoRuta(' + f.idx + ')" title="Quitar tramo" class="text-slate-500 hover:text-rose-400 px-1 cursor-pointer">✕</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    function generarBloqueWhatsAppRutaMulti() {
+      if (rutaTramos.length === 0) return '';
+      const sim = simularRutaMultiTramo();
+      const lineas = sim.filas.map(f => {
+        const recTxt = f.recargaDiesel > 0 ? (' [+' + Math.round(f.recargaDiesel) + ' L carga]') : '';
+        return (f.idx + 1) + '. ' + f.origenNombre + ' → ' + f.destinoNombre + ': ' + Math.round(f.km) + ' km (' + f.consD.toFixed(1) + ' L Diésel)' + recTxt;
+      });
+      return '🗺️ *PLAN DE RUTA (' + sim.filas.length + ' tramos · ' + Math.round(sim.totalKm).toLocaleString('es-CL') + ' km):*\n' +
+        lineas.join('\n') + '\n' +
+        '• *Consumo Total Ruta:* ' + sim.totalDiesel.toFixed(1) + ' L Diésel · ' + sim.totalAdblue.toFixed(1) + ' L AdBlue';
+    }
+
+    inicializarPlanificadorRuta();
     sincronizarCamposAConjunto();
     cambiarModoSimulador('conjunto');
     cargarBitacoraPersistente();
