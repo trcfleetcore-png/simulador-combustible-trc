@@ -775,11 +775,11 @@
             <!-- CONTROLES DE CONSTRUCCIÓN DE RUTA -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-end">
               <div class="sm:col-span-4">
-                <label class="block text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Punto de Partida</label>
+                <label id="lblRutaOrigen" class="block text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Desde (Origen tramo)</label>
                 <select id="selectRutaOrigen" onchange="cambiarOrigenRutaMulti(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"></select>
               </div>
               <div class="sm:col-span-5">
-                <label class="block text-[10px] text-cyan-300 font-semibold uppercase tracking-wider mb-1">Siguiente Destino / Parada</label>
+                <label class="block text-[10px] text-cyan-300 font-semibold uppercase tracking-wider mb-1">Hasta (Destino tramo)</label>
                 <select id="selectRutaNuevaParada" class="w-full bg-slate-900 border border-cyan-500/40 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-cyan-400"></select>
               </div>
               <div class="sm:col-span-3">
@@ -5098,11 +5098,31 @@ lineaD + lineaA +
         selOrg.value = rutaOrigenId;
       }
       if (selPar) {
-        selPar.innerHTML = construirOpcionesCiudadesHtml(true);
-        selPar.value = 'osorno';
+        selPar.innerHTML = '<option value="">-- Elegir destino --</option>' + construirOpcionesCiudadesHtml(true);
+        selPar.value = '';
       }
       cargarPlantillasRutaStorage();
       renderizarPlanificadorRuta();
+    }
+
+    function sincronizarSelectoresProximoTramo(origenSugerido) {
+      if (origenSugerido && origenSugerido !== 'custom') {
+        rutaOrigenId = origenSugerido;
+      }
+      const selOrg = document.getElementById('selectRutaOrigen');
+      const selPar = document.getElementById('selectRutaNuevaParada');
+      const lblOrg = document.getElementById('lblRutaOrigen');
+      if (selOrg && rutaOrigenId && rutaOrigenId !== 'custom') {
+        selOrg.value = rutaOrigenId;
+      }
+      if (selPar) {
+        selPar.value = '';
+      }
+      if (lblOrg) {
+        lblOrg.textContent = rutaTramos.length > 0
+          ? ('Desde (Tramo ' + (rutaTramos.length + 1) + ')')
+          : 'Desde (Origen tramo)';
+      }
     }
 
     function obtenerUltimoPuntoRuta() {
@@ -5110,42 +5130,56 @@ lineaD + lineaA +
       return rutaTramos[rutaTramos.length - 1].destinoId;
     }
 
+    // Cambiar "Desde" SOLO define el origen del próximo tramo a agregar (nunca altera tramos previos)
     function cambiarOrigenRutaMulti(nuevoOrigenId) {
       if (!nuevoOrigenId) return;
       rutaOrigenId = nuevoOrigenId;
-      if (rutaTramos.length > 0 && rutaTramos[0].destinoId !== 'custom') {
-        rutaTramos[0].km = calcularDistanciaEntreCiudades(rutaOrigenId, rutaTramos[0].destinoId);
-      }
-      sincronizarKmMultiTramo();
+      renderizarPlanificadorRuta(true);
     }
 
-    function agregarParadaRuta(destinoId, kmManual = null, nombreCustom = '', recargaDiesel = 0) {
-      if (!destinoId) return;
-      const prevId = obtenerUltimoPuntoRuta();
-      if (destinoId !== 'custom' && destinoId === prevId) {
-        mostrarToast('⚠️ El destino coincide con el punto actual (' + obtenerNombreCiudadRuta(prevId) + '). Elige otra ciudad.', 'warn');
+    function agregarParadaRuta(destinoId, kmManual = null, nombreCustom = '', recargaDiesel = 0, origenExplicito = null) {
+      if (!destinoId) {
+        mostrarToast('⚠️ Selecciona una ciudad de destino antes de agregar el tramo.', 'warn');
         return;
       }
+      const prevId = origenExplicito || obtenerUltimoPuntoRuta();
+      if (destinoId !== 'custom' && destinoId === prevId) {
+        mostrarToast('⚠️ El origen y destino no pueden ser iguales (' + obtenerNombreCiudadRuta(prevId) + '). Elige otra ciudad.', 'warn');
+        return;
+      }
+      const prevTramo = rutaTramos.length > 0 ? rutaTramos[rutaTramos.length - 1] : null;
+      const origenCustom = (!origenExplicito && prevTramo && prevTramo.destinoId === 'custom') ? (prevTramo.nombreCustom || '') : '';
       const kmCalc = kmManual !== null && !isNaN(Number(kmManual))
         ? Math.max(0, Number(kmManual))
         : calcularDistanciaEntreCiudades(prevId, destinoId);
       rutaTramos.push({
+        origenId: prevId,
+        origenCustom,
         destinoId,
         nombreCustom: nombreCustom || (destinoId === 'custom' ? ('Punto ' + (rutaTramos.length + 1)) : ''),
         km: kmCalc,
         recargaDiesel: Math.max(0, Number(recargaDiesel) || 0)
       });
+      // Avanzar automáticamente "Desde" al destino recién agregado para encadenar el siguiente tramo
+      sincronizarSelectoresProximoTramo(destinoId !== 'custom' ? destinoId : prevId);
       sincronizarKmMultiTramo();
     }
 
     function agregarParadaDesdeSelector() {
-      const sel = document.getElementById('selectRutaNuevaParada');
-      if (!sel || !sel.value) return;
-      agregarParadaRuta(sel.value);
+      const selOrg = document.getElementById('selectRutaOrigen');
+      const selPar = document.getElementById('selectRutaNuevaParada');
+      const origenId = (selOrg && selOrg.value) ? selOrg.value : obtenerUltimoPuntoRuta();
+      const destinoId = selPar ? selPar.value : '';
+      if (!destinoId) {
+        mostrarToast('⚠️ Elige una ciudad en "Hasta (Destino tramo)" y luego pulsa + Agregar Tramo.', 'warn');
+        if (selPar) selPar.focus();
+        return;
+      }
+      agregarParadaRuta(destinoId, null, '', 0, origenId);
     }
 
     function agregarParadaRapida(destinoId) {
-      agregarParadaRuta(destinoId);
+      agregarParadaRuta(destinoId, null, '', 0, obtenerUltimoPuntoRuta());
     }
 
     function repetirUltimoTramoIdaVuelta() {
@@ -5153,26 +5187,30 @@ lineaD + lineaA +
         mostrarToast('ℹ️ Agrega primero un tramo para poder repetirlo.', 'info');
         return;
       }
-      const ultimoIdx = rutaTramos.length - 1;
-      const origenPrevio = ultimoIdx === 0 ? rutaOrigenId : rutaTramos[ultimoIdx - 1].destinoId;
-      const ultimo = rutaTramos[ultimoIdx];
-      if (origenPrevio === 'custom') {
-        agregarParadaRuta('custom', ultimo.km, ultimoIdx === 0 ? 'Origen' : rutaTramos[ultimoIdx - 1].nombreCustom);
+      const ultimo = rutaTramos[rutaTramos.length - 1];
+      const nuevoOrigen = ultimo.destinoId;
+      const nuevoDestino = ultimo.origenId || 'santiago';
+      if (nuevoDestino === 'custom') {
+        agregarParadaRuta('custom', ultimo.km, ultimo.origenCustom || 'Origen', 0, nuevoOrigen);
       } else {
-        agregarParadaRuta(origenPrevio);
+        agregarParadaRuta(nuevoDestino, ultimo.km, '', 0, nuevoOrigen);
       }
     }
 
     function eliminarTramoRuta(idx) {
       if (idx < 0 || idx >= rutaTramos.length) return;
+      const eliminado = rutaTramos[idx];
       rutaTramos.splice(idx, 1);
-      // Recalcular km del tramo que quedó en posición idx (si no es custom)
-      if (idx < rutaTramos.length) {
-        const prevId = idx === 0 ? rutaOrigenId : rutaTramos[idx - 1].destinoId;
-        if (rutaTramos[idx].destinoId !== 'custom' && prevId !== 'custom') {
-          rutaTramos[idx].km = calcularDistanciaEntreCiudades(prevId, rutaTramos[idx].destinoId);
+      // Si el tramo siguiente estaba encadenado al tramo eliminado, re-encadenarlo limpiamente
+      if (idx < rutaTramos.length && rutaTramos[idx].origenId === eliminado.destinoId) {
+        const nuevoPrev = idx === 0 ? eliminado.origenId : rutaTramos[idx - 1].destinoId;
+        rutaTramos[idx].origenId = nuevoPrev;
+        if (rutaTramos[idx].destinoId !== 'custom' && nuevoPrev !== 'custom') {
+          rutaTramos[idx].km = calcularDistanciaEntreCiudades(nuevoPrev, rutaTramos[idx].destinoId);
         }
       }
+      const ultimoDestino = rutaTramos.length > 0 ? rutaTramos[rutaTramos.length - 1].destinoId : 'santiago';
+      sincronizarSelectoresProximoTramo(ultimoDestino !== 'custom' ? ultimoDestino : 'santiago');
       sincronizarKmMultiTramo();
     }
 
@@ -5180,6 +5218,7 @@ lineaD + lineaA +
       rutaTramos = [];
       const selTpl = document.getElementById('selectPlantillaRuta');
       if (selTpl) selTpl.value = '';
+      sincronizarSelectoresProximoTramo('santiago');
       sincronizarKmMultiTramo();
     }
 
@@ -5233,14 +5272,13 @@ lineaD + lineaA +
       if (!tplId) return;
       const tpl = plantillasRutaGuardadas.find(p => p.id === tplId);
       if (!tpl) return;
-      rutaOrigenId = tpl.origen || 'santiago';
-      const selOrg = document.getElementById('selectRutaOrigen');
-      if (selOrg) selOrg.value = rutaOrigenId;
+      let prev = tpl.origen || 'santiago';
       rutaTramos = [];
-      let prev = rutaOrigenId;
       (tpl.paradas || []).forEach(p => {
         if (typeof p === 'string') {
           rutaTramos.push({
+            origenId: prev,
+            origenCustom: '',
             destinoId: p,
             nombreCustom: '',
             km: calcularDistanciaEntreCiudades(prev, p),
@@ -5248,15 +5286,20 @@ lineaD + lineaA +
           });
           prev = p;
         } else if (p && typeof p === 'object') {
+          const org = p.origenId || prev;
+          const dest = p.destinoId || 'custom';
           rutaTramos.push({
-            destinoId: p.destinoId || 'custom',
+            origenId: org,
+            origenCustom: p.origenCustom || '',
+            destinoId: dest,
             nombreCustom: p.nombreCustom || '',
-            km: Number(p.km) || calcularDistanciaEntreCiudades(prev, p.destinoId),
+            km: Number(p.km) || calcularDistanciaEntreCiudades(org, dest),
             recargaDiesel: Number(p.recargaDiesel) || 0
           });
-          prev = p.destinoId || 'custom';
+          prev = dest;
         }
       });
+      sincronizarSelectoresProximoTramo(prev !== 'custom' ? prev : 'santiago');
       sincronizarKmMultiTramo();
       mostrarToast('🗺️ Circuito cargado: ' + tpl.nombre, 'ok');
     }
@@ -5277,8 +5320,10 @@ lineaD + lineaA +
       custom.push({
         id: 'tpl_user_' + Date.now(),
         nombre: nombre.trim(),
-        origen: rutaOrigenId,
+        origen: rutaTramos[0].origenId || 'santiago',
         paradas: rutaTramos.map(t => ({
+          origenId: t.origenId || 'santiago',
+          origenCustom: t.origenCustom || '',
           destinoId: t.destinoId,
           nombreCustom: t.nombreCustom || '',
           km: t.km,
@@ -5293,8 +5338,10 @@ lineaD + lineaA +
     function exportarEstadoRutaMulti() {
       if (rutaTramos.length === 0) return null;
       return {
-        origen: rutaOrigenId,
+        origen: rutaTramos[0].origenId || 'santiago',
         tramos: rutaTramos.map(t => ({
+          origenId: t.origenId || 'santiago',
+          origenCustom: t.origenCustom || '',
           destinoId: t.destinoId,
           nombreCustom: t.nombreCustom || '',
           km: t.km,
@@ -5305,22 +5352,52 @@ lineaD + lineaA +
 
     function restaurarEstadoRutaMulti(estado) {
       if (!estado || !Array.isArray(estado.tramos)) return;
-      rutaOrigenId = estado.origen || 'santiago';
-      const selOrg = document.getElementById('selectRutaOrigen');
-      if (selOrg) selOrg.value = rutaOrigenId;
-      rutaTramos = estado.tramos.map(t => ({
-        destinoId: t.destinoId || 'custom',
-        nombreCustom: t.nombreCustom || '',
-        km: Math.max(0, Number(t.km) || 0),
-        recargaDiesel: Math.max(0, Number(t.recargaDiesel) || 0)
-      }));
+      let prev = estado.origen || 'santiago';
+      rutaTramos = estado.tramos.map(t => {
+        const org = t.origenId || prev;
+        const dest = t.destinoId || 'custom';
+        prev = dest;
+        return {
+          origenId: org,
+          origenCustom: t.origenCustom || '',
+          destinoId: dest,
+          nombreCustom: t.nombreCustom || '',
+          km: Math.max(0, Number(t.km) || 0),
+          recargaDiesel: Math.max(0, Number(t.recargaDiesel) || 0)
+        };
+      });
+      const ultimoDest = rutaTramos.length > 0 ? rutaTramos[rutaTramos.length - 1].destinoId : 'santiago';
+      sincronizarSelectoresProximoTramo(ultimoDest !== 'custom' ? ultimoDest : 'santiago');
+    }
+
+    function construirSegmentosItinerario() {
+      if (rutaTramos.length === 0) return [];
+      const segmentos = [];
+      let actual = [
+        obtenerNombreCiudadRuta(rutaTramos[0].origenId, rutaTramos[0].origenCustom),
+        obtenerNombreCiudadRuta(rutaTramos[0].destinoId, rutaTramos[0].nombreCustom)
+      ];
+      for (let i = 1; i < rutaTramos.length; i++) {
+        const prev = rutaTramos[i - 1];
+        const curr = rutaTramos[i];
+        const orgCurr = curr.origenId || prev.destinoId;
+        if (orgCurr === prev.destinoId) {
+          actual.push(obtenerNombreCiudadRuta(curr.destinoId, curr.nombreCustom));
+        } else {
+          segmentos.push(actual);
+          actual = [
+            obtenerNombreCiudadRuta(orgCurr, curr.origenCustom),
+            obtenerNombreCiudadRuta(curr.destinoId, curr.nombreCustom)
+          ];
+        }
+      }
+      segmentos.push(actual);
+      return segmentos;
     }
 
     function obtenerResumenTextoRutaMulti(soloCiudades = false) {
       if (rutaTramos.length === 0) return '';
-      const nodos = [obtenerNombreCiudadRuta(rutaOrigenId)];
-      rutaTramos.forEach(t => nodos.push(obtenerNombreCiudadRuta(t.destinoId, t.nombreCustom)));
-      const cadena = nodos.join(' → ');
+      const cadena = construirSegmentosItinerario().map(seg => seg.join(' → ')).join(' | ');
       if (soloCiudades) return cadena;
       const totalKm = rutaTramos.reduce((acc, t) => acc + (Number(t.km) || 0), 0);
       return cadena + ' (' + Math.round(totalKm).toLocaleString('es-CL') + ' km · ' + rutaTramos.length + (rutaTramos.length === 1 ? ' tramo)' : ' tramos)');
@@ -5348,15 +5425,17 @@ lineaD + lineaA +
       let totalRecargaSimuladaD = 0;
       let primerTramoCriticoD = null;
       let primerTramoCriticoA = null;
-      let prevId = rutaOrigenId;
-      let prevCustom = '';
+      let prevIdFallback = 'santiago';
+      let prevCustomFallback = '';
 
       const filas = rutaTramos.map((t, idx) => {
         const km = Math.max(0, Number(t.km) || 0);
         const consD = km / rendD;
         const consA = km * cAdblue;
         const recD = Math.max(0, Number(t.recargaDiesel) || 0);
-        const origenNombre = obtenerNombreCiudadRuta(prevId, prevCustom);
+        const orgId = t.origenId || prevIdFallback;
+        const orgCustom = t.origenId ? (t.origenCustom || '') : prevCustomFallback;
+        const origenNombre = obtenerNombreCiudadRuta(orgId, orgCustom);
         const destinoNombre = obtenerNombreCiudadRuta(t.destinoId, t.nombreCustom);
 
         totalKm += km;
@@ -5422,8 +5501,8 @@ lineaD + lineaA +
           saldoA = adblueLlegada;
         }
 
-        prevId = t.destinoId;
-        prevCustom = t.nombreCustom || '';
+        prevIdFallback = t.destinoId;
+        prevCustomFallback = t.nombreCustom || '';
 
         return {
           idx,
@@ -5509,12 +5588,14 @@ lineaD + lineaA +
 
       if (chipsEl) {
         if (rutaTramos.length === 0) {
-          chipsEl.innerHTML = 'Origen: <strong class="text-white">' + escHtmlRuta(obtenerNombreCiudadRuta(rutaOrigenId)) + '</strong> — Selecciona el siguiente destino y pulsa <strong class="text-cyan-300">+ Agregar Tramo</strong>.';
+          chipsEl.innerHTML = 'Próximo tramo desde <strong class="text-white">' + escHtmlRuta(obtenerNombreCiudadRuta(rutaOrigenId)) + '</strong> — Selecciona una ciudad en <strong class="text-cyan-300">Hasta</strong> y pulsa <strong class="text-cyan-300">+ Agregar Tramo</strong>.';
         } else {
-          const nodos = [obtenerNombreCiudadRuta(rutaOrigenId), ...rutaTramos.map(t => obtenerNombreCiudadRuta(t.destinoId, t.nombreCustom))];
-          chipsEl.innerHTML = nodos.map((n, i) =>
-            '<span class="' + (i === 0 || i === nodos.length - 1 ? 'text-cyan-300 font-bold' : 'text-white font-semibold') + '">' + escHtmlRuta(n) + '</span>'
-          ).join(' <span class="text-slate-500">→</span> ');
+          const segmentos = construirSegmentosItinerario();
+          chipsEl.innerHTML = segmentos.map(seg =>
+            seg.map((n, i) =>
+              '<span class="' + (i === 0 || i === seg.length - 1 ? 'text-cyan-300 font-bold' : 'text-white font-semibold') + '">' + escHtmlRuta(n) + '</span>'
+            ).join(' <span class="text-slate-500">→</span> ')
+          ).join(' <span class="text-slate-600 mx-1.5">|</span> ');
         }
       }
 
