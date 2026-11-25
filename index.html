@@ -1008,9 +1008,14 @@
                 </thead>
                 <tbody class="divide-y divide-white/5 font-mono">
                   <tr>
-                    <td class="py-1 text-slate-400 font-sans">Autonomía Útil</td>
-                    <td id="tblConjAutonDiesel" class="py-1 text-right text-white font-bold">-- km</td>
-                    <td id="tblConjAutonAdblue" class="py-1 text-right text-white font-bold">-- km</td>
+                    <td class="py-1 text-slate-400 font-sans">Autonomía Útil (s/reserva)</td>
+                    <td id="tblConjAutonDiesel" class="py-1 text-right text-white font-bold whitespace-nowrap">-- km</td>
+                    <td id="tblConjAutonAdblue" class="py-1 text-right text-white font-bold whitespace-nowrap">-- km</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 text-slate-400 font-sans">Autonomía Bruta (hasta 0 L)</td>
+                    <td id="tblConjAutonBrutaDiesel" class="py-1 text-right text-slate-300 font-semibold whitespace-nowrap">-- km</td>
+                    <td id="tblConjAutonBrutaAdblue" class="py-1 text-right text-slate-300 font-semibold whitespace-nowrap">-- km</td>
                   </tr>
                   <tr>
                     <td class="py-1 text-slate-400 font-sans">Consumo Ruta</td>
@@ -4159,6 +4164,10 @@
       // Table values
       document.getElementById('tblConjAutonDiesel').textContent = d ? (Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' km') : '--';
       document.getElementById('tblConjAutonAdblue').textContent = a ? (Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' km') : '--';
+      const elBrutaD = document.getElementById('tblConjAutonBrutaDiesel');
+      const elBrutaA = document.getElementById('tblConjAutonBrutaAdblue');
+      if (elBrutaD) elBrutaD.textContent = d ? (Math.round(d.autonomiaBrutaKm).toLocaleString('es-CL') + ' km') : '--';
+      if (elBrutaA) elBrutaA.textContent = a ? (Math.round(a.autonomiaBrutaKm).toLocaleString('es-CL') + ' km') : '--';
 
       const lblD = document.getElementById('lblSugConjuntoDiesel');
       const lblA = document.getElementById('lblSugConjuntoAdblue');
@@ -4211,7 +4220,7 @@
         if (d) {
           valD.textContent = Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' KM';
           valD.className = 'text-xl sm:text-2xl font-black font-mono tracking-tight text-cyan-400';
-          detD.textContent = d.litrosActuales.toFixed(1) + ' L (' + d.litrosUtiles.toFixed(1) + ' L útiles)';
+          detD.textContent = d.litrosUtiles.toFixed(0) + ' L útiles · Bruta ' + Math.round(d.autonomiaBrutaKm).toLocaleString('es-CL') + ' km';
         } else {
           valD.textContent = '--';
           valD.className = 'text-xl sm:text-2xl font-black font-mono tracking-tight text-slate-500';
@@ -4220,7 +4229,7 @@
         if (a) {
           valA.textContent = Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' KM';
           valA.className = 'text-xl sm:text-2xl font-black font-mono tracking-tight text-sky-400';
-          detA.textContent = a.litrosActuales.toFixed(1) + ' L (' + a.litrosUtiles.toFixed(1) + ' L útiles)';
+          detA.textContent = a.litrosUtiles.toFixed(0) + ' L útiles · Bruta ' + Math.round(a.autonomiaBrutaKm).toLocaleString('es-CL') + ' km';
         } else {
           valA.textContent = '--';
           valA.className = 'text-xl sm:text-2xl font-black font-mono tracking-tight text-slate-500';
