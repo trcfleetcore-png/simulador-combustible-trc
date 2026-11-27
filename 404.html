@@ -655,9 +655,9 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <!-- INPUT % DIÉSEL CONJUNTO -->
             <div class="bg-slate-950/70 border border-cyan-500/30 rounded-2xl p-2.5 space-y-1.5">
-              <label class="block text-xs text-cyan-300 font-bold">⛽ % Diésel en Tablero</label>
+              <label for="inputConjuntoPctDiesel" class="block text-xs text-cyan-300 font-bold">⛽ % Diésel en Tablero</label>
               <div class="flex items-center bg-slate-950 border-2 border-slate-700 hover:border-cyan-600/60 rounded-xl px-3 py-1 focus-within:border-cyan-500 transition-all shadow-inner">
-                <input type="number" id="inputConjuntoPctDiesel" value="" min="0" max="100" placeholder="Ej: 35" onfocus="this.select()" class="w-full bg-transparent text-3xl font-black text-cyan-400 font-mono placeholder:text-slate-700 focus:outline-none">
+                <input type="text" inputmode="decimal" autocomplete="off" id="inputConjuntoPctDiesel" value="" placeholder="Ej: 35" onfocus="seleccionarTodoInput(this)" onmouseup="preservarSeleccionInput(event, this)" oninput="manejarCambioCampoConjunto('inputConjuntoPctDiesel')" onchange="manejarCambioCampoConjunto('inputConjuntoPctDiesel')" class="w-full bg-transparent text-3xl font-black text-cyan-400 font-mono placeholder:text-slate-700 focus:outline-none">
                 <span class="text-2xl font-black text-cyan-500 select-none ml-2">%</span>
               </div>
               <div class="flex items-center justify-between text-[11px] font-mono">
@@ -668,9 +668,9 @@
 
             <!-- INPUT % ADBLUE CONJUNTO -->
             <div class="bg-slate-950/70 border border-sky-500/30 rounded-2xl p-2.5 space-y-1.5">
-              <label class="block text-xs text-sky-300 font-bold">💧 % AdBlue en Tablero</label>
+              <label for="inputConjuntoPctAdblue" class="block text-xs text-sky-300 font-bold">💧 % AdBlue en Tablero</label>
               <div class="flex items-center bg-slate-950 border-2 border-slate-700 hover:border-sky-600/60 rounded-xl px-3 py-1 focus-within:border-sky-500 transition-all shadow-inner">
-                <input type="number" id="inputConjuntoPctAdblue" value="" min="0" max="100" placeholder="Ej: 35" onfocus="this.select()" class="w-full bg-transparent text-3xl font-black text-sky-400 font-mono placeholder:text-slate-700 focus:outline-none">
+                <input type="text" inputmode="decimal" autocomplete="off" id="inputConjuntoPctAdblue" value="" placeholder="Ej: 35" onfocus="seleccionarTodoInput(this)" onmouseup="preservarSeleccionInput(event, this)" oninput="manejarCambioCampoConjunto('inputConjuntoPctAdblue')" onchange="manejarCambioCampoConjunto('inputConjuntoPctAdblue')" class="w-full bg-transparent text-3xl font-black text-sky-400 font-mono placeholder:text-slate-700 focus:outline-none">
                 <span class="text-2xl font-black text-sky-500 select-none ml-2">%</span>
               </div>
               <div class="flex items-center justify-between text-[11px] font-mono">
@@ -1583,10 +1583,14 @@
     function actualizarResumenCalibracion() {
       const el = document.getElementById('resumenCalibracionTexto');
       if (!el) return;
-      const capD = Math.round(parseFloat(inputCapacidad ? inputCapacidad.value : 750) || 750);
-      const rendD = (parseFloat(inputRendimiento ? inputRendimiento.value : 3.5) || 3.5).toFixed(2).replace('.', ',');
-      const capAEl = document.getElementById('inputCapacidadAdblue');
-      const rBaseEl = document.getElementById('inputRBaseAdblue');
+      const conjCapD = document.getElementById('inputConjuntoCapDiesel');
+      const conjRendD = document.getElementById('inputConjuntoRendDiesel');
+      const conjCapA = document.getElementById('inputConjuntoCapAdblue');
+      const conjRBase = document.getElementById('inputConjuntoRBase');
+      const capD = Math.round(parseFloat((conjCapD && conjCapD.value) ? conjCapD.value : (inputCapacidad ? inputCapacidad.value : 750)) || 750);
+      const rendD = (parseFloat((conjRendD && conjRendD.value) ? conjRendD.value : (inputRendimiento ? inputRendimiento.value : 3.5)) || 3.5).toFixed(2).replace('.', ',');
+      const capAEl = (conjCapA && conjCapA.value) ? conjCapA : document.getElementById('inputCapacidadAdblue');
+      const rBaseEl = (conjRBase && conjRBase.value) ? conjRBase : document.getElementById('inputRBaseAdblue');
       const capA = Math.round(parseFloat(capAEl ? capAEl.value : 70) || 70);
       const rBase = (parseFloat(rBaseEl ? rBaseEl.value : 6.0) || 6.0).toFixed(1).replace('.', ',');
       el.textContent = capD + ' L / ' + capA + ' L SCR · ' + rendD + ' km/L · ' + rBase + '%';
@@ -1621,9 +1625,43 @@
       return copiarReporteWhatsAppConjunto();
     }
 
+    function seleccionarTodoInput(el) {
+      if (!el) return;
+      el._justFocused = true;
+      try { el.select(); } catch (e) {}
+    }
+
+    function preservarSeleccionInput(ev, el) {
+      if (!el || !el._justFocused) return;
+      el._justFocused = false;
+      if (ev && typeof ev.preventDefault === 'function') ev.preventDefault();
+      try { el.select(); } catch (e) {}
+    }
+
+    function sanitizarInputPct(el) {
+      if (!el) return;
+      const original = String(el.value ?? '');
+      // Permitir dígitos y un único separador decimal (. o ,), eliminando % y espacios
+      let limpio = original.replace(/%/g, '').replace(/\s+/g, '').replace(/,/g, '.').replace(/[^0-9.]/g, '');
+      const partes = limpio.split('.');
+      if (partes.length > 2) {
+        limpio = partes[0] + '.' + partes.slice(1).join('');
+      }
+      if (limpio !== '') {
+        const num = parseFloat(limpio);
+        if (!isNaN(num) && num > 100) {
+          limpio = '100';
+          mostrarToast('⚠️ El % de tablero se ajusta al rango 0–100%.', 'info');
+        }
+      }
+      if (el.value !== limpio) {
+        el.value = limpio;
+      }
+    }
+
     function leerPctOpcional(el) {
       if (!el) return null;
-      const raw = String(el.value ?? '').trim();
+      const raw = String(el.value ?? '').trim().replace(/%/g, '').replace(/,/g, '.');
       if (raw === '') return null;
       const n = parseFloat(raw);
       if (isNaN(n)) return null;
@@ -4129,6 +4167,46 @@
       };
     }
 
+    function manejarCambioCampoConjunto(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (id === 'inputConjuntoPctDiesel' || id === 'inputConjuntoPctAdblue') {
+        sanitizarInputPct(el);
+      }
+      if (id === 'inputConjuntoCapDiesel') {
+        if (inputCapacidad) inputCapacidad.value = el.value;
+        capacidadActual = parseFloat(el.value) || 750;
+      }
+      if (id === 'inputConjuntoPctDiesel' && inputPorcentajeDirecto) inputPorcentajeDirecto.value = el.value;
+      if (id === 'inputConjuntoRendDiesel') {
+        if (inputRendimientoAdblue) inputRendimientoAdblue.value = el.value;
+        if (inputRendimiento) inputRendimiento.value = el.value;
+        const valNum = parseFloat(el.value) || 3.5;
+        actualizarBadgeFuenteRendimiento('Manual', Math.abs(valNum - 3.5) > 0.01);
+      }
+      if (id === 'inputConjuntoCapAdblue') {
+        if (inputCapacidadAdblue) inputCapacidadAdblue.value = el.value;
+        actualizarBotonesCapacidadAdblue(parseFloat(el.value) || 0);
+      }
+      if (id === 'inputConjuntoPctAdblue' && inputPorcentajeAdblue) inputPorcentajeAdblue.value = el.value;
+      if (id === 'inputConjuntoRBase') {
+        if (inputRBaseAdblue) inputRBaseAdblue.value = el.value;
+        actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], parseFloat(el.value) || 0);
+      }
+      if (id === 'inputConjuntoFCarga') {
+        if (inputFCargaAdblue) inputFCargaAdblue.value = el.value;
+        actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], parseFloat(el.value) || 0);
+      }
+      if (id === 'inputConjuntoFNox') {
+        if (inputFNoxAdblue) inputFNoxAdblue.value = el.value;
+        actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], parseFloat(el.value) || 0);
+      }
+      // Recalcular primero el módulo visible (Chequeo Conjunto) para respuesta garantizada en vivo
+      recalcularConjunto();
+      try { recalcular(); } catch (e) {}
+      try { recalcularAdblue(); } catch (e) {}
+    }
+
     const conjInputs = [
       'inputConjuntoCapDiesel', 'inputConjuntoRendDiesel', 'inputConjuntoCapAdblue',
       'inputConjuntoRBase', 'inputConjuntoFCarga', 'inputConjuntoFNox',
@@ -4137,38 +4215,8 @@
     conjInputs.forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
-      el.addEventListener('input', () => {
-        if (id === 'inputConjuntoCapDiesel') {
-          inputCapacidad.value = el.value;
-          capacidadActual = parseFloat(el.value) || 750;
-        }
-        if (id === 'inputConjuntoPctDiesel') inputPorcentajeDirecto.value = el.value;
-        if (id === 'inputConjuntoRendDiesel') {
-          inputRendimientoAdblue.value = el.value;
-          if (inputRendimiento) inputRendimiento.value = el.value;
-          const valNum = parseFloat(el.value) || 3.5;
-          actualizarBadgeFuenteRendimiento('Manual', Math.abs(valNum - 3.5) > 0.01);
-        }
-        if (id === 'inputConjuntoCapAdblue') {
-          inputCapacidadAdblue.value = el.value;
-          actualizarBotonesCapacidadAdblue(parseFloat(el.value) || 0);
-        }
-        if (id === 'inputConjuntoPctAdblue') inputPorcentajeAdblue.value = el.value;
-        if (id === 'inputConjuntoRBase') {
-          inputRBaseAdblue.value = el.value;
-          actualizarBotonesPills([['btnRBase45', 4.5], ['btnRBase75', 7.5], ['btnRBase125', 12.5], ['btnRBase60', 6.0]], parseFloat(el.value) || 0);
-        }
-        if (id === 'inputConjuntoFCarga') {
-          inputFCargaAdblue.value = el.value;
-          actualizarBotonesPills([['btnFCarga090', 0.90], ['btnFCarga100', 1.00], ['btnFCarga115', 1.15], ['btnFCarga125', 1.25]], parseFloat(el.value) || 0);
-        }
-        if (id === 'inputConjuntoFNox') {
-          inputFNoxAdblue.value = el.value;
-          actualizarBotonesPills([['btnFNox100', 1.00], ['btnFNox105', 1.05], ['btnFNox110', 1.10]], parseFloat(el.value) || 0);
-        }
-        recalcular();
-        recalcularAdblue();
-        recalcularConjunto();
+      ['input', 'change', 'keyup'].forEach(evt => {
+        el.addEventListener(evt, () => manejarCambioCampoConjunto(id));
       });
     });
 
@@ -4206,10 +4254,36 @@
       }
 
       // Live chips
-      document.getElementById('conjuntoDieselLitrosLive').textContent = d ? (d.litrosActuales.toFixed(1) + ' L') : '-- L';
-      document.getElementById('conjuntoDieselAutonLive').textContent = d ? (Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' km útiles') : 'Pendiente %';
-      document.getElementById('conjuntoAdblueLitrosLive').textContent = a ? (a.litrosActuales.toFixed(1) + ' L') : '-- L';
-      document.getElementById('conjuntoAdblueAutonLive').textContent = a ? (Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' km segura') : 'Pendiente %';
+      const elLitD = document.getElementById('conjuntoDieselLitrosLive');
+      const elAutD = document.getElementById('conjuntoDieselAutonLive');
+      const elLitA = document.getElementById('conjuntoAdblueLitrosLive');
+      const elAutA = document.getElementById('conjuntoAdblueAutonLive');
+      if (elLitD) elLitD.textContent = d ? (d.litrosActuales.toFixed(1) + ' L') : '-- L';
+      if (elAutD) {
+        if (!d) {
+          elAutD.textContent = 'Pendiente %';
+          elAutD.className = 'text-cyan-400 font-bold';
+        } else if (d.litrosActuales <= RESERVA_LITROS) {
+          elAutD.textContent = '0 km útiles (En reserva 20 L)';
+          elAutD.className = 'text-rose-400 font-bold';
+        } else {
+          elAutD.textContent = Math.round(d.autonomiaSeguraKm).toLocaleString('es-CL') + ' km útiles';
+          elAutD.className = 'text-cyan-400 font-bold';
+        }
+      }
+      if (elLitA) elLitA.textContent = a ? (a.litrosActuales.toFixed(1) + ' L') : '-- L';
+      if (elAutA) {
+        if (!a) {
+          elAutA.textContent = 'Pendiente %';
+          elAutA.className = 'text-sky-400 font-bold';
+        } else if (a.litrosActuales <= ADBLUE_RESERVA_LITROS) {
+          elAutA.textContent = '0 km segura (Anti-derate 10 L)';
+          elAutA.className = 'text-rose-400 font-bold';
+        } else {
+          elAutA.textContent = Math.round(a.autonomiaSeguraKm).toLocaleString('es-CL') + ' km segura';
+          elAutA.className = 'text-sky-400 font-bold';
+        }
+      }
 
       // Factor limitante
       const alertaLim = document.getElementById('alertaLimitanteConjunto');
